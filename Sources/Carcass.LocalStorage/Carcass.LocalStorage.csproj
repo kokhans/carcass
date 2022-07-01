@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Serhii Kokhan</Authors>
+    <Description>Local storage toolchain.</Description>
+    <Copyright>© 2022 Serhii Kokhan</Copyright>
+    <PackageTags>carcass, local, storage, localstorage</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj"/>
+  </ItemGroup>
+
+</Project>

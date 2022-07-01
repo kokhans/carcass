@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Serhii Kokhan</Authors>
+    <Description>Razor front matter parser implementation.</Description>
+    <Copyright>© 2022 Serhii Kokhan</Copyright>
+    <PackageTags>carcass, frontmatter, razor</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\..\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.FrontMatter.Core\Carcass.FrontMatter.Core.csproj"/>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,77 @@
+// MIT License
+//
+// Copyright (c) 2022 Serhii Kokhan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using Carcass.Core;
+using Carcass.DistributedCache.Core.Providers.Abstracts;
+using Carcass.DistributedCache.Redis.Conductors.Abstracts;
+using Carcass.Json.Core.Providers.Abstracts;
+using Microsoft.Extensions.Caching.Distributed;
+
+namespace Carcass.DistributedCache.Redis.Providers;
+
+public sealed class RedisProvider : IDistributedCacheProvider
+{
+    private readonly IRedisConductor _redisConductor;
+    private readonly IJsonProvider _jsonProvider;
+
+    public RedisProvider(
+        IRedisConductor redisConductor,
+        IJsonProvider jsonProvider
+    )
+    {
+        ArgumentVerifier.NotNull(redisConductor, nameof(redisConductor));
+        ArgumentVerifier.NotNull(jsonProvider, nameof(jsonProvider));
+
+        _redisConductor = redisConductor;
+        _jsonProvider = jsonProvider;
+    }
+
+    public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotNull(key, nameof(key));
+
+        return _jsonProvider.Deserialize<T>(
+            await _redisConductor.Instance.GetStringAsync(key, cancellationToken)
+        );
+    }
+
+    public async Task SetAsync<T>(
+        string key,
+        T data,
+        DistributedCacheEntryOptions? distributedCacheEntryOptions = default,
+        CancellationToken cancellationToken = default
+    )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotNull(key, nameof(key));
+
+        await _redisConductor.Instance.SetStringAsync(
+            key,
+            _jsonProvider.Serialize(data),
+            distributedCacheEntryOptions,
+            cancellationToken
+        );
+    }
+}

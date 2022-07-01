@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Serhii Kokhan</Authors>
+    <Description>JSON provider implementation based on System.Text.Json.</Description>
+    <Copyright>© 2022 Serhii Kokhan</Copyright>
+    <PackageTags>carcass, json, systemtextjson</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.Json.Core\Carcass.Json.Core.csproj"/>
+  </ItemGroup>
+
+</Project>
