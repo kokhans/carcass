@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.Core.Conductors.Abstracts;
 using Carcass.DistributedCache.Redis.Conductors.Abstracts;
+using Carcass.DistributedCache.Redis.Disposers;
 using Carcass.DistributedCache.Redis.Options;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Options;
@@ -31,7 +32,7 @@ using Microsoft.Extensions.Options;
 
 namespace Carcass.DistributedCache.Redis.Conductors;
 
-public sealed class RedisConductor : InstanceConductor<RedisOptions, RedisCache>, IRedisConductor
+public sealed class RedisConductor : InstanceConductor<RedisOptions, RedisCache, RedisDisposer>, IRedisConductor
 {
     public RedisConductor(
         IOptionsMonitor<RedisOptions> optionsMonitorAccessor,

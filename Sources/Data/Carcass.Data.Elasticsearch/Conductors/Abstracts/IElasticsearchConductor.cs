@@ -21,11 +21,13 @@
 // SOFTWARE.
 
 using Carcass.Core.Conductors.Abstracts;
+using Carcass.Data.Elasticsearch.Disposers;
 using Carcass.Data.Elasticsearch.Options;
 using Nest;
 
 namespace Carcass.Data.Elasticsearch.Conductors.Abstracts;
 
-public interface IElasticsearchConductor : IInstanceConductor<ElasticsearchOptions, IElasticClient>
+public interface IElasticsearchConductor
+    : IInstanceConductor<ElasticsearchOptions, IElasticClient, ElasticsearchDisposer>
 {
 }

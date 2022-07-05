@@ -20,31 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Carcass.Core.Disposers.Abstracts;
 using Microsoft.Extensions.Options;
 
+// ReSharper disable UnusedTypeParameter
 // ReSharper disable VirtualMemberCallInConstructor
 
 namespace Carcass.Core.Conductors.Abstracts;
 
-public interface IInstanceConductor<out TOptions, out TInstance>
+public interface IInstanceConductor<out TOptions, out TInstance, TInstanceDisposer> : IDisposable
     where TOptions : class
     where TInstance : class
+    where TInstanceDisposer : InstanceDisposer<TInstance>
 {
     TOptions Options { get; }
     TInstance Instance { get; }
 }
 
-public abstract class InstanceConductor<TOptions, TInstance> : IInstanceConductor<TOptions, TInstance>
+public abstract class InstanceConductor<TOptions, TInstance, TInstanceDisposer>
+    : Disposable, IInstanceConductor<TOptions, TInstance, TInstanceDisposer>
     where TOptions : class
     where TInstance : class
+    where TInstanceDisposer : InstanceDisposer<TInstance>
 {
     private readonly Func<TOptions, TInstance>? _factory;
-    private TInstance? _instance;
     private TOptions? _options;
+    private TInstanceDisposer? _instanceDisposer;
 
     protected InstanceConductor(
         IOptionsMonitor<TOptions> optionsMonitorAccessor,
-        Func<TOptions, TInstance>? factory = default
+        Func<TOptions, TInstance>? factory
     )
     {
         ArgumentVerifier.NotNull(optionsMonitorAccessor, nameof(optionsMonitorAccessor));
@@ -55,7 +60,7 @@ public abstract class InstanceConductor<TOptions, TInstance> : IInstanceConducto
         Initialize(optionsMonitorAccessor.CurrentValue);
     }
 
-    protected InstanceConductor(IOptions<TOptions> optionsAccessor, Func<TOptions, TInstance>? factory = default)
+    protected InstanceConductor(IOptions<TOptions> optionsAccessor, Func<TOptions, TInstance>? factory)
     {
         ArgumentVerifier.NotNull(optionsAccessor, nameof(optionsAccessor));
 
@@ -67,16 +72,40 @@ public abstract class InstanceConductor<TOptions, TInstance> : IInstanceConducto
     public TOptions Options =>
         _options ?? throw new InvalidOperationException($"{nameof(TOptions)} is not initialized.");
 
-    public TInstance Instance =>
-        _instance ?? throw new InvalidOperationException($"{nameof(TInstance)} is not initialized.");
+    public TInstance Instance
+    {
+        get
+        {
+            if (_instanceDisposer is null)
+                throw new InvalidOperationException(
+                    $"Instance disposer {nameof(TInstanceDisposer)} is not initialized.");
+
+            if (_instanceDisposer.Instance is null)
+                throw new InvalidOperationException(
+                    $"Instance disposer {nameof(TInstanceDisposer)} instance is not initialized."
+                );
+
+            return _instanceDisposer.Instance;
+        }
+    }
+
+    protected abstract TInstance? CreateInstance(TOptions options);
 
     private void Initialize(TOptions options)
     {
         ArgumentVerifier.NotNull(options, nameof(options));
 
+        _instanceDisposer?.Dispose();
+
+        _instanceDisposer = (TInstanceDisposer?) Activator.CreateInstance(
+            typeof(TInstanceDisposer),
+            _factory is not null ? _factory(options) : CreateInstance(options)
+        );
+        if (_instanceDisposer is null)
+            throw new InvalidOperationException($"Instance disposer {nameof(TInstanceDisposer)} is not initialized.");
+
         _options = options;
-        _instance = _factory is not null ? _factory(options) : CreateInstance(options);
     }
 
-    protected abstract TInstance? CreateInstance(TOptions options);
+    protected override void DisposeManagedResources() => _instanceDisposer?.Dispose();
 }

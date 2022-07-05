@@ -20,14 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
-using MongoDB.Driver;
+namespace Carcass.Metadata.Accessors.AdHoc;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
-
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public enum AdHocMetadataResolutionStrategy
 {
+    ReplaceWithAdHoc = 1,
+    LeavePersisted,
+    ThrowsException
 }

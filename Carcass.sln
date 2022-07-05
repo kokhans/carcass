@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carcass.LocalStorage", "Sou
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Multitenancy", "Multitenancy", "{9378839E-8B73-4169-9FEC-ACE3D80DED93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carcass.Metadata", "Sources\Carcass.Metadata\Carcass.Metadata.csproj", "{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,7 @@ Global
 		{9378839E-8B73-4169-9FEC-ACE3D80DED93} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
 		{5A8C4EDE-6085-47B1-A502-31FCEB2E19FA} = {9378839E-8B73-4169-9FEC-ACE3D80DED93}
 		{4318D94B-243B-47C0-A843-93665D9F9003} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
+		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A68A3C5F-43BA-4373-8D5F-9551CB705C5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -254,5 +257,9 @@ Global
 		{4673A6D3-4593-4959-B54A-5FB77BE63693}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4673A6D3-4593-4959-B54A-5FB77BE63693}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4673A6D3-4593-4959-B54A-5FB77BE63693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

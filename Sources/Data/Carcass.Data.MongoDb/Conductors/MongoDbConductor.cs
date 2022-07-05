@@ -23,14 +23,15 @@
 using Carcass.Core;
 using Carcass.Core.Conductors.Abstracts;
 using Carcass.Data.MongoDb.Conductors.Abstracts;
+using Carcass.Data.MongoDb.Disposers;
 using Carcass.Data.MongoDb.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Carcass.Data.MongoDb.Conductors;
 
-public sealed class MongoDbConductor : InstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>>,
-    IMongoDbConductor
+public sealed class MongoDbConductor
+    : InstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>, IMongoDbConductor
 {
     public MongoDbConductor(
         IOptionsMonitor<MongoDbOptions> optionsMonitorAccessor,

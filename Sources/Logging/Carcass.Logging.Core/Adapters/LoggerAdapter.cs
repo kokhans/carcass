@@ -365,7 +365,7 @@ public sealed class LoggerAdapter<TCategoryName>
         LogLevel.Error,
         new EventId((int) LogLevel.Error),
         exception,
-        null
+        string.Empty
     );
 
     public void LogError<T1>(
@@ -460,7 +460,7 @@ public sealed class LoggerAdapter<TCategoryName>
         LogLevel.Critical,
         new EventId((int) LogLevel.Critical),
         exception,
-        null
+        string.Empty
     );
 
     public void LogCritical<T1>(

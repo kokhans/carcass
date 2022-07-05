@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.Core.Conductors.Abstracts;
 using Carcass.Data.Elasticsearch.Conductors.Abstracts;
+using Carcass.Data.Elasticsearch.Disposers;
 using Carcass.Data.Elasticsearch.Options;
 using Microsoft.Extensions.Options;
 using Nest;
@@ -30,7 +31,7 @@ using Nest;
 namespace Carcass.Data.Elasticsearch.Conductors;
 
 public sealed class ElasticsearchConductor
-    : InstanceConductor<ElasticsearchOptions, IElasticClient>, IElasticsearchConductor
+    : InstanceConductor<ElasticsearchOptions, IElasticClient, ElasticsearchDisposer>, IElasticsearchConductor
 {
     public ElasticsearchConductor(
         IOptionsMonitor<ElasticsearchOptions> optionsMonitorAccessor,

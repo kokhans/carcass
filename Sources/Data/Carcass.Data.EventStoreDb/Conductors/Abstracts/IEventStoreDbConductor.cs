@@ -21,11 +21,13 @@
 // SOFTWARE.
 
 using Carcass.Core.Conductors.Abstracts;
+using Carcass.Data.EventStoreDb.Disposers;
 using Carcass.Data.EventStoreDb.Options;
 using EventStore.Client;
 
 namespace Carcass.Data.EventStoreDb.Conductors.Abstracts;
 
-public interface IEventStoreDbConductor : IInstanceConductor<EventStoreDbOptions, EventStoreClient>
+public interface IEventStoreDbConductor
+    : IInstanceConductor<EventStoreDbOptions, EventStoreClient, EventStoreDbDisposer>
 {
 }

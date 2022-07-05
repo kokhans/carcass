@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
-using MongoDB.Driver;
+using Carcass.Core.Disposers.Abstracts;
+using Nest;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
+namespace Carcass.Data.Elasticsearch.Disposers;
 
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public sealed class ElasticsearchDisposer : InstanceDisposer<IElasticClient>
 {
+    public ElasticsearchDisposer(IElasticClient instance) : base(instance)
+    {
+    }
 }

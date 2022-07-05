@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -20,14 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
-using MongoDB.Driver;
+namespace Carcass.Core.Disposers.Abstracts;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
-
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public abstract class InstanceDisposer<TInstance> : Disposable where TInstance : class
 {
+    protected InstanceDisposer(TInstance instance)
+    {
+        Instance = instance;
+    }
+
+    public TInstance? Instance { get; private set; }
+
+    protected override void DisposeManagedResources()
+    {
+        if (Instance is IDisposable)
+            ((IDisposable) Instance).Dispose();
+
+        Instance = null;
+    }
 }
