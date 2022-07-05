@@ -21,11 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core.Conductors.Abstracts;
+using Carcass.DistributedCache.Redis.Disposers;
 using Carcass.DistributedCache.Redis.Options;
 using Microsoft.Extensions.Caching.Redis;
 
 namespace Carcass.DistributedCache.Redis.Conductors.Abstracts;
 
-public interface IRedisConductor : IInstanceConductor<RedisOptions, RedisCache>
+public interface IRedisConductor : IInstanceConductor<RedisOptions, RedisCache, RedisDisposer>
 {
 }

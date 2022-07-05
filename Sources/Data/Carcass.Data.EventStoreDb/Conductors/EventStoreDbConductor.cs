@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.Core.Conductors.Abstracts;
 using Carcass.Data.EventStoreDb.Conductors.Abstracts;
+using Carcass.Data.EventStoreDb.Disposers;
 using Carcass.Data.EventStoreDb.Options;
 using EventStore.Client;
 using Microsoft.Extensions.Options;
@@ -30,7 +31,7 @@ using Microsoft.Extensions.Options;
 namespace Carcass.Data.EventStoreDb.Conductors;
 
 public sealed class EventStoreDbConductor
-    : InstanceConductor<EventStoreDbOptions, EventStoreClient>, IEventStoreDbConductor
+    : InstanceConductor<EventStoreDbOptions, EventStoreClient, EventStoreDbDisposer>, IEventStoreDbConductor
 {
     public EventStoreDbConductor(
         IOptionsMonitor<EventStoreDbOptions> optionsMonitorAccessor,

@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
+using Carcass.Core.Disposers.Abstracts;
 using MongoDB.Driver;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
+namespace Carcass.Data.MongoDb.Disposers;
 
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public sealed class MongoDbDisposer : InstanceDisposer<Tuple<MongoClient, IMongoDatabase>>
 {
+    public MongoDbDisposer(Tuple<MongoClient, IMongoDatabase> instance) : base(instance)
+    {
+    }
 }

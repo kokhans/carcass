@@ -21,11 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core.Conductors.Abstracts;
+using Carcass.ObjectStorage.Minio.Disposers;
 using Carcass.ObjectStorage.Minio.Options;
 using Minio;
 
 namespace Carcass.ObjectStorage.Minio.Conductors.Abstracts;
 
-public interface IMinioConductor : IInstanceConductor<MinioOptions, MinioClient>
+public interface IMinioConductor : IInstanceConductor<MinioOptions, MinioClient, MinioDisposer>
 {
 }

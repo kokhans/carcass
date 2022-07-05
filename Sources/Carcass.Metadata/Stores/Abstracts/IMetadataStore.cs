@@ -20,14 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
-using MongoDB.Driver;
+using System.Collections.ObjectModel;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
+namespace Carcass.Metadata.Stores.Abstracts;
 
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public interface IMetadataStore
 {
+    Task AddOrUpdateMetadataAsync(string key, object? value, CancellationToken cancellationToken = default);
+    Task DeleteMetadataAsync(string key, CancellationToken cancellationToken = default);
+    Task<ReadOnlyDictionary<string, object?>> GetMetadataAsync(CancellationToken cancellationToken = default);
 }

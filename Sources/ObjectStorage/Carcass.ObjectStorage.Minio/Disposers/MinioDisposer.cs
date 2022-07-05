@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.Data.MongoDb.Disposers;
-using Carcass.Data.MongoDb.Options;
-using MongoDB.Driver;
+using Carcass.Core.Disposers.Abstracts;
+using Minio;
 
-namespace Carcass.Data.MongoDb.Conductors.Abstracts;
+namespace Carcass.ObjectStorage.Minio.Disposers;
 
-public interface IMongoDbConductor
-    : IInstanceConductor<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>, MongoDbDisposer>
+public sealed class MinioDisposer : InstanceDisposer<MinioClient>
 {
+    public MinioDisposer(MinioClient instance) : base(instance)
+    {
+    }
 }

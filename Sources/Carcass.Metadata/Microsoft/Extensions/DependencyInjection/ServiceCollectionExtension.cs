@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -21,38 +21,36 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Core.Conductors.Abstracts;
-using Carcass.ObjectStorage.Minio.Conductors.Abstracts;
-using Carcass.ObjectStorage.Minio.Disposers;
-using Carcass.ObjectStorage.Minio.Options;
-using Microsoft.Extensions.Options;
-using Minio;
+using Carcass.Metadata.Accessors.AdHoc;
+using Carcass.Metadata.Accessors.AdHoc.Abstracts;
+using Carcass.Metadata.Accessors.AdHoc.Options;
+using Carcass.Metadata.Stores;
+using Carcass.Metadata.Stores.Abstracts;
 
-namespace Carcass.ObjectStorage.Minio.Conductors;
+// ReSharper disable CheckNamespace
 
-public sealed class MinioConductor : InstanceConductor<MinioOptions, MinioClient, MinioDisposer>, IMinioConductor
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class ServiceCollectionExtension
 {
-    public MinioConductor(
-        IOptionsMonitor<MinioOptions> optionsMonitorAccessor,
-        Func<MinioOptions, MinioClient>? factory = default
-    ) : base(optionsMonitorAccessor, factory)
+    public static IServiceCollection AddCarcassInMemoryMetadataStore(this IServiceCollection services)
     {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
+        return services.AddSingleton<IMetadataStore, InMemoryMetadataStore>();
     }
 
-    public MinioConductor(
-        IOptions<MinioOptions> optionsAccessor,
-        Func<MinioOptions, MinioClient>? factory = default
-    ) : base(optionsAccessor, factory)
+    public static IServiceCollection AddCarcassAdHocMetadataAccessor(
+        this IServiceCollection services,
+        AdHocMetadataResolutionStrategy resolutionStrategy = AdHocMetadataResolutionStrategy.ReplaceWithAdHoc
+    )
     {
-    }
+        ArgumentVerifier.NotNull(services, nameof(services));
 
-    protected override MinioClient? CreateInstance(MinioOptions options)
-    {
-        ArgumentVerifier.NotNull(options, nameof(options));
-
-        return new MinioClient()
-            .WithEndpoint(options.Endpoint)
-            .WithCredentials(options.AccessKey, options.SecretKey)
-            .Build();
+        return services
+            .Configure<AdHocMetadataAccessorOptions>(ahmao =>
+                ahmao.ResolutionStrategy = resolutionStrategy
+            )
+            .AddScoped<IAdHocMetadataAccessor, AdHocMetadataAccessor>();
     }
 }
