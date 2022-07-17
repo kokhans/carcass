@@ -30,17 +30,17 @@ using Carcass.Data.Core.Sessions.Abstracts;
 
 namespace Carcass.Data.Core.Commands.Handlers.Abstracts;
 
-public interface ICommandHandler<in TCommand, TResult, TCommandValidator>
-    where TCommand : class, ICommand<TResult>
-    where TCommandValidator : class, ICommandValidator<TCommand, TResult>
+public interface ICommandHandler<in TCommand, TCommandResult, TCommandValidator>
+    where TCommand : class, ICommand<TCommandResult>
+    where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
 {
-    Task<Result<TResult>> HandleCommandAsync(TCommand command, CancellationToken cancellationToken = default);
+    Task<TCommandResult?> HandleCommandAsync(TCommand command, CancellationToken cancellationToken = default);
 }
 
-public abstract class CommandHandler<TCommand, TResult, TCommandValidator>
-    : ICommandHandler<TCommand, TResult, TCommandValidator>
-    where TCommand : class, ICommand<TResult>
-    where TCommandValidator : class, ICommandValidator<TCommand, TResult>
+public abstract class CommandHandler<TCommand, TCommandResult, TCommandValidator>
+    : ICommandHandler<TCommand, TCommandResult, TCommandValidator>
+    where TCommand : class, ICommand<TCommandResult>
+    where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
 {
     private readonly TCommandValidator _commandValidator;
 
@@ -58,7 +58,7 @@ public abstract class CommandHandler<TCommand, TResult, TCommandValidator>
 
     protected readonly INotificationDispatcher NotificationDispatcher;
 
-    public virtual async Task<Result<TResult>> HandleCommandAsync(
+    public virtual async Task<TCommandResult?> HandleCommandAsync(
         TCommand command,
         CancellationToken cancellationToken = default
     )
@@ -69,14 +69,14 @@ public abstract class CommandHandler<TCommand, TResult, TCommandValidator>
 
         await _commandValidator.ValidateCommandAsync(command, cancellationToken);
 
-        return await Task.FromResult(Result<TResult>.Success(default));
+        return default;
     }
 }
 
-public abstract class CommandHandler<TCommand, TResult, TCommandValidator, TSession>
-    : CommandHandler<TCommand, TResult, TCommandValidator>
-    where TCommand : class, ICommand<TResult>
-    where TCommandValidator : class, ICommandValidator<TCommand, TResult>
+public abstract class CommandHandler<TCommand, TCommandResult, TCommandValidator, TSession>
+    : CommandHandler<TCommand, TCommandResult, TCommandValidator>
+    where TCommand : class, ICommand<TCommandResult>
+    where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
     where TSession : class, ISession
 {
     protected CommandHandler(

@@ -57,32 +57,29 @@ public static class EventStorePersistentSubscriptionsClientExtensions
         }
         catch (Exception exception)
         {
-            if (exception.InnerException is RpcException rpcException)
+            if (exception.InnerException is RpcException {Status.StatusCode: StatusCode.AlreadyExists})
             {
-                if (rpcException.Status.StatusCode == StatusCode.AlreadyExists)
+                if (recreate)
                 {
-                    if (recreate)
-                    {
-                        await persistentSubscriptionsClient.DeleteAsync(
-                            streamName,
-                            groupName,
-                            cancellationToken: cancellationToken
-                        );
-
-                        await createTask;
-
-                        return;
-                    }
-
-                    await persistentSubscriptionsClient.UpdateAsync(
+                    await persistentSubscriptionsClient.DeleteAsync(
                         streamName,
                         groupName,
-                        settings,
                         cancellationToken: cancellationToken
                     );
 
+                    await createTask;
+
                     return;
                 }
+
+                await persistentSubscriptionsClient.UpdateAsync(
+                    streamName,
+                    groupName,
+                    settings,
+                    cancellationToken: cancellationToken
+                );
+
+                return;
             }
 
             throw;

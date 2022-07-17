@@ -22,21 +22,21 @@
 
 using Carcass.Core;
 using Carcass.Data.Core.Queries.Abstracts;
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 using Carcass.Data.Core.Sessions.Abstracts;
 
 namespace Carcass.Data.Core.Queries.Handlers.Abstracts;
 
-public interface IQueryHandler<in TQuery, TQueryResultModel>
-    where TQuery : class, IQuery<TQueryResultModel>
-    where TQueryResultModel : class, IQueryResultModel
+public interface IQueryHandler<in TQuery, TQueryResult>
+    where TQuery : class, IQuery<TQueryResult>
+    where TQueryResult : class, IQueryResult
 {
-    Task<TQueryResultModel> HandleQueryAsync(TQuery query, CancellationToken cancellationToken = default);
+    Task<TQueryResult> HandleQueryAsync(TQuery query, CancellationToken cancellationToken = default);
 }
 
-public abstract class QueryHandler<TQuery, TQueryResultModel, TSession> : IQueryHandler<TQuery, TQueryResultModel>
-    where TQuery : class, IQuery<TQueryResultModel>
-    where TQueryResultModel : class, IQueryResultModel
+public abstract class QueryHandler<TQuery, TQueryResult, TSession> : IQueryHandler<TQuery, TQueryResult>
+    where TQuery : class, IQuery<TQueryResult>
+    where TQueryResult : class, IQueryResult
     where TSession : class, ISession
 {
     protected QueryHandler(TSession session)
@@ -48,7 +48,7 @@ public abstract class QueryHandler<TQuery, TQueryResultModel, TSession> : IQuery
 
     protected readonly TSession Session;
 
-    public abstract Task<TQueryResultModel> HandleQueryAsync(
+    public abstract Task<TQueryResult> HandleQueryAsync(
         TQuery query,
         CancellationToken cancellationToken = default
     );

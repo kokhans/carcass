@@ -12,13 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="6.0.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5"/>
+    <PackageReference Include="IdentityModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
-    <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj"/>
+    <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj" />
   </ItemGroup>
 
 </Project>

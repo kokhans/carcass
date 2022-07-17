@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
-    <ProjectReference Include="..\..\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj"/>
-    <ProjectReference Include="..\Carcass.FrontMatter.Core\Carcass.FrontMatter.Core.csproj"/>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\..\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj" />
+    <ProjectReference Include="..\Carcass.FrontMatter.Core\Carcass.FrontMatter.Core.csproj" />
   </ItemGroup>
 
 </Project>

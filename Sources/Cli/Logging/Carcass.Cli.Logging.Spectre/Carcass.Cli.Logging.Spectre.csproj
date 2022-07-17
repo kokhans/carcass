@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,12 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.44.0"/>
+    <PackageReference Include="Spectre.Console" Version="0.44.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Carcass.Core\Carcass.Core.csproj"/>
-    <ProjectReference Include="..\Carcass.Cli.Logging.Core\Carcass.Cli.Logging.Core.csproj"/>
+    <ProjectReference Include="..\..\..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\Carcass.Cli.Logging.Core\Carcass.Cli.Logging.Core.csproj" />
   </ItemGroup>
 
 </Project>

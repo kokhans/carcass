@@ -22,15 +22,15 @@
 
 using Carcass.Data.Core.Queries.Abstracts;
 using Carcass.Data.Core.Queries.Handlers.Abstracts;
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Queries.Handlers.Abstracts;
 
-public abstract class MongoDbQueryHandler<TQuery, TQueryResultModel>
-    : QueryHandler<TQuery, TQueryResultModel, IMongoDbSession>
-    where TQuery : class, IQuery<TQueryResultModel>
-    where TQueryResultModel : class, IQueryResultModel
+public abstract class MongoDbQueryHandler<TQuery, TQueryResult>
+    : QueryHandler<TQuery, TQueryResult, IMongoDbSession>
+    where TQuery : class, IQuery<TQueryResult>
+    where TQueryResult : class, IQueryResult
 {
     protected MongoDbQueryHandler(IMongoDbSession session) : base(session)
     {

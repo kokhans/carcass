@@ -26,9 +26,9 @@ using Carcass.Data.EntityFrameworkCore.Sessions;
 
 namespace Carcass.Data.EntityFrameworkCore.Commands.Validators.Abstracts;
 
-public abstract class EntityFrameworkCoreCommandValidator<TCommand, TResult>
-    : CommandValidator<TCommand, TResult, IEntityFrameworkCoreSession>
-    where TCommand : class, ICommand<TResult>
+public abstract class EntityFrameworkCoreCommandValidator<TCommand, TCommandResult>
+    : CommandValidator<TCommand, TCommandResult, IEntityFrameworkCoreSession>
+    where TCommand : class, ICommand<TCommandResult>
 {
     protected EntityFrameworkCoreCommandValidator(IEntityFrameworkCoreSession session) : base(session)
     {

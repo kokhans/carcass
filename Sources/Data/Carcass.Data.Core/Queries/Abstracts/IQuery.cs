@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 
 // ReSharper disable UnusedTypeParameter
 
 namespace Carcass.Data.Core.Queries.Abstracts;
 
-public interface IQuery<TQueryResultModel> where TQueryResultModel : class, IQueryResultModel
+public interface IQuery<TQueryResult> where TQueryResult : class, IQueryResult
 {
 }

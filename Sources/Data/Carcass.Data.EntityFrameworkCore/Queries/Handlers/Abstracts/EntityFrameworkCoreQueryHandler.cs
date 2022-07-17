@@ -22,15 +22,15 @@
 
 using Carcass.Data.Core.Queries.Abstracts;
 using Carcass.Data.Core.Queries.Handlers.Abstracts;
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Sessions;
 
 namespace Carcass.Data.EntityFrameworkCore.Queries.Handlers.Abstracts;
 
-public abstract class EntityFrameworkCoreQueryHandler<TQuery, TQueryResultModel> :
-    QueryHandler<TQuery, TQueryResultModel, IEntityFrameworkCoreSession>
-    where TQuery : class, IQuery<TQueryResultModel>
-    where TQueryResultModel : class, IQueryResultModel
+public abstract class EntityFrameworkCoreQueryHandler<TQuery, TQueryResult> :
+    QueryHandler<TQuery, TQueryResult, IEntityFrameworkCoreSession>
+    where TQuery : class, IQuery<TQueryResult>
+    where TQueryResult : class, IQueryResult
 {
     protected EntityFrameworkCoreQueryHandler(IEntityFrameworkCoreSession session) : base(session)
     {

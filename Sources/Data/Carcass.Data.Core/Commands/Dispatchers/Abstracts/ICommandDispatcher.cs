@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
 using Carcass.Data.Core.Commands.Abstracts;
 using Carcass.Data.Core.Commands.Validators.Abstracts;
 
@@ -28,10 +27,10 @@ namespace Carcass.Data.Core.Commands.Dispatchers.Abstracts;
 
 public interface ICommandDispatcher
 {
-    Task<Result<TResult>> DispatchCommandAsync<TCommand, TResult, TCommandValidator>(
+    Task<TCommandResult?> DispatchCommandAsync<TCommand, TCommandResult, TCommandValidator>(
         TCommand command,
         CancellationToken cancellationToken = default
     )
-        where TCommand : class, ICommand<TResult>
-        where TCommandValidator : class, ICommandValidator<TCommand, TResult>;
+        where TCommand : class, ICommand<TCommandResult>
+        where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>;
 }

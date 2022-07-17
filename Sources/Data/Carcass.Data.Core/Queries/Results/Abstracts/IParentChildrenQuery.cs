@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Data.Core.Queries.ResultModels.Abstracts;
+namespace Carcass.Data.Core.Queries.Results.Abstracts;
 
-public interface IParentChildrenQueryResultModel<TParentQueryResultModel> : IQueryResultModel
-    where TParentQueryResultModel : class, IQueryResultModel
+public interface IParentChildrenQuery<TParentQueryResult> : IQueryResult
+    where TParentQueryResult : class, IQueryResult
 {
-    TParentQueryResultModel Parent { get; set; }
+    TParentQueryResult Parent { get; set; }
     bool HasChildren { get; set; }
 }
