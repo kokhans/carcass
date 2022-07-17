@@ -33,8 +33,8 @@ public abstract class InstanceDisposer<TInstance> : Disposable where TInstance :
 
     protected override void DisposeManagedResources()
     {
-        if (Instance is IDisposable)
-            ((IDisposable) Instance).Dispose();
+        if (Instance is IDisposable instance)
+            instance.Dispose();
 
         Instance = null;
     }

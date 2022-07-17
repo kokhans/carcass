@@ -81,7 +81,7 @@ public struct ShortGuid
 
     public override int GetHashCode() => Guid.GetHashCode();
 
-    public static ShortGuid NewGuid() => new ShortGuid(Guid.NewGuid());
+    public static ShortGuid NewGuid() => new(Guid.NewGuid());
 
     public static string Encode(string value)
     {

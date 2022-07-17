@@ -25,16 +25,21 @@ using Carcass.Data.Core.Aggregates.ResolutionStrategies;
 using Carcass.Data.Core.Aggregates.ResolutionStrategies.Abstracts;
 using Carcass.Data.Core.Commands.Dispatchers;
 using Carcass.Data.Core.Commands.Dispatchers.Abstracts;
+using Carcass.Data.Core.Commands.Handlers.Abstracts;
 using Carcass.Data.Core.Commands.Notifications.Dispatchers;
 using Carcass.Data.Core.Commands.Notifications.Dispatchers.Abstracts;
 using Carcass.Data.Core.Commands.Notifications.Stores;
 using Carcass.Data.Core.Commands.Notifications.Stores.Abstracts;
+using Carcass.Data.Core.Commands.Validators.Abstracts;
 using Carcass.Data.Core.DomainEvents.Locators;
 using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
 using Carcass.Data.Core.DomainEvents.Upgraders;
 using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
 using Carcass.Data.Core.Queries.Dispatchers;
 using Carcass.Data.Core.Queries.Dispatchers.Abstracts;
+using Carcass.Data.Core.Queries.Handlers.Abstracts;
+using Microsoft.Extensions.DependencyModel;
+using Scrutor;
 
 // ReSharper disable CheckNamespace
 
@@ -87,5 +92,29 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IDomainEventLocator, DomainEventLocator>()
             .AddSingleton<IDomainEventUpgraderFactory, DomainEventUpgraderFactory>()
             .AddSingleton<IDomainEventUpgraderDispatcher, DomainEventUpgraderDispatcher>();
+    }
+
+    public static IServiceCollection ScanCarcassCommandsAndQueries(
+        this IServiceCollection services,
+        DependencyContext? dependencyContext = default
+    )
+    {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
+        return services.Scan(tss => tss
+            .FromDependencyContext(dependencyContext ?? DependencyContext.Default)
+            .AddClasses(itp => itp.AssignableTo(typeof(ICommandValidator<,>)))
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsSelfWithInterfaces()
+            .WithSingletonLifetime()
+            .AddClasses(itp => itp.AssignableTo(typeof(ICommandHandler<,,>)))
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithSingletonLifetime()
+            .AddClasses(itp => itp.AssignableTo(typeof(IQueryHandler<,>)))
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithSingletonLifetime()
+        );
     }
 }

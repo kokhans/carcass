@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -24,7 +24,7 @@ using Carcass.Core;
 using Carcass.Data.Core.Queries.Abstracts;
 using Carcass.Data.Core.Queries.Dispatchers.Abstracts;
 using Carcass.Data.Core.Queries.Handlers.Abstracts;
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Carcass.Data.Core.Queries.Dispatchers;
@@ -40,20 +40,20 @@ public sealed class InMemoryQueryDispatcher : IQueryDispatcher
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task<TQueryResultModel> DispatchQueryAsync<TQuery, TQueryResultModel>(
+    public async Task<TQueryResult> DispatchQueryAsync<TQuery, TQueryResult>(
         TQuery query,
         CancellationToken cancellationToken = default
     )
-        where TQuery : class, IQuery<TQueryResultModel>
-        where TQueryResultModel : class, IQueryResultModel
+        where TQuery : class, IQuery<TQueryResult>
+        where TQueryResult : class, IQueryResult
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotNull(query, nameof(query));
 
         using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
-        IQueryHandler<TQuery, TQueryResultModel> queryHandler =
-            serviceScope.ServiceProvider.GetRequiredService<IQueryHandler<TQuery, TQueryResultModel>>();
+        IQueryHandler<TQuery, TQueryResult> queryHandler =
+            serviceScope.ServiceProvider.GetRequiredService<IQueryHandler<TQuery, TQueryResult>>();
 
         return await queryHandler.HandleQueryAsync(query, cancellationToken);
     }

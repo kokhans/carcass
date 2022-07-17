@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,16 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
-    <ProjectReference Include="..\..\Json\Carcass.Json.Core\Carcass.Json.Core.csproj"/>
-    <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj"/>
-    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj"/>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\..\Json\Carcass.Json.Core\Carcass.Json.Core.csproj" />
+    <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj" />
+    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="22.0.0"/>
-    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="22.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0"/>
+    <PackageReference Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="22.0.0" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="22.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

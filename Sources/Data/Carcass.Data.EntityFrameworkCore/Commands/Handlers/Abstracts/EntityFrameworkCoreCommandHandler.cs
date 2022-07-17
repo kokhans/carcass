@@ -28,10 +28,10 @@ using Carcass.Data.EntityFrameworkCore.Sessions;
 
 namespace Carcass.Data.EntityFrameworkCore.Commands.Handlers.Abstracts;
 
-public abstract class EntityFrameworkCoreCommandHandler<TCommand, TResult, TCommandValidator> :
-    CommandHandler<TCommand, TResult, TCommandValidator, IEntityFrameworkCoreSession>
-    where TCommand : class, ICommand<TResult>
-    where TCommandValidator : class, ICommandValidator<TCommand, TResult>
+public abstract class EntityFrameworkCoreCommandHandler<TCommand, TCommandResult, TCommandValidator> :
+    CommandHandler<TCommand, TCommandResult, TCommandValidator, IEntityFrameworkCoreSession>
+    where TCommand : class, ICommand<TCommandResult>
+    where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
 {
     protected EntityFrameworkCoreCommandHandler(
         IEntityFrameworkCoreSession session,

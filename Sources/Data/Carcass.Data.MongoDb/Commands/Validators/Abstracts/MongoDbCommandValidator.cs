@@ -26,9 +26,9 @@ using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Commands.Validators.Abstracts;
 
-public abstract class MongoDbCommandValidator<TCommand, TResult> :
-    CommandValidator<TCommand, TResult, IMongoDbSession>
-    where TCommand : class, ICommand<TResult>
+public abstract class MongoDbCommandValidator<TCommand, TCommandResult> :
+    CommandValidator<TCommand, TCommandResult, IMongoDbSession>
+    where TCommand : class, ICommand<TCommandResult>
 {
     protected MongoDbCommandValidator(IMongoDbSession session) : base(session)
     {

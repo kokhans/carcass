@@ -26,13 +26,14 @@ using Carcass.Data.Core.Sessions.Abstracts;
 
 namespace Carcass.Data.Core.Commands.Validators.Abstracts;
 
-public interface ICommandValidator<in TCommand, TResult> where TCommand : class, ICommand<TResult>
+public interface ICommandValidator<in TCommand, TCommandResult>
+    where TCommand : class, ICommand<TCommandResult>
 {
     Task ValidateCommandAsync(TCommand command, CancellationToken cancellationToken = default);
 }
 
-public abstract class CommandValidator<TCommand, TResult> : ICommandValidator<TCommand, TResult>
-    where TCommand : class, ICommand<TResult>
+public abstract class CommandValidator<TCommand, TCommandResult> :
+    ICommandValidator<TCommand, TCommandResult> where TCommand : class, ICommand<TCommandResult>
 {
     public virtual Task ValidateCommandAsync(TCommand command, CancellationToken cancellationToken = default)
     {

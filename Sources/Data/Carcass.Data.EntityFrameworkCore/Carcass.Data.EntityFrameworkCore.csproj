@@ -12,18 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
-    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj"/>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj" />
   </ItemGroup>
 
 </Project>

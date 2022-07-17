@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Data.Core.Queries.ResultModels.Abstracts;
+namespace Carcass.Data.Core.Queries.Results.Abstracts;
 
-public interface IQueryResultModel
+public interface IQueryResult
 {
 }

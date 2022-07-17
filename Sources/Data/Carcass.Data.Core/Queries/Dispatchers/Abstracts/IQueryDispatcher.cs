@@ -21,16 +21,16 @@
 // SOFTWARE.
 
 using Carcass.Data.Core.Queries.Abstracts;
-using Carcass.Data.Core.Queries.ResultModels.Abstracts;
+using Carcass.Data.Core.Queries.Results.Abstracts;
 
 namespace Carcass.Data.Core.Queries.Dispatchers.Abstracts;
 
 public interface IQueryDispatcher
 {
-    Task<TQueryResultModel> DispatchQueryAsync<TQuery, TQueryResultModel>(
+    Task<TQueryResult> DispatchQueryAsync<TQuery, TQueryResult>(
         TQuery query,
         CancellationToken cancellationToken = default
     )
-        where TQuery : class, IQuery<TQueryResultModel>
-        where TQueryResultModel : class, IQueryResultModel;
+        where TQuery : class, IQuery<TQueryResult>
+        where TQueryResult : class, IQueryResult;
 }

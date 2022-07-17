@@ -40,20 +40,20 @@ public sealed class InMemoryCommandDispatcher : ICommandDispatcher
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task<Result<TResult>> DispatchCommandAsync<TCommand, TResult, TCommandValidator>(
+    public async Task<TCommandResult?> DispatchCommandAsync<TCommand, TCommandResult, TCommandValidator>(
         TCommand command,
         CancellationToken cancellationToken = default
     )
-        where TCommand : class, ICommand<TResult>
-        where TCommandValidator : class, ICommandValidator<TCommand, TResult>
+        where TCommand : class, ICommand<TCommandResult>
+        where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotNull(command, nameof(command));
 
         using IServiceScope serviceScope = _serviceScopeFactory.CreateScope();
-        ICommandHandler<TCommand, TResult, TCommandValidator> commandHandler =
-            serviceScope.ServiceProvider.GetRequiredService<ICommandHandler<TCommand, TResult, TCommandValidator>>();
+        ICommandHandler<TCommand, TCommandResult, TCommandValidator> commandHandler =
+            serviceScope.ServiceProvider.GetRequiredService<ICommandHandler<TCommand, TCommandResult, TCommandValidator>>();
 
         return await commandHandler.HandleCommandAsync(command, cancellationToken);
     }

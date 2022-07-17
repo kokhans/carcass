@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -24,6 +24,6 @@
 
 namespace Carcass.Data.Core.Commands.Abstracts;
 
-public interface ICommand<TResult>
+public interface ICommand<TCommandResult>
 {
 }
