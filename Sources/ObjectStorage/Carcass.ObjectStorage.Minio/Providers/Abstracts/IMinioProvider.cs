@@ -20,23 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.FrontMatter.Core.Parsers.Abstracts;
-using Carcass.FrontMatter.Markdown.Parsers;
-using Carcass.FrontMatter.Markdown.Parsers.Abstracts;
+using Carcass.ObjectStorage.Core.Providers.Abstracts;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.ObjectStorage.Minio.Providers.Abstracts;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public interface IMinioProvider : IObjectStorageProvider
 {
-    public static IServiceCollection AddCarcassMarkdownFrontMatterParser(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services
-            .AddSingleton<IFrontMatterParser, MarkdownFrontMatterParser>()
-            .AddSingleton<IMarkdownFrontMatterParser, MarkdownFrontMatterParser>();
-    }
 }

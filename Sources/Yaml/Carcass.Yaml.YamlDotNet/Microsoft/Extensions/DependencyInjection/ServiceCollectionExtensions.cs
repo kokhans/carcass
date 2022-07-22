@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.Yaml.Core.Providers.Abstracts;
 using Carcass.Yaml.YamlDotNet.Providers;
+using Carcass.Yaml.YamlDotNet.Providers.Abstracts;
 using Carcass.Yaml.YamlDotNet.Settings;
 using YamlDotNet.Serialization;
 
@@ -40,14 +41,17 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IYamlProvider>(new YamlDotNetProvider(
-                serializerBuilder is null
-                    ? YamlDotNetBuilderSettings.SerializerDefaults().Build()
-                    : serializerBuilder.Build(),
-                deserializerBuilder is null
-                    ? YamlDotNetBuilderSettings.DeserializerDefaults().Build()
-                    : deserializerBuilder.Build()
-            )
+        YamlDotNetProvider yamlDotNetProvider = new(
+            serializerBuilder is null
+                ? YamlDotNetBuilderSettings.SerializerDefaults().Build()
+                : serializerBuilder.Build(),
+            deserializerBuilder is null
+                ? YamlDotNetBuilderSettings.DeserializerDefaults().Build()
+                : deserializerBuilder.Build()
         );
+
+        return services
+            .AddSingleton<IYamlProvider>(yamlDotNetProvider)
+            .AddSingleton<IYamlDotNetProvider>(yamlDotNetProvider);
     }
 }

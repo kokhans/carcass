@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Json.Core.Providers.Abstracts;
+using Carcass.Json.NewtonsoftJson.Providers.Abstracts;
 using Newtonsoft.Json;
 
 namespace Carcass.Json.NewtonsoftJson.Providers;
 
-public sealed class NewtonsoftJsonProvider : IJsonProvider
+public sealed class NewtonsoftJsonProvider : INewtonsoftJsonProvider
 {
     private readonly JsonSerializerSettings _jsonSerializerSettings;
     private readonly JsonSerializer _jsonSerializer;

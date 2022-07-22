@@ -23,6 +23,7 @@
 using AutoMapper;
 using Carcass.Core;
 using Carcass.Mapping.AutoMapper.Providers;
+using Carcass.Mapping.AutoMapper.Providers.Abstracts;
 using Carcass.Mapping.Core.Providers.Abstracts;
 
 // ReSharper disable CheckNamespace
@@ -61,6 +62,8 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IMapperProvider, AutoMapperProvider>();
+        return services
+            .AddSingleton<IMapperProvider, AutoMapperProvider>()
+            .AddSingleton<IAutoMapperProvider, AutoMapperProvider>();
     }
 }

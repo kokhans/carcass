@@ -22,11 +22,11 @@
 
 using System.Text.Json;
 using Carcass.Core;
-using Carcass.Json.Core.Providers.Abstracts;
+using Carcass.Json.SystemTextJson.Providers.Abstracts;
 
 namespace Carcass.Json.SystemTextJson.Providers;
 
-public sealed class SystemTextJsonProvider : IJsonProvider
+public sealed class SystemTextJsonProvider : ISystemTextJsonProvider
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 

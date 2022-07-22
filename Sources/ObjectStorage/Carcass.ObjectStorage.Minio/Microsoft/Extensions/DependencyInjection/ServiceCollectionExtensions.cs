@@ -26,6 +26,7 @@ using Carcass.ObjectStorage.Minio.Conductors;
 using Carcass.ObjectStorage.Minio.Conductors.Abstracts;
 using Carcass.ObjectStorage.Minio.Options;
 using Carcass.ObjectStorage.Minio.Providers;
+using Carcass.ObjectStorage.Minio.Providers.Abstracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Minio;
@@ -68,6 +69,8 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IObjectStorageProvider, MinioProvider>();
+        return services
+            .AddSingleton<IObjectStorageProvider, MinioProvider>()
+            .AddSingleton<IMinioProvider, MinioProvider>();
     }
 }

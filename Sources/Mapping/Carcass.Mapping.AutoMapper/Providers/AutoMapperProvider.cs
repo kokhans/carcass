@@ -22,11 +22,11 @@
 
 using AutoMapper;
 using Carcass.Core;
-using Carcass.Mapping.Core.Providers.Abstracts;
+using Carcass.Mapping.AutoMapper.Providers.Abstracts;
 
 namespace Carcass.Mapping.AutoMapper.Providers;
 
-public sealed class AutoMapperProvider : IMapperProvider
+public sealed class AutoMapperProvider : IAutoMapperProvider
 {
     private readonly IMapper _mapper;
 

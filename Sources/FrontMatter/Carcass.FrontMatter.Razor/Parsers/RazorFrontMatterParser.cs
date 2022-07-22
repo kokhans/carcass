@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.FrontMatter.Core.Parsers.Abstracts;
+using Carcass.FrontMatter.Razor.Parsers.Abstracts;
 using Carcass.Yaml.Core.Providers.Abstracts;
 
 namespace Carcass.FrontMatter.Razor.Parsers;
 
-public sealed class RazorFrontMatterParser : IFrontMatterParser
+public sealed class RazorFrontMatterParser : IRazorFrontMatterParser
 {
     private const string FrontMatterStartPrefix = "@*front-matter";
     private const string FrontMatterEndPrefix = "*@";
