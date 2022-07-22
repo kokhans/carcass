@@ -28,15 +28,15 @@ using Carcass.ObjectStorage.Core.Models.Inputs.Buckets;
 using Carcass.ObjectStorage.Core.Models.Inputs.Objects;
 using Carcass.ObjectStorage.Core.Models.Outputs.Buckets;
 using Carcass.ObjectStorage.Core.Models.Outputs.Objects;
-using Carcass.ObjectStorage.Core.Providers.Abstracts;
 using Carcass.ObjectStorage.Minio.Conductors.Abstracts;
+using Carcass.ObjectStorage.Minio.Providers.Abstracts;
 using Minio;
 using Minio.DataModel;
 using Minio.Exceptions;
 
 namespace Carcass.ObjectStorage.Minio.Providers;
 
-public sealed class MinioProvider : IObjectStorageProvider
+public sealed class MinioProvider : IMinioProvider
 {
     private readonly LoggerAdapter<MinioProvider> _loggerAdapter;
     private readonly IMinioConductor _minioConductor;

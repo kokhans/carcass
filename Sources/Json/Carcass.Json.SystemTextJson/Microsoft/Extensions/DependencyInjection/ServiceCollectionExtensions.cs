@@ -24,6 +24,7 @@ using System.Text.Json;
 using Carcass.Core;
 using Carcass.Json.Core.Providers.Abstracts;
 using Carcass.Json.SystemTextJson.Providers;
+using Carcass.Json.SystemTextJson.Providers.Abstracts;
 using Carcass.Json.SystemTextJson.Settings;
 
 // ReSharper disable CheckNamespace
@@ -39,8 +40,12 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IJsonProvider>(
-            new SystemTextJsonProvider(options ?? SystemTextJsonSettings.Defaults())
+        SystemTextJsonProvider systemTextJsonProvider = new(
+            options ?? SystemTextJsonSettings.Defaults()
         );
+
+        return services
+            .AddSingleton<IJsonProvider>(systemTextJsonProvider)
+            .AddSingleton<ISystemTextJsonProvider>(systemTextJsonProvider);
     }
 }

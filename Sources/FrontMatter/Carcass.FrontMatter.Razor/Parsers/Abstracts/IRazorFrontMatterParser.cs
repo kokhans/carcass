@@ -20,23 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
 using Carcass.FrontMatter.Core.Parsers.Abstracts;
-using Carcass.FrontMatter.Markdown.Parsers;
-using Carcass.FrontMatter.Markdown.Parsers.Abstracts;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.FrontMatter.Razor.Parsers.Abstracts;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public interface IRazorFrontMatterParser : IFrontMatterParser
 {
-    public static IServiceCollection AddCarcassMarkdownFrontMatterParser(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services
-            .AddSingleton<IFrontMatterParser, MarkdownFrontMatterParser>()
-            .AddSingleton<IMarkdownFrontMatterParser, MarkdownFrontMatterParser>();
-    }
 }

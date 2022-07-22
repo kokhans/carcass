@@ -21,14 +21,14 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Yaml.Core.Providers.Abstracts;
+using Carcass.Yaml.YamlDotNet.Providers.Abstracts;
 using YamlDotNet.Serialization;
 
 // ReSharper disable ReturnTypeCanBeNotNullable
 
 namespace Carcass.Yaml.YamlDotNet.Providers;
 
-public sealed class YamlDotNetProvider : IYamlProvider
+public sealed class YamlDotNetProvider : IYamlDotNetProvider
 {
     private readonly ISerializer _serializer;
     private readonly IDeserializer _deserializer;

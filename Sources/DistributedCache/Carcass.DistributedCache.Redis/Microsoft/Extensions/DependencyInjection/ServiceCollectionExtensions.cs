@@ -26,6 +26,7 @@ using Carcass.DistributedCache.Redis.Conductors;
 using Carcass.DistributedCache.Redis.Conductors.Abstracts;
 using Carcass.DistributedCache.Redis.Options;
 using Carcass.DistributedCache.Redis.Providers;
+using Carcass.DistributedCache.Redis.Providers.Abstracts;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -68,6 +69,8 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IDistributedCacheProvider, RedisProvider>();
+        return services
+            .AddSingleton<IDistributedCacheProvider, RedisProvider>()
+            .AddSingleton<IRedisProvider, RedisProvider>();
     }
 }

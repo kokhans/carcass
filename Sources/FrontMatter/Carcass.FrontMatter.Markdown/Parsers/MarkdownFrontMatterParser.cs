@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.FrontMatter.Core.Parsers.Abstracts;
+using Carcass.FrontMatter.Markdown.Parsers.Abstracts;
 using Carcass.Yaml.Core.Providers.Abstracts;
 using Markdig;
 using Markdig.Extensions.Yaml;
@@ -29,7 +29,7 @@ using Markdig.Syntax;
 
 namespace Carcass.FrontMatter.Markdown.Parsers;
 
-public sealed class MarkdownFrontMatterParser : IFrontMatterParser
+public sealed class MarkdownFrontMatterParser : IMarkdownFrontMatterParser
 {
     private readonly IYamlProvider _yamlProvider;
     private readonly MarkdownPipeline _markdownPipeline;

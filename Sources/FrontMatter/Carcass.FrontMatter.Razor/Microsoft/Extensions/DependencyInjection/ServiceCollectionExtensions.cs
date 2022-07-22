@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.FrontMatter.Core.Parsers.Abstracts;
 using Carcass.FrontMatter.Razor.Parsers;
+using Carcass.FrontMatter.Razor.Parsers.Abstracts;
 
 // ReSharper disable CheckNamespace
 
@@ -34,6 +35,8 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IFrontMatterParser, RazorFrontMatterParser>();
+        return services
+            .AddSingleton<IFrontMatterParser, RazorFrontMatterParser>()
+            .AddSingleton<IRazorFrontMatterParser, RazorFrontMatterParser>();
     }
 }

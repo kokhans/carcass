@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -21,14 +21,14 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.DistributedCache.Core.Providers.Abstracts;
 using Carcass.DistributedCache.Redis.Conductors.Abstracts;
+using Carcass.DistributedCache.Redis.Providers.Abstracts;
 using Carcass.Json.Core.Providers.Abstracts;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Carcass.DistributedCache.Redis.Providers;
 
-public sealed class RedisProvider : IDistributedCacheProvider
+public sealed class RedisProvider : IRedisProvider
 {
     private readonly IRedisConductor _redisConductor;
     private readonly IJsonProvider _jsonProvider;

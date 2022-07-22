@@ -23,6 +23,7 @@
 using Carcass.Core;
 using Carcass.Json.Core.Providers.Abstracts;
 using Carcass.Json.NewtonsoftJson.Providers;
+using Carcass.Json.NewtonsoftJson.Providers.Abstracts;
 using Carcass.Json.NewtonsoftJson.Settings;
 using Newtonsoft.Json;
 
@@ -39,8 +40,12 @@ public static class ServiceCollectionExtensions
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IJsonProvider>(
-            new NewtonsoftJsonProvider(settings ?? NewtonsoftJsonSettings.Defaults())
+        NewtonsoftJsonProvider newtonsoftJsonProvider = new(
+            settings ?? NewtonsoftJsonSettings.Defaults()
         );
+
+        return services
+            .AddSingleton<IJsonProvider>(newtonsoftJsonProvider)
+            .AddSingleton<INewtonsoftJsonProvider>(newtonsoftJsonProvider);
     }
 }
