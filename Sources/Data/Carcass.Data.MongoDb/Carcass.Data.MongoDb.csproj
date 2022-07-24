@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Authors>Serhii Kokhan</Authors>
-    <Description>Domain-Driven Design, CQRS and Event Sourcing implementation based on MongoDb.</Description>
+    <Description>Domain-Driven Design, CQRS and Event Sourcing implementation based on MongoDB.</Description>
     <Copyright>© 2022 Serhii Kokhan</Copyright>
     <PackageTags>carcass, data, ddd, cqrs, eventsourcing, mongodb</PackageTags>
   </PropertyGroup>
