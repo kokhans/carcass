@@ -23,6 +23,13 @@ The software is still under active development and not feature complete or ready
 - Audit Logging
 - Object Storage
 
+## Getting Started
+
+### Prerequisites
+
+- [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
+
 ## Packages
 
 ### Core
