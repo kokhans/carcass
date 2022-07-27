@@ -20,20 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.LocalStorage.Providers;
-using Carcass.LocalStorage.Providers.Abstracts;
+using Carcass.Core.Helpers;
+using FluentAssertions;
+using Xunit;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.Core.UnitTests.Helpers;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public sealed class HashCodeHelperTest
 {
-    public static IServiceCollection AddCarcassLocalStorageProvider(this IServiceCollection services)
+    [Fact]
+    public void GivenValue_WhenGetDeterministicHashCode_ThenShouldBeAsExpected()
     {
-        ArgumentVerifier.NotNull(services, nameof(services));
+        // Arrange
+        const string given = "value";
+        const int expected = -2103799633;
 
-        return services.AddSingleton<ILocalStorageProvider, LocalStorageProvider>();
+        // Act
+        int? actual = HashCodeHelper.GetDeterministicHashCode(given);
+
+        // Assert
+        actual.Should().NotBeNull();
+        actual.Should().Be(expected);
     }
 }

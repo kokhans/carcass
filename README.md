@@ -36,10 +36,6 @@ The software is still under active development and not feature complete or ready
 
 Core abstactions, interfaces and types used by `Carcass.*` libraries.
 
-### LocalStorage
-
-Local storage toolchain.
-
 ### Metadata
 
 Metadata toolchain.

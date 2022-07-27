@@ -46,11 +46,11 @@ public abstract class Clock
 
         Current = clock;
     }
+}
 
-    private sealed class DefaultClock : Clock
-    {
-        public override DateTime Today => DateTime.Today;
-        public override DateTime Now => DateTime.Now;
-        public override DateTime UtcNow => DateTime.UtcNow;
-    }
+public sealed class DefaultClock : Clock
+{
+    public override DateTime Today => DateTime.Today;
+    public override DateTime Now => DateTime.Now;
+    public override DateTime UtcNow => DateTime.UtcNow;
 }

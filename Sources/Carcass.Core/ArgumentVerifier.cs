@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -27,8 +27,15 @@ namespace Carcass.Core;
 public static class ArgumentVerifier
 {
     [DebuggerStepThrough]
-    public static void NotNull<T>(T? argument, string argumentName, bool skipStringWhiteSpace = false) where T : class
+    public static void NotNull<T>(
+        T? argument,
+        string argumentName,
+        bool skipStringWhiteSpace = false
+    ) where T : class
     {
+        if (string.IsNullOrWhiteSpace(argumentName))
+            throw new ArgumentNullException(nameof(argumentName));
+
         bool throwException = false;
 
         if (typeof(T) == typeof(string) && skipStringWhiteSpace == false)
@@ -46,6 +53,8 @@ public static class ArgumentVerifier
     [DebuggerStepThrough]
     public static void NotDefault<T>(T argument, string argumentName) where T : struct
     {
+        NotNull(argumentName, nameof(argumentName));
+
         if (Equals(argument, default(T)))
             throw new ArgumentException($"{argumentName} cannot have a default value.");
     }
@@ -53,6 +62,8 @@ public static class ArgumentVerifier
     [DebuggerStepThrough]
     public static void NotReadOnly<T>(ICollection<T> argument, string argumentName)
     {
+        NotNull(argumentName, nameof(argumentName));
+
         if (argument.IsReadOnly)
             throw new ArgumentException($"{argumentName} cannot be readonly.");
     }
@@ -60,7 +71,18 @@ public static class ArgumentVerifier
     [DebuggerStepThrough]
     public static void Requires(bool expression, string message)
     {
+        NotNull(message, nameof(message));
+
         if (!expression)
+            throw new ArgumentException(message);
+    }
+
+    [DebuggerStepThrough]
+    public static void Requires(Func<bool> expression, string message)
+    {
+        NotNull(message, nameof(message));
+
+        if (!expression.Invoke())
             throw new ArgumentException(message);
     }
 }
