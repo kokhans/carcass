@@ -22,8 +22,8 @@
 
 using System.Reflection;
 using Carcass.Core;
+using Carcass.Core.Accessors.UserId.Abstracts;
 using Carcass.Core.Locators;
-using Carcass.Core.Providers.Abstracts;
 using Carcass.Data.Core.Commands.Notifications;
 using Carcass.Data.Core.Commands.Notifications.Dispatchers.Abstracts;
 using Carcass.Data.Core.Entities.Abstracts;
@@ -90,33 +90,33 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
     private void OnBeforeSaveChanges()
     {
         DateTime dateTime = Clock.Current.UtcNow;
-        IUserIdProvider? userIdProvider = ServiceProviderLocator.Current.GetOptionalService<IUserIdProvider>();
-        string? userId = userIdProvider?.UserId;
+        IUserIdAccessor userIdAccessor = ServiceProviderLocator.Current.GetRequiredService<IUserIdAccessor>();
+        string? userId = userIdAccessor.TryGetUserId();
 
-        foreach (EntityEntry<IEntity> entityEntry in ChangeTracker.Entries<IEntity>())
+        foreach (EntityEntry<IIdentifiableEntity> entityEntry in ChangeTracker.Entries<IIdentifiableEntity>())
         {
             switch (entityEntry.State)
             {
                 case EntityState.Added:
-                {
-                    if (entityEntry.Entity is IAuditableEntity)
                     {
-                        SetAuditBeforeAdd(entityEntry, userId, dateTime);
-                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                    }
+                        if (entityEntry.Entity is IAuditableEntity)
+                        {
+                            SetAuditBeforeAdd(entityEntry, userId, dateTime);
+                            _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case EntityState.Modified:
-                {
-                    if (entityEntry.Entity is IAuditableEntity)
                     {
-                        SetAuditBeforeUpdate(entityEntry, userId, dateTime);
-                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                    }
+                        if (entityEntry.Entity is IAuditableEntity)
+                        {
+                            SetAuditBeforeUpdate(entityEntry, userId, dateTime);
+                            _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case EntityState.Deleted:
                     switch (entityEntry.Entity)
                     {
@@ -147,8 +147,8 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
                 ServiceProviderLocator.Current.GetRequiredServices<INotificationDispatcher>().ToList();
 
             foreach (INotificationDispatcher notificationDispatcher in notificationDispatchers)
-            foreach (AuditTrailTransactionalNotification notification in notifications)
-                await notificationDispatcher.DispatchNotificationAsync(notification, cancellationToken);
+                foreach (AuditTrailTransactionalNotification notification in notifications)
+                    await notificationDispatcher.DispatchNotificationAsync(notification, cancellationToken);
         }
     }
 

@@ -20,24 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Carcass.Core.Accessors.CorrelationId.Abstracts;
 
-namespace Carcass.Data.EntityFrameworkCore.Configurations.Abstracts;
+namespace Carcass.Core.Accessors.CorrelationId;
 
-public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
-    where TEntity : class, IEntity
+public sealed class NullableCorrelationIdAccessor : ICorrelationIdAccessor
 {
-    public abstract void Configure(EntityTypeBuilder<TEntity> builder);
-
-    protected virtual EntityTypeBuilder<TEntity> PreConfigure(EntityTypeBuilder<TEntity> builder)
-    {
-        ArgumentVerifier.NotNull(builder, nameof(builder));
-
-        builder.HasKey(e => e.Id);
-
-        return builder;
-    }
+    public string? TryGetCorrelationId() => null;
 }

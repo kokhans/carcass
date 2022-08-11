@@ -25,6 +25,6 @@ using MongoDB.Bson;
 
 namespace Carcass.Data.MongoDb.Entities.Abstracts;
 
-public interface IDocument : IIdentifiable<ObjectId>
+public interface IIdentifiableDocument : IIdentifiable<ObjectId>
 {
 }

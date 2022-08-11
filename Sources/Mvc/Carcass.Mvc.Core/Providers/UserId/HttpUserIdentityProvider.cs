@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -24,12 +24,12 @@ using Carcass.Core;
 using Carcass.Logging.Core.Adapters;
 using Carcass.Logging.Core.Adapters.Abstracts;
 using Carcass.Mvc.Core.Extensions;
-using Carcass.Mvc.Core.Providers.Abstracts;
+using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 
-namespace Carcass.Mvc.Core.Providers;
+namespace Carcass.Mvc.Core.Providers.UserId;
 
 public sealed class HttpUserIdentityProvider : IHttpUserIdentityProvider
 {
@@ -47,7 +47,6 @@ public sealed class HttpUserIdentityProvider : IHttpUserIdentityProvider
         _loggerAdapter = loggerAdapterFactory.CreateLoggerAdapter<HttpUserIdentityProvider>();
         _httpContextAccessor = httpContextAccessor;
     }
-
 
     public string? TryGetUserId() => TryGet(JwtClaimTypes.Subject);
 

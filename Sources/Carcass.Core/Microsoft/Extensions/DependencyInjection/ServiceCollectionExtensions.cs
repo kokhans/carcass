@@ -21,6 +21,10 @@
 // SOFTWARE.
 
 using Carcass.Core;
+using Carcass.Core.Accessors.CorrelationId;
+using Carcass.Core.Accessors.CorrelationId.Abstracts;
+using Carcass.Core.Accessors.UserId;
+using Carcass.Core.Accessors.UserId.Abstracts;
 using Carcass.Core.Dependencies;
 using Carcass.Core.Locators;
 
@@ -53,6 +57,20 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<DependencyResolver<TDependency>>(sp => name =>
             sp.GetRequiredService<DependencyStore<TDependency>>().GetRequiredDependency(name)
         );
+    }
+
+    public static IServiceCollection AddCarcassNullableUserIdAccessor(this IServiceCollection services)
+    {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
+        return services.AddSingleton<IUserIdAccessor, NullableUserIdAccessor>();
+    }
+
+    public static IServiceCollection AddCarcassNullableCorrelationIdAccessor(this IServiceCollection services)
+    {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
+        return services.AddSingleton<ICorrelationIdAccessor, NullableCorrelationIdAccessor>();
     }
 
     public static void AddCarcassServiceProviderLocator(this IServiceCollection services)

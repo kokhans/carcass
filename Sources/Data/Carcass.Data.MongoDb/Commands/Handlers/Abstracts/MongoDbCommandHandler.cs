@@ -28,10 +28,10 @@ using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Commands.Handlers.Abstracts;
 
-public abstract class MongoDbCommandHandler<TCommand, TCommandResult, TCommandValidator>
-    : CommandHandler<TCommand, TCommandResult, TCommandValidator, IMongoDbSession>
-    where TCommand : class, ICommand<TCommandResult>
-    where TCommandValidator : class, ICommandValidator<TCommand, TCommandResult>
+public abstract class MongoDbCommandHandler<TCommand, TResult, TCommandValidator>
+    : CommandHandler<TCommand, TResult, TCommandValidator, IMongoDbSession>
+    where TCommand : class, ICommand<TResult>
+    where TCommandValidator : class, ICommandValidator<TCommand, TResult>
 {
     protected MongoDbCommandHandler(
         IMongoDbSession session,

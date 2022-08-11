@@ -20,18 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Mvc.Core.Providers.Abstracts;
+using Carcass.Core.Accessors.UserId.Abstracts;
 
-public interface IHttpUserIdentityProvider
+namespace Carcass.Core.Accessors.UserId;
+
+public sealed class NullableUserIdAccessor : IUserIdAccessor
 {
-    string? TryGetUserId();
-    string? TryGetUserName();
-    string? TryGetUserEmail();
-    string? TryGetUserPhoneNumber();
-
-    Task<string?> GetTokenAsync(
-        string schema = AuthenticationSchema.Bearer,
-        string tokenName = Token.AccessToken,
-        CancellationToken cancellationToken = default
-    );
+    public string? TryGetUserId() => null;
 }

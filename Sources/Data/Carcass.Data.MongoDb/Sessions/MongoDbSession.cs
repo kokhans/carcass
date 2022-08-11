@@ -95,7 +95,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         TDocument document,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -108,7 +108,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task CreateAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -121,7 +121,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         TDocument document,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -139,7 +139,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task UpdateAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -152,7 +152,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         string id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -163,7 +163,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task DeleteAsync<TDocument>(string id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -176,7 +176,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         ObjectId id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -198,7 +198,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task DeleteAsync<TDocument>(ObjectId id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -211,7 +211,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         string id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -222,7 +222,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task<TDocument> GetByIdAsync<TDocument>(string id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -235,7 +235,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         ObjectId id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -255,7 +255,7 @@ public sealed class MongoDbSession : IMongoDbSession
     }
 
     public async Task<TDocument> GetByIdAsync<TDocument>(ObjectId id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -268,7 +268,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -287,7 +287,7 @@ public sealed class MongoDbSession : IMongoDbSession
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
     )
-        where TDocument : class, IDocument
+        where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -298,7 +298,7 @@ public sealed class MongoDbSession : IMongoDbSession
         string collectionName,
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -320,7 +320,7 @@ public sealed class MongoDbSession : IMongoDbSession
     public async Task<long> CountAsync<TDocument>(
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument
+    ) where TDocument : class, IIdentifiableDocument
     {
         cancellationToken.ThrowIfCancellationRequested();
 

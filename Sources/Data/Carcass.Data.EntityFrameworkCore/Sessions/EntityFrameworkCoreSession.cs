@@ -33,23 +33,23 @@ public interface IEntityFrameworkCoreSession : IRelationDatabaseTransactionalSes
     IAsyncDisposable
 {
     Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IEntity;
+        where TEntity : class, IIdentifiableEntity;
 
     Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IEntity;
+        where TEntity : class, IIdentifiableEntity;
 
-    Task DeleteAsync<TEntity>(Guid id, CancellationToken cancellationToken = default) where TEntity : class, IEntity;
+    Task DeleteAsync<TEntity>(Guid id, CancellationToken cancellationToken = default) where TEntity : class, IIdentifiableEntity;
 
     Task<TEntity?> GetByIdAsync<TEntity>(
         Guid id,
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntity;
+    ) where TEntity : class, IIdentifiableEntity;
 
     IQueryable<TEntity> Query<TEntity>(
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntity;
+    ) where TEntity : class, IIdentifiableEntity;
 }
 
 public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCoreSession
@@ -113,7 +113,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
     }
 
     public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IEntity
+        where TEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -128,7 +128,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
     }
 
     public Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IEntity
+        where TEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -144,7 +144,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
     }
 
     public async Task DeleteAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
-        where TEntity : class, IEntity
+        where TEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -166,7 +166,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         Guid id,
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntity
+    ) where TEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -187,7 +187,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
     public IQueryable<TEntity> Query<TEntity>(
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IEntity
+    ) where TEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 

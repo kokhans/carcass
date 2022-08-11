@@ -20,9 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Core.Providers.Abstracts;
+using System.Collections.ObjectModel;
+using Carcass.Core.Extensions;
 
-public interface ICorrelationIdProvider
+namespace Carcass.Core.Exceptions;
+
+public class NullException : Exception
 {
-    string? CorrelationId { get; }
+    public NullException()
+    {
+    }
+
+    public NullException(string? message) : base(message)
+    {
+    }
+
+    public NullException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
+    public NullException(Dictionary<string, object?> metadata)
+    {
+        ArgumentVerifier.NotNull(metadata, nameof(metadata));
+
+        Metadata = metadata.AsReadOnlyDictionary();
+    }
+
+    public ReadOnlyDictionary<string, object?>? Metadata { get; }
 }

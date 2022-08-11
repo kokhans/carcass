@@ -29,7 +29,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Carcass.Data.MongoDb.Snapshotting;
 
-public sealed class SnapshotDocument : IDocument, ISnapshot
+public sealed class SnapshotDocument : IIdentifiableDocument, ISnapshot
 {
     [BsonId]
     [BsonRepresentation(BsonType.String)]

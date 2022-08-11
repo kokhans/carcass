@@ -40,69 +40,69 @@ public interface IMongoDbSession : ITransactionalSession<BsonDocument>
         string collectionName,
         TDocument document,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task CreateAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task UpdateAsync<TDocument>(
         string collectionName,
         TDocument document,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task UpdateAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task DeleteAsync<TDocument>(string collectionName, string id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task DeleteAsync<TDocument>(string id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task DeleteAsync<TDocument>(string collectionName, ObjectId id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task DeleteAsync<TDocument>(ObjectId id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task<TDocument> GetByIdAsync<TDocument>(
         string collectionName,
         string id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task<TDocument> GetByIdAsync<TDocument>(string id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task<TDocument> GetByIdAsync<TDocument>(
         string collectionName,
         ObjectId id,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task<TDocument> GetByIdAsync<TDocument>(ObjectId id, CancellationToken cancellationToken = default)
-        where TDocument : class, IDocument;
+        where TDocument : class, IIdentifiableDocument;
 
     Task<IList<TDocument>> QueryAsync<TDocument>(
         string collectionName,
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task<IList<TDocument>> QueryAsync<TDocument>(
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task<long> CountAsync<TDocument>(
         string collectionName,
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 
     Task<long> CountAsync<TDocument>(
         Expression<Func<TDocument, bool>>? filter = default,
         CancellationToken cancellationToken = default
-    ) where TDocument : class, IDocument;
+    ) where TDocument : class, IIdentifiableDocument;
 }

@@ -21,8 +21,10 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Mvc.Core.Providers;
-using Carcass.Mvc.Core.Providers.Abstracts;
+using Carcass.Core.Accessors.UserId.Abstracts;
+using Carcass.Mvc.Core.Accessors.UserId;
+using Carcass.Mvc.Core.Providers.UserId;
+using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 
 // ReSharper disable CheckNamespace
 
@@ -37,5 +39,12 @@ public static class ServiceCollectionExtensions
         return services
             .AddSingleton<IHttpUserIdentityProviderFactory, HttpUserIdentityProviderFactory>()
             .AddSingleton<IHttpUserIdentityProvider, HttpUserIdentityProvider>();
+    }
+
+    public static IServiceCollection AddCarcassHttpUserIdAccessor(this IServiceCollection services)
+    {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
+        return services.AddSingleton<IUserIdAccessor, HttpUserIdAccessor>();
     }
 }

@@ -29,7 +29,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Carcass.Data.MongoDb.Checkpoints;
 
-public sealed class CheckpointDocument : IDocument, ICheckpoint
+public sealed class CheckpointDocument : IIdentifiableDocument, ICheckpoint
 {
     [BsonId]
     [BsonRepresentation(BsonType.String)]
