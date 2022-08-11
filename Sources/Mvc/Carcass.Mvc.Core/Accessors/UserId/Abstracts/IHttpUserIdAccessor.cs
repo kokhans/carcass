@@ -20,34 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
 using Carcass.Core.Accessors.UserId.Abstracts;
-using Carcass.Mvc.Core.Accessors.UserId;
-using Carcass.Mvc.Core.Accessors.UserId.Abstracts;
-using Carcass.Mvc.Core.Providers.UserId;
-using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.Mvc.Core.Accessors.UserId.Abstracts;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public interface IHttpUserIdAccessor : IUserIdAccessor
 {
-    public static IServiceCollection AddCarcassHttpUserIdentityProvider(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services
-            .AddSingleton<IHttpUserIdentityProviderFactory, HttpUserIdentityProviderFactory>()
-            .AddSingleton<IHttpUserIdentityProvider, HttpUserIdentityProvider>();
-    }
-
-    public static IServiceCollection AddCarcassHttpUserIdAccessor(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services
-            .AddSingleton<IUserIdAccessor, HttpUserIdAccessor>()
-            .AddSingleton<IHttpUserIdAccessor, HttpUserIdAccessor>();
-    }
 }
