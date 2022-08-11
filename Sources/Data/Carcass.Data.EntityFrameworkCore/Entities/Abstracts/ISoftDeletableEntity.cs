@@ -24,6 +24,6 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface ISoftDeletableEntity : ISoftDeletable<Guid>, IEntity
+public interface ISoftDeletableEntity : ISoftDeletable<Guid>, IIdentifiableEntity
 {
 }

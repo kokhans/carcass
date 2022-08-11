@@ -80,6 +80,7 @@ public static class ArgumentVerifier
     [DebuggerStepThrough]
     public static void Requires(Func<bool> expression, string message)
     {
+        NotNull(expression, nameof(expression));
         NotNull(message, nameof(message));
 
         if (!expression.Invoke())

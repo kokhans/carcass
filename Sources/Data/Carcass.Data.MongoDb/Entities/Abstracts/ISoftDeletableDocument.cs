@@ -25,6 +25,6 @@ using MongoDB.Bson;
 
 namespace Carcass.Data.MongoDb.Entities.Abstracts;
 
-public interface ISoftDeletableDocument : ISoftDeletable<ObjectId>, IDocument
+public interface ISoftDeletableDocument : ISoftDeletable<ObjectId>, IIdentifiableDocument
 {
 }

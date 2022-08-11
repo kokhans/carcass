@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
     <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj" />
   </ItemGroup>
 

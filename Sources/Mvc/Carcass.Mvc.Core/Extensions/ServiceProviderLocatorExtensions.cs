@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -22,7 +22,7 @@
 
 using Carcass.Core;
 using Carcass.Core.Locators;
-using Carcass.Mvc.Core.Providers.Abstracts;
+using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 
 namespace Carcass.Mvc.Core.Extensions;
 
@@ -34,9 +34,9 @@ public static class ServiceProviderLocatorExtensions
     {
         ArgumentVerifier.NotNull(serviceProviderLocator, nameof(serviceProviderLocator));
 
-        IHttpUserIdentityProviderFactory? httpUserIdentityAccessorFactory = serviceProviderLocator
-            .GetOptionalService<IHttpUserIdentityProviderFactory>();
+        IHttpUserIdentityProviderFactory? httpUserIdentityProviderFactory =
+            serviceProviderLocator.GetOptionalService<IHttpUserIdentityProviderFactory>();
 
-        return httpUserIdentityAccessorFactory?.CreateHttpUserIdentityAccessor();
+        return httpUserIdentityProviderFactory?.TryCreateHttpUserIdentityProvider();
     }
 }

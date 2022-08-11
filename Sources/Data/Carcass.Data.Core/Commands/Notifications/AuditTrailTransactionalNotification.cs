@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 using Carcass.Core;
+using Carcass.Core.Accessors.CorrelationId.Abstracts;
 using Carcass.Core.Locators;
-using Carcass.Core.Providers.Abstracts;
 using Carcass.Data.Core.Commands.Notifications.Abstracts;
 
 namespace Carcass.Data.Core.Commands.Notifications;
@@ -40,7 +40,7 @@ public sealed class AuditTrailTransactionalNotification : INotification
         OldValues = oldValues;
         NewValues = newValues;
 
-        Metadata = new Dictionary<string, object?> {{"Timestamp", Clock.Current.UtcNow}};
+        Metadata = new Dictionary<string, object?> { { "Timestamp", Clock.Current.UtcNow } };
         if (!string.IsNullOrWhiteSpace(tableName))
             Metadata.Add("TableName", tableName);
 
@@ -50,9 +50,9 @@ public sealed class AuditTrailTransactionalNotification : INotification
         if (!string.IsNullOrWhiteSpace(transactionId))
             Metadata.Add("TransactionId", transactionId);
 
-        ICorrelationIdProvider? correlationIdProvider =
-            ServiceProviderLocator.Current.GetOptionalService<ICorrelationIdProvider>();
-        string? correlationId = correlationIdProvider?.CorrelationId;
+        ICorrelationIdAccessor correlationIdAccessor =
+            ServiceProviderLocator.Current.GetRequiredService<ICorrelationIdAccessor>();
+        string? correlationId = correlationIdAccessor.TryGetCorrelationId();
         if (!string.IsNullOrWhiteSpace(correlationId))
             Metadata.Add("CorrelationId", correlationId);
     }

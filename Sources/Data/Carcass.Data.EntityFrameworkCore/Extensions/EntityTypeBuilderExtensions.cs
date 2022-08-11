@@ -24,22 +24,34 @@ using Carcass.Core;
 using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Carcass.Data.EntityFrameworkCore.Configurations.Abstracts;
+namespace Carcass.Data.EntityFrameworkCore.Extensions;
 
-public abstract class AuditableEntityConfiguration<TAuditableEntity> : EntityConfiguration<TAuditableEntity>
-    where TAuditableEntity : class, IAuditableEntity
+public static class EntityTypeBuilderExtensions
 {
-    protected override EntityTypeBuilder<TAuditableEntity> PreConfigure(EntityTypeBuilder<TAuditableEntity> builder)
+    public static void ConfigureIdentifiableEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        where TEntity : class, IIdentifiableEntity
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));
 
-        base.PreConfigure(builder);
+        builder.HasKey(e => e.Id);
+    }
+
+    public static void ConfigureAuditableEntity<TAuditableEntity>(this EntityTypeBuilder<TAuditableEntity> builder)
+        where TAuditableEntity : class, IAuditableEntity
+    {
+        ArgumentVerifier.NotNull(builder, nameof(builder));
 
         builder.Property(ae => ae.CreatedBy);
         builder.Property(ae => ae.CreatedAt).IsRequired();
         builder.Property(ae => ae.UpdatedBy);
         builder.Property(ae => ae.UpdatedAt);
+    }
 
-        return builder;
+    public static void ConfigureSoftDeletableEntity<TSoftDeletableEntity>(this EntityTypeBuilder<TSoftDeletableEntity> builder)
+        where TSoftDeletableEntity : class, ISoftDeletableEntity
+    {
+        ArgumentVerifier.NotNull(builder, nameof(builder));
+
+        builder.Property(sde => sde.IsDeleted).IsRequired();
     }
 }

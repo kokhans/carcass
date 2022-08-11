@@ -20,17 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Commands.Abstracts;
-using Carcass.Data.Core.Commands.Validators.Abstracts;
-using Carcass.Data.EntityFrameworkCore.Sessions;
+using Carcass.Data.Core.Entities.Abstracts;
 
-namespace Carcass.Data.EntityFrameworkCore.Commands.Validators.Abstracts;
+namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public abstract class EntityFrameworkCoreCommandValidator<TCommand, TResult>
-    : CommandValidator<TCommand, TResult, IEntityFrameworkCoreSession>
-    where TCommand : class, ICommand<TResult>
+public interface IIdentifiableEntity : IIdentifiable<Guid>
 {
-    protected EntityFrameworkCoreCommandValidator(IEntityFrameworkCoreSession session) : base(session)
-    {
-    }
 }

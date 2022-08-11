@@ -20,9 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Core.Providers.Abstracts;
+using Carcass.Core;
+using Carcass.Core.Accessors.UserId.Abstracts;
+using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 
-public interface IUserIdProvider
+namespace Carcass.Mvc.Core.Accessors.UserId;
+
+public sealed class HttpUserIdAccessor : IUserIdAccessor
 {
-    string? UserId { get; }
+    private readonly IHttpUserIdentityProvider? _httpUserIdentityProvider;
+
+    public HttpUserIdAccessor(IHttpUserIdentityProviderFactory httpUserIdentityProviderFactory)
+    {
+        ArgumentVerifier.NotNull(httpUserIdentityProviderFactory, nameof(httpUserIdentityProviderFactory));
+
+        _httpUserIdentityProvider = httpUserIdentityProviderFactory.TryCreateHttpUserIdentityProvider();
+    }
+
+    public string? TryGetUserId() => _httpUserIdentityProvider?.TryGetUserId();
 }

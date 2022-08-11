@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -24,10 +24,10 @@ using Carcass.Core;
 using Carcass.Core.Locators;
 using Carcass.Logging.Core.Adapters;
 using Carcass.Logging.Core.Adapters.Abstracts;
-using Carcass.Mvc.Core.Providers.Abstracts;
+using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 using Microsoft.AspNetCore.Http;
 
-namespace Carcass.Mvc.Core.Providers;
+namespace Carcass.Mvc.Core.Providers.UserId;
 
 public sealed class HttpUserIdentityProviderFactory : IHttpUserIdentityProviderFactory
 {
@@ -40,7 +40,7 @@ public sealed class HttpUserIdentityProviderFactory : IHttpUserIdentityProviderF
         _loggerAdapter = loggerAdapterFactory.CreateLoggerAdapter<HttpUserIdentityProviderFactory>();
     }
 
-    public IHttpUserIdentityProvider? CreateHttpUserIdentityAccessor()
+    public IHttpUserIdentityProvider? TryCreateHttpUserIdentityProvider()
     {
         IHttpContextAccessor? httpContextAccessor = ServiceProviderLocator
             .Current

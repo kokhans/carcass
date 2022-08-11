@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -74,5 +74,14 @@ public static class EnumerableExtensions
         ArgumentVerifier.NotNull(source, nameof(source));
 
         return new ReadOnlyCollection<T>(source);
+    }
+
+    public static ReadOnlyDictionary<TKey, TValue> AsReadOnlyDictionary<TKey, TValue>(
+        this IDictionary<TKey, TValue> source
+    ) where TKey : notnull
+    {
+        ArgumentVerifier.NotNull(source, nameof(source));
+
+        return new ReadOnlyDictionary<TKey, TValue>(source);
     }
 }

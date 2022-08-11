@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Mvc.Core.Providers.Abstracts;
+namespace Carcass.Core.Accessors.CorrelationId.Abstracts;
 
-public interface IHttpUserIdentityProviderFactory
+public interface ICorrelationIdAccessor
 {
-    IHttpUserIdentityProvider? CreateHttpUserIdentityAccessor();
+    string? TryGetCorrelationId();
 }

@@ -20,10 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Entities.Abstracts;
+using System.Collections.ObjectModel;
+using Carcass.Core.Extensions;
 
-namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
+namespace Carcass.Core.Exceptions;
 
-public interface IEntity : IIdentifiable<Guid>
+public class NotNullException : Exception
 {
+    public NotNullException()
+    {
+    }
+
+    public NotNullException(string? message) : base(message)
+    {
+    }
+
+    public NotNullException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
+    public NotNullException(Dictionary<string, object?> metadata)
+    {
+        ArgumentVerifier.NotNull(metadata, nameof(metadata));
+
+        Metadata = metadata.AsReadOnlyDictionary();
+    }
+
+    public ReadOnlyDictionary<string, object?>? Metadata { get; }
 }
