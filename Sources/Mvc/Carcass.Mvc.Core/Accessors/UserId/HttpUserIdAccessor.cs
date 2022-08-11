@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Core.Accessors.UserId.Abstracts;
+using Carcass.Mvc.Core.Accessors.UserId.Abstracts;
 using Carcass.Mvc.Core.Providers.UserId.Abstracts;
 
 namespace Carcass.Mvc.Core.Accessors.UserId;
 
-public sealed class HttpUserIdAccessor : IUserIdAccessor
+public sealed class HttpUserIdAccessor : IHttpUserIdAccessor
 {
     private readonly IHttpUserIdentityProvider? _httpUserIdentityProvider;
 
