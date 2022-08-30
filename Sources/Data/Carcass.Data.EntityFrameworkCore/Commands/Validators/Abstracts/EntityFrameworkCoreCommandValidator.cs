@@ -23,6 +23,7 @@
 using Carcass.Data.Core.Commands.Abstracts;
 using Carcass.Data.Core.Commands.Validators.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Sessions;
+using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Commands.Validators.Abstracts;
 

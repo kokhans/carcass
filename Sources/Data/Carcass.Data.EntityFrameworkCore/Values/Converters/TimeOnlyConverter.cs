@@ -20,23 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.Data.EntityFrameworkCore.Sessions;
-using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.Data.EntityFrameworkCore.Values.Converters;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public sealed class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
 {
-    public static IServiceCollection AddCarcassEntityFrameworkCoreSession<TDbContext>(
-        this IServiceCollection services
-    ) where TDbContext : DbContext
+    public TimeOnlyConverter() : base(
+        timeOnly => timeOnly.ToTimeSpan(),
+        timeSpan => TimeOnly.FromTimeSpan(timeSpan)
+    )
     {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<IEntityFrameworkCoreSession, EntityFrameworkCoreSession<TDbContext>>();
     }
 }

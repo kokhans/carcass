@@ -22,35 +22,12 @@
 
 using System.Data;
 using Carcass.Core;
-using Carcass.Data.Core.Sessions.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
+using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Carcass.Data.EntityFrameworkCore.Sessions;
-
-public interface IEntityFrameworkCoreSession : IRelationDatabaseTransactionalSession<Guid>, IDisposable,
-    IAsyncDisposable
-{
-    Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IIdentifiableEntity;
-
-    Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IIdentifiableEntity;
-
-    Task DeleteAsync<TEntity>(Guid id, CancellationToken cancellationToken = default) where TEntity : class, IIdentifiableEntity;
-
-    Task<TEntity?> GetByIdAsync<TEntity>(
-        Guid id,
-        bool asNoTracking = default,
-        CancellationToken cancellationToken = default
-    ) where TEntity : class, IIdentifiableEntity;
-
-    IQueryable<TEntity> Query<TEntity>(
-        bool asNoTracking = default,
-        CancellationToken cancellationToken = default
-    ) where TEntity : class, IIdentifiableEntity;
-}
 
 public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCoreSession
     where TDbContext : DbContext
@@ -112,8 +89,10 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         await _dbContextTransaction.RollbackAsync(cancellationToken);
     }
 
-    public async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IIdentifiableEntity
+    public async Task CreateAsync<TIdentifiableEntity>(
+        TIdentifiableEntity entity,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -124,11 +103,13 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
                 $"Entity {entity.Id} could not be created due to {nameof(DbContext)} is null."
             );
 
-        await _dbContext.Set<TEntity>().AddAsync(entity, cancellationToken);
+        await _dbContext.Set<TIdentifiableEntity>().AddAsync(entity, cancellationToken);
     }
 
-    public Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
-        where TEntity : class, IIdentifiableEntity
+    public Task UpdateAsync<TIdentifiableEntity>(
+        TIdentifiableEntity entity,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -138,35 +119,35 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
             throw new InvalidOperationException(
                 $"Entity {entity.Id} could not be updated due to {nameof(DbContext)} is null.");
 
-        _dbContext.Set<TEntity>().Update(entity);
+        _dbContext.Set<TIdentifiableEntity>().Update(entity);
 
         return Task.CompletedTask;
     }
 
-    public async Task DeleteAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
-        where TEntity : class, IIdentifiableEntity
+    public async Task DeleteAsync<TIdentifiableEntity>(
+        Guid id,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotDefault(id, nameof(id));
 
-        TEntity? entity = await GetByIdAsync<TEntity>(id, true, cancellationToken);
-        if (entity is null)
-            throw new InvalidOperationException($"Entity {id} not found.");
+        TIdentifiableEntity entity = await GetByIdAsync<TIdentifiableEntity>(id, true, cancellationToken);
 
         if (_dbContext is null)
             throw new InvalidOperationException(
                 $"Entity {entity.Id} could not be deleted due to {nameof(DbContext)} is null."
             );
 
-        _dbContext.Set<TEntity>().Remove(entity);
+        _dbContext.Set<TIdentifiableEntity>().Remove(entity);
     }
 
-    public async Task<TEntity?> GetByIdAsync<TEntity>(
+    public async Task<TIdentifiableEntity?> TryGetByIdAsync<TIdentifiableEntity>(
         Guid id,
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IIdentifiableEntity
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -178,10 +159,30 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
             );
 
         return asNoTracking == false
-            ? await _dbContext.Set<TEntity>().SingleOrDefaultAsync(e => e.Id == id, cancellationToken)
-            : await _dbContext.Set<TEntity>()
+            ? await _dbContext
+                .Set<TIdentifiableEntity>()
+                .SingleOrDefaultAsync(e => e.Id == id, cancellationToken)
+            : await _dbContext
+                .Set<TIdentifiableEntity>()
                 .AsNoTracking()
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+    }
+
+    public async Task<TIdentifiableEntity> GetByIdAsync<TIdentifiableEntity>(
+        Guid id,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotDefault(id, nameof(id));
+
+        TIdentifiableEntity? entity = await TryGetByIdAsync<TIdentifiableEntity>(id, asNoTracking, cancellationToken);
+        if (entity is null)
+            throw new InvalidOperationException($"Entity {id} not found.");
+
+        return entity;
     }
 
     public IQueryable<TEntity> Query<TEntity>(

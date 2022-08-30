@@ -20,23 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.Data.EntityFrameworkCore.Sessions;
-using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.Data.EntityFrameworkCore.Values.Comparers;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public class DateOnlyComparer : ValueComparer<DateOnly>
 {
-    public static IServiceCollection AddCarcassEntityFrameworkCoreSession<TDbContext>(
-        this IServiceCollection services
-    ) where TDbContext : DbContext
+    public DateOnlyComparer() : base(
+        (dateOnly1, dateOnly2) => dateOnly1.DayNumber == dateOnly2.DayNumber,
+        dateOnly => dateOnly.GetHashCode()
+    )
     {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<IEntityFrameworkCoreSession, EntityFrameworkCoreSession<TDbContext>>();
     }
 }

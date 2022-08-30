@@ -24,6 +24,7 @@ using Carcass.Data.Core.Queries.Abstracts;
 using Carcass.Data.Core.Queries.Handlers.Abstracts;
 using Carcass.Data.Core.Queries.Results.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Sessions;
+using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Queries.Handlers.Abstracts;
 
