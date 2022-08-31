@@ -25,6 +25,7 @@ using Carcass.Mvc.Core;
 using Carcass.Swashbuckle.Exclude;
 using Carcass.Swashbuckle.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 // ReSharper disable CheckNamespace
@@ -45,21 +46,21 @@ public static class ServiceCollectionExtensions
 
         ServiceProvider serviceProvider = services.BuildServiceProvider(true);
 
-        SwashbuckleOptions swashbuckleOptions = serviceProvider.GetRequiredService<SwashbuckleOptions>();
+        IOptions<SwashbuckleOptions> options = serviceProvider.GetRequiredService<IOptions<SwashbuckleOptions>>();
 
         return services
             .AddSwaggerGen(sgo =>
                 {
                     sgo.SchemaFilter<SwashbuckleExcludeSchemaFilter>();
                     sgo.SwaggerDoc(
-                        swashbuckleOptions.Version,
+                        options.Value.Version,
                         new OpenApiInfo
                         {
-                            Title = swashbuckleOptions.Name,
-                            Version = swashbuckleOptions.Version
+                            Title = options.Value.Name,
+                            Version = options.Value.Version
                         }
                     );
-                    sgo.CustomSchemaIds(t => t.FullName);
+                    sgo.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
                     sgo.AddSecurityDefinition(
                         AuthenticationSchema.Bearer,
                         new OpenApiSecurityScheme

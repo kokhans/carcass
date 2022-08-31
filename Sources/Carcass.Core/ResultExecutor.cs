@@ -20,35 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.Swashbuckle.Options;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerUI;
+namespace Carcass.Core;
 
-// ReSharper disable CheckNamespace
-
-namespace Microsoft.AspNetCore.Builder;
-
-public static class SwashbuckleBuilderExtensions
+public static class ResultExecutor
 {
-    public static IApplicationBuilder UseCarcassSwashbuckle(this IApplicationBuilder app)
+    public static async Task<Result<T>> ExecuteAsync<T>(Func<Task<T>> func)
     {
-        ArgumentVerifier.NotNull(app, nameof(app));
+        ArgumentVerifier.NotNull(func, nameof(func));
 
-        IOptions<SwashbuckleOptions> options = app.ApplicationServices.GetRequiredService<IOptions<SwashbuckleOptions>>();
-
-        return app
-            .UseSwagger()
-            .UseSwaggerUI(suo =>
-                {
-                    suo.SwaggerEndpoint(
-                        $"/swagger/{options.Value.Version}/swagger.json",
-                        $"{options.Value.Name} " +
-                        $"{options.Value.Version}"
-                    );
-                    suo.DocExpansion(DocExpansion.None);
-                }
-            );
+        try
+        {
+            return Result<T>.Success(await func.Invoke());
+        }
+        catch (Exception exception)
+        {
+            return Result<T>.Fail(exception);
+        }
     }
 }
