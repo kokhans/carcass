@@ -41,10 +41,10 @@ public static class EntityTypeBuilderExtensions
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));
 
-        builder.Property(ae => ae.CreatedBy);
+        builder.Property(ae => ae.CreatedBy).IsRequired(false);
         builder.Property(ae => ae.CreatedAt).IsRequired();
-        builder.Property(ae => ae.UpdatedBy);
-        builder.Property(ae => ae.UpdatedAt);
+        builder.Property(ae => ae.UpdatedBy).IsRequired(false);
+        builder.Property(ae => ae.UpdatedAt).IsRequired(false);
     }
 
     public static void ConfigureSoftDeletableEntity<TSoftDeletableEntity>(this EntityTypeBuilder<TSoftDeletableEntity> builder)
