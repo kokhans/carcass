@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -24,8 +24,8 @@ namespace Carcass.Data.Core.Entities.Abstracts;
 
 public interface IAuditable<TId> : IIdentifiable<TId>
 {
-    string CreatedBy { get; set; }
+    string? CreatedBy { get; set; }
     DateTime CreatedAt { get; set; }
-    string UpdatedBy { get; set; }
+    string? UpdatedBy { get; set; }
     DateTime? UpdatedAt { get; set; }
 }
