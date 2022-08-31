@@ -20,35 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Core;
-using Carcass.Swashbuckle.Options;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerUI;
+namespace Carcass.Core.Attributes;
 
-// ReSharper disable CheckNamespace
-
-namespace Microsoft.AspNetCore.Builder;
-
-public static class SwashbuckleBuilderExtensions
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class DependencyDescriptorAttribute : Attribute
 {
-    public static IApplicationBuilder UseCarcassSwashbuckle(this IApplicationBuilder app)
+    public DependencyDescriptorAttribute(string name)
     {
-        ArgumentVerifier.NotNull(app, nameof(app));
+        ArgumentVerifier.NotNull(name, nameof(name));
 
-        IOptions<SwashbuckleOptions> options = app.ApplicationServices.GetRequiredService<IOptions<SwashbuckleOptions>>();
-
-        return app
-            .UseSwagger()
-            .UseSwaggerUI(suo =>
-                {
-                    suo.SwaggerEndpoint(
-                        $"/swagger/{options.Value.Version}/swagger.json",
-                        $"{options.Value.Name} " +
-                        $"{options.Value.Version}"
-                    );
-                    suo.DocExpansion(DocExpansion.None);
-                }
-            );
+        Name = name;
     }
+
+    public string Name { get; }
 }
