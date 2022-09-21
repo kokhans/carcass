@@ -20,17 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Commands.Abstracts;
-using Carcass.Data.Core.Commands.Validators.Abstracts;
-using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
+using Carcass.Core;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Carcass.Data.EntityFrameworkCore.Commands.Validators.Abstracts;
+namespace Carcass.Json.SystemTextJson.Converters;
 
-public abstract class EntityFrameworkCoreCommandValidator<TCommand, TResult>
-    : CommandValidator<TCommand, TResult, IEntityFrameworkCoreSession>
-    where TCommand : class, ICommand<TResult>
+public sealed class TimeOnlyJsonConverter : JsonConverter<TimeOnly>
 {
-    protected EntityFrameworkCoreCommandValidator(IEntityFrameworkCoreSession session) : base(session)
+    private readonly string _serializationFormat;
+
+    public TimeOnlyJsonConverter() : this(default)
     {
+    }
+
+    public TimeOnlyJsonConverter(string? serializationFormat)
+        => _serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
+
+    public override TimeOnly Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        ArgumentVerifier.NotNull(typeToConvert, nameof(typeToConvert));
+        ArgumentVerifier.NotNull(options, nameof(options));
+
+        string? value = reader.GetString();
+        return TimeOnly.Parse(value!);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        TimeOnly value,
+        JsonSerializerOptions options
+    )
+    {
+        ArgumentVerifier.NotNull(options, nameof(options));
+
+        writer.WriteStringValue(value.ToString(_serializationFormat));
     }
 }

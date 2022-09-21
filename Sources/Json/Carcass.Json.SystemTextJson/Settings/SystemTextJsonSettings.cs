@@ -20,14 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Carcass.Json.SystemTextJson.Converters;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Carcass.Json.SystemTextJson.Settings;
 
 public sealed class SystemTextJsonSettings
 {
-    public static JsonSerializerOptions Defaults() => new()
+    public static JsonSerializerOptions Defaults()
     {
-        PropertyNameCaseInsensitive = true
-    };
+
+        JsonSerializerOptions jsonSerializerOptions = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
+        jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        jsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+        jsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+
+        return jsonSerializerOptions;
+    }
 }

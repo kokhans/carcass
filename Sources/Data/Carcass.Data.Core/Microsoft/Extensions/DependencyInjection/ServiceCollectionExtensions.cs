@@ -38,7 +38,6 @@ using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
 using Carcass.Data.Core.Queries.Dispatchers;
 using Carcass.Data.Core.Queries.Dispatchers.Abstracts;
 using Carcass.Data.Core.Queries.Handlers.Abstracts;
-using Microsoft.Extensions.DependencyModel;
 using Scrutor;
 
 // ReSharper disable CheckNamespace
@@ -96,13 +95,13 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection ScanCarcassCommandsAndQueries(
         this IServiceCollection services,
-        DependencyContext? dependencyContext = default
+        Func<ITypeSourceSelector, IImplementationTypeSelector> scanFunc
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
+        ArgumentVerifier.NotNull(scanFunc, nameof(scanFunc));
 
-        return services.Scan(tss => tss
-            .FromDependencyContext(dependencyContext ?? DependencyContext.Default)
+        return services.Scan(tss => scanFunc(tss)
             .AddClasses(itp => itp.AssignableTo(typeof(ICommandValidator<,>)))
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsSelfWithInterfaces()
