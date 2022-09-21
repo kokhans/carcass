@@ -106,8 +106,8 @@ Invoke-Expression "dotnet pack --include-symbols .\Sources\ObjectStorage\Carcass
 Invoke-Expression "nuget add .\nupkgs\Carcass.ObjectStorage.Minio.$($args[0]).$($args[1]).$($args[2]).nupkg -source $source"
 
 # Yaml.Core
-Invoke-Expression "dotnet pack --include-symbols .\Sources\Json\Carcass.Json.Core\Carcass.Json.Core.csproj -p:PackageVersion=$($args[0]).$($args[1]).$($args[2]) --output $output"
-Invoke-Expression "nuget add .\nupkgs\Carcass.Json.Core.$($args[0]).$($args[1]).$($args[2]).nupkg -source $source"
+Invoke-Expression "dotnet pack --include-symbols .\Sources\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj -p:PackageVersion=$($args[0]).$($args[1]).$($args[2]) --output $output"
+Invoke-Expression "nuget add .\nupkgs\Carcass.Yaml.Core.$($args[0]).$($args[1]).$($args[2]).nupkg -source $source"
 
 # Yaml.YamlDotNet
 Invoke-Expression "dotnet pack --include-symbols .\Sources\Yaml\Carcass.Yaml.YamlDotNet\Carcass.Yaml.YamlDotNet.csproj -p:PackageVersion=$($args[0]).$($args[1]).$($args[2]) --output $output"
