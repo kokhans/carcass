@@ -3,93 +3,93 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{BF512DA8-458F-47D7-B69C-2B9AEB65131E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BF512DA8-458F-47D7-B69C-2B9AEB65131E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{65CB2FE6-E6DB-42C4-BE2D-6F2A5F1ECF92}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{65CB2FE6-E6DB-42C4-BE2D-6F2A5F1ECF92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Core", "Sources\Carcass.Core\Carcass.Core.csproj", "{A68A3C5F-43BA-4373-8D5F-9551CB705C5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Core", "src\Carcass.Core\Carcass.Core.csproj", "{A68A3C5F-43BA-4373-8D5F-9551CB705C5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Core.UnitTests", "Tests\Carcass.Core.UnitTests\Carcass.Core.UnitTests.csproj", "{6314EA0C-516C-4AD6-A5E6-8CF4B5B26AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Core.UnitTests", "tests\Carcass.Core.UnitTests\Carcass.Core.UnitTests.csproj", "{6314EA0C-516C-4AD6-A5E6-8CF4B5B26AC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{A9A6464B-439F-4CC2-AB10-7A7ADA4800C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ObjectStorage", "ObjectStorage", "{B555D768-3870-466F-983D-468B8E528119}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.ObjectStorage.Core", "Sources\ObjectStorage\Carcass.ObjectStorage.Core\Carcass.ObjectStorage.Core.csproj", "{8DC6A983-DC45-43DD-924B-2AFD6AAB6360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.ObjectStorage.Core", "src\ObjectStorage\Carcass.ObjectStorage.Core\Carcass.ObjectStorage.Core.csproj", "{8DC6A983-DC45-43DD-924B-2AFD6AAB6360}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.ObjectStorage.Minio", "Sources\ObjectStorage\Carcass.ObjectStorage.Minio\Carcass.ObjectStorage.Minio.csproj", "{18996C4D-6FC3-4E43-8DAD-8F1C099F8BDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.ObjectStorage.Minio", "src\ObjectStorage\Carcass.ObjectStorage.Minio\Carcass.ObjectStorage.Minio.csproj", "{18996C4D-6FC3-4E43-8DAD-8F1C099F8BDC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mapping.AutoMapper", "Sources\Mapping\Carcass.Mapping.AutoMapper\Carcass.Mapping.AutoMapper.csproj", "{E53167E1-B2A1-430C-8D58-95E23667E375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mapping.AutoMapper", "src\Mapping\Carcass.Mapping.AutoMapper\Carcass.Mapping.AutoMapper.csproj", "{E53167E1-B2A1-430C-8D58-95E23667E375}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.NewtonsoftJson", "Sources\Json\Carcass.Json.NewtonsoftJson\Carcass.Json.NewtonsoftJson.csproj", "{9F922320-1DE3-4CA9-AB99-DD746815BDE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.NewtonsoftJson", "src\Json\Carcass.Json.NewtonsoftJson\Carcass.Json.NewtonsoftJson.csproj", "{9F922320-1DE3-4CA9-AB99-DD746815BDE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{61A68D24-DE33-43E5-BCA7-070959981130}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.Core", "Sources\Data\Carcass.Data.Core\Carcass.Data.Core.csproj", "{6EB549A0-E282-4E6E-9E76-F3BE390CA424}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.Core", "src\Data\Carcass.Data.Core\Carcass.Data.Core.csproj", "{6EB549A0-E282-4E6E-9E76-F3BE390CA424}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.EntityFrameworkCore", "Sources\Data\Carcass.Data.EntityFrameworkCore\Carcass.Data.EntityFrameworkCore.csproj", "{CAE448C0-5C3B-4B1E-94F4-39C0D35117A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.EntityFrameworkCore", "src\Data\Carcass.Data.EntityFrameworkCore\Carcass.Data.EntityFrameworkCore.csproj", "{CAE448C0-5C3B-4B1E-94F4-39C0D35117A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.Elasticsearch", "Sources\Data\Carcass.Data.Elasticsearch\Carcass.Data.Elasticsearch.csproj", "{A986820E-C54E-4F52-A4F2-43EF3AD91294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.Elasticsearch", "src\Data\Carcass.Data.Elasticsearch\Carcass.Data.Elasticsearch.csproj", "{A986820E-C54E-4F52-A4F2-43EF3AD91294}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.MongoDb", "Sources\Data\Carcass.Data.MongoDb\Carcass.Data.MongoDb.csproj", "{BBDB1DDA-17BA-48AA-8637-EB0D9D1C96C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.MongoDb", "src\Data\Carcass.Data.MongoDb\Carcass.Data.MongoDb.csproj", "{BBDB1DDA-17BA-48AA-8637-EB0D9D1C96C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mvc", "Mvc", "{DEC18F60-6B58-4B88-98D7-CCB9437FD306}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mvc.Core", "Sources\Mvc\Carcass.Mvc.Core\Carcass.Mvc.Core.csproj", "{95F9D04B-C8ED-4163-9CD2-27A7555BDBB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mvc.Core", "src\Mvc\Carcass.Mvc.Core\Carcass.Mvc.Core.csproj", "{95F9D04B-C8ED-4163-9CD2-27A7555BDBB1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.DistributedCache.Redis", "Sources\DistributedCache\Carcass.DistributedCache.Redis\Carcass.DistributedCache.Redis.csproj", "{F07B0C25-C70E-43FA-BD8C-662AA68BA02D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.DistributedCache.Redis", "src\DistributedCache\Carcass.DistributedCache.Redis\Carcass.DistributedCache.Redis.csproj", "{F07B0C25-C70E-43FA-BD8C-662AA68BA02D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Swashbuckle", "Sources\Carcass.Swashbuckle\Carcass.Swashbuckle.csproj", "{4318D94B-243B-47C0-A843-93665D9F9003}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Swashbuckle", "src\Carcass.Swashbuckle\Carcass.Swashbuckle.csproj", "{4318D94B-243B-47C0-A843-93665D9F9003}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Logging.Core", "Sources\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj", "{C83F2A4C-5D56-411C-9072-4805C5C9676D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Logging.Core", "src\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj", "{C83F2A4C-5D56-411C-9072-4805C5C9676D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{277FA4E1-173B-4B11-A1CA-4CDC2B38920E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.Core", "Sources\Json\Carcass.Json.Core\Carcass.Json.Core.csproj", "{76D0298D-1D15-49EE-9199-4A79DDF1F9D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.Core", "src\Json\Carcass.Json.Core\Carcass.Json.Core.csproj", "{76D0298D-1D15-49EE-9199-4A79DDF1F9D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mapping", "Mapping", "{2283C9FC-F5C0-426A-9AEF-3B598DB2EB5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mapping.Core", "Sources\Mapping\Carcass.Mapping.Core\Carcass.Mapping.Core.csproj", "{938FD902-8C1D-47FB-8EC6-C32D2CD5C058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mapping.Core", "src\Mapping\Carcass.Mapping.Core\Carcass.Mapping.Core.csproj", "{938FD902-8C1D-47FB-8EC6-C32D2CD5C058}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.SystemTextJson", "Sources\Json\Carcass.Json.SystemTextJson\Carcass.Json.SystemTextJson.csproj", "{0F2CA50F-61ED-412F-9E82-C46440DB4421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Json.SystemTextJson", "src\Json\Carcass.Json.SystemTextJson\Carcass.Json.SystemTextJson.csproj", "{0F2CA50F-61ED-412F-9E82-C46440DB4421}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Multitenancy.Core", "Sources\Multitenancy\Carcass.Multitenancy.Core\Carcass.Multitenancy.Core.csproj", "{5A8C4EDE-6085-47B1-A502-31FCEB2E19FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Multitenancy.Core", "src\Multitenancy\Carcass.Multitenancy.Core\Carcass.Multitenancy.Core.csproj", "{5A8C4EDE-6085-47B1-A502-31FCEB2E19FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yaml", "Yaml", "{83DD4D69-AAE2-4F4A-948D-08D5517D2473}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Yaml.Core", "Sources\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj", "{832A9F9F-53CB-4CED-A869-9DA1E91E27F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Yaml.Core", "src\Yaml\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj", "{832A9F9F-53CB-4CED-A869-9DA1E91E27F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Yaml.YamlDotNet", "Sources\Yaml\Carcass.Yaml.YamlDotNet\Carcass.Yaml.YamlDotNet.csproj", "{DABE2913-C88E-4F2A-B1E7-845F65A5F26D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Yaml.YamlDotNet", "src\Yaml\Carcass.Yaml.YamlDotNet\Carcass.Yaml.YamlDotNet.csproj", "{DABE2913-C88E-4F2A-B1E7-845F65A5F26D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontMatter", "FrontMatter", "{89F3DC47-016D-483E-AA92-5384DFCBC76D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Core", "Sources\FrontMatter\Carcass.FrontMatter.Core\Carcass.FrontMatter.Core.csproj", "{5566C0DB-EFB4-4F3A-BD1D-8687CDAEB622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Core", "src\FrontMatter\Carcass.FrontMatter.Core\Carcass.FrontMatter.Core.csproj", "{5566C0DB-EFB4-4F3A-BD1D-8687CDAEB622}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Razor", "Sources\FrontMatter\Carcass.FrontMatter.Razor\Carcass.FrontMatter.Razor.csproj", "{5B1E46BF-FE30-47A6-A377-0D5DA39DE621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Razor", "src\FrontMatter\Carcass.FrontMatter.Razor\Carcass.FrontMatter.Razor.csproj", "{5B1E46BF-FE30-47A6-A377-0D5DA39DE621}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Markdown", "Sources\FrontMatter\Carcass.FrontMatter.Markdown\Carcass.FrontMatter.Markdown.csproj", "{BA8FB879-B461-49B2-A301-69F06C79583D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.FrontMatter.Markdown", "src\FrontMatter\Carcass.FrontMatter.Markdown\Carcass.FrontMatter.Markdown.csproj", "{BA8FB879-B461-49B2-A301-69F06C79583D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cli", "Cli", "{88E3F1CC-6985-42CE-BDFE-E45AA0FF5D98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Cli.Logging.Core", "Sources\Cli\Logging\Carcass.Cli.Logging.Core\Carcass.Cli.Logging.Core.csproj", "{DA11D967-5980-469C-B650-FD3FEE0E1E57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Cli.Logging.Core", "src\Cli\Logging\Carcass.Cli.Logging.Core\Carcass.Cli.Logging.Core.csproj", "{DA11D967-5980-469C-B650-FD3FEE0E1E57}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{B8FE1568-F04F-4446-8255-EF979AB8FD7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Cli.Logging.Spectre", "Sources\Cli\Logging\Carcass.Cli.Logging.Spectre\Carcass.Cli.Logging.Spectre.csproj", "{9E5A49F8-8001-4475-AE1F-178EC0DB64EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Cli.Logging.Spectre", "src\Cli\Logging\Carcass.Cli.Logging.Spectre\Carcass.Cli.Logging.Spectre.csproj", "{9E5A49F8-8001-4475-AE1F-178EC0DB64EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mvc.Razor.Rendering", "Sources\Mvc\Razor\Carcass.Mvc.Razor.Rendering\Carcass.Mvc.Razor.Rendering.csproj", "{75059CB0-28EE-424F-81D2-C384A3BFF987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Mvc.Razor.Rendering", "src\Mvc\Razor\Carcass.Mvc.Razor.Rendering\Carcass.Mvc.Razor.Rendering.csproj", "{75059CB0-28EE-424F-81D2-C384A3BFF987}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DistributedCache", "DistributedCache", "{0E4B5A26-AF8A-486E-B99C-E3D5B7D0D14C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.DistributedCache.Core", "Sources\DistributedCache\Carcass.DistributedCache.Core\Carcass.DistributedCache.Core.csproj", "{E696139E-743B-4603-9EF7-09784F7ECA8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.DistributedCache.Core", "src\DistributedCache\Carcass.DistributedCache.Core\Carcass.DistributedCache.Core.csproj", "{E696139E-743B-4603-9EF7-09784F7ECA8A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Razor", "Razor", "{704F4F7C-3A59-4A22-AE64-86A8FB5D7728}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.EventStoreDb", "Sources\Data\Carcass.Data.EventStoreDb\Carcass.Data.EventStoreDb.csproj", "{6B02D698-349A-46D5-9309-04AD8D879957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Data.EventStoreDb", "src\Data\Carcass.Data.EventStoreDb\Carcass.Data.EventStoreDb.csproj", "{6B02D698-349A-46D5-9309-04AD8D879957}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Multitenancy", "Multitenancy", "{9378839E-8B73-4169-9FEC-ACE3D80DED93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Metadata", "Sources\Carcass.Metadata\Carcass.Metadata.csproj", "{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Metadata", "src\Carcass.Metadata\Carcass.Metadata.csproj", "{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
