@@ -1,13 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Authors>Serhii Kokhan</Authors>
     <Description>Domain-Driven Design, CQRS and Event Sourcing implementation based on EntityFramework Core.</Description>
-    <Copyright>© 2022 Serhii Kokhan</Copyright>
     <PackageTags>carcass, data, ddd, cqrs, eventsourcing, efcore</PackageTags>
   </PropertyGroup>
 
