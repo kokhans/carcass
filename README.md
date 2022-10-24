@@ -32,117 +32,61 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 
 ## Packages
 
-### Core
+- [Carcass.Core](https://www.nuget.org/packages/Carcass.Core) - Core abstactions, interfaces and types used by Carcass.* libraries.
 
-Core abstactions, interfaces and types used by Carcass.* libraries.
+- [Carcass.Metadata](https://www.nuget.org/packages/Carcass.Core) - Metadata toolchain.
 
-### Metadata
+- [Carcass.Swashbuckle](https://www.nuget.org/packages/Carcass.Swashbuckle) - Swashbuckle toolchain.
 
-Metadata toolchain.
+- [Carcass.Cli.Logging.Core](https://www.nuget.org/packages/Carcass.Cli.Logging.Core) - CLI logging core abstactions, interfaces and types used by Carcass.Cli.Logging.* libraries.
 
-### Swashbuckle
+- [Carcass.Cli.Logging.Spectre](https://www.nuget.org/packages/Carcass.Cli.Logging.Spectre) - CLI logger implementation based on Spectre.Console.
 
-Swashbuckle toolchain.
+- [Carcass.Data.Core](https://www.nuget.org/packages/Carcass.Data.Core) - Domain-Driven Design, CQRS and Event Sourcing core abstactions, interfaces and types used by Carcass.Data.* libraries.
 
-### Cli.Logging.Core
+- [Carcass.Data.Elasticsearch](https://www.nuget.org/packages/Carcass.Data.Elasticsearch) - Domain-Driven Design, CQRS and Event Sourcing implementation based on Elasticsearch.
 
-CLI logging core abstactions, interfaces and types used by Carcass.Cli.Logging.* libraries.
+- [Carcass.Data.EntityFrameworkCore](https://www.nuget.org/packages/Carcass.Data.EntityFrameworkCore) - Domain-Driven Design, CQRS and Event Sourcing implementation based on EntityFramework Core.
 
-### Cli.Logging.Spectre
+- [Carcass.Data.EventStoreDb](https://www.nuget.org/packages/Carcass.Data.EventStoreDb) - Domain-Driven Design, CQRS and Event Sourcing implementation based on EventStoreDB.
 
-CLI logger implementation based on Spectre.Console.
+- [Carcass.Data.MongoDb](https://www.nuget.org/packages/Carcass.Data.MongoDb) - Domain-Driven Design, CQRS and Event Sourcing implementation based on MongoDB.
 
-### Data.Core
+- [Carcass.DistributedCache.Core](https://www.nuget.org/packages/Carcass.DistributedCache.Core) - Distributed cache core abstactions, interfaces and types used by Carcass.DistributedCache.* libraries.
 
-Domain-Driven Design, CQRS and Event Sourcing core abstactions, interfaces and types used by Carcass.Data.* libraries.
+- [Carcass.DistributedCache.Redis](https://www.nuget.org/packages/Carcass.DistributedCache.Redis) - Redis distributed cache provider implementation based on Microsoft.Extensions.Caching.Redis.
 
-### Data.Elasticsearch
+- [Carcass.FrontMatter.Core](https://www.nuget.org/packages/Carcass.FrontMatter.Core) - Front matter core abstactions, interfaces and types used by Carcass.FrontMatter.* libraries.
 
-Domain-Driven Design, CQRS and Event Sourcing implementation based on Elasticsearch.
+- [Carcass.FrontMatter.Markdown](https://www.nuget.org/packages/Carcass.FrontMatter.Markdown) - Markdown front matter parser implementation based on Markdig.
 
-### Data.EntityFrameworkCore
+- [Carcass.FrontMatter.Razor](https://www.nuget.org/packages/Carcass.FrontMatter.Razor) - Razor front matter parser implementation.
 
-Domain-Driven Design, CQRS and Event Sourcing implementation based on EntityFramework Core.
+- [Carcass.Json.Core](https://www.nuget.org/packages/Carcass.Json.Core) - JSON core abstactions, interfaces and types used by Carcass.Json.* libraries.
 
-### Data.EventStoreDb
+- [Carcass.Json.NewtonsoftJson](https://www.nuget.org/packages/Carcass.Json.NewtonsoftJson) - JSON provider implementation based on Newtonsoft.Json.
 
-Domain-Driven Design, CQRS and Event Sourcing implementation based on EventStoreDB.
+- [Carcass.Json.SystemTextJson](https://www.nuget.org/packages/Carcass.Json.SystemTextJson) - JSON provider implementation based on System.Text.Json.
 
-### Data.MongoDb
+- [Carcass.Logging.Core](https://www.nuget.org/packages/Carcass.Logging.Core) - Logging core abstactions, interfaces and types used by Carcass.Logging.* libraries.
 
-Domain-Driven Design, CQRS and Event Sourcing implementation based on MongoDB.
+- [Carcass.Mapping.Core](https://www.nuget.org/packages/Carcass.Mapping.Core) - Mapping core abstactions, interfaces and types used by Carcass.Mapping.* libraries.
 
-### DistributedCache.Core
+- [Carcass.Mapping.AutoMapper](https://www.nuget.org/packages/Carcass.Mapping.AutoMapper) - Mapper provider implementation based on AutoMapper.
 
-Distributed cache core abstactions, interfaces and types used by Carcass.DistributedCache.* libraries.
+- [Carcass.Multitenancy.Core](https://www.nuget.org/packages/Carcass.Multitenancy.Core) - Multitenancy core abstactions, interfaces and types used by Carcass.Multitenancy.* libraries.
 
-### DistributedCache.Redis
+- [Carcass.Mvc.Core](https://www.nuget.org/packages/Carcass.Mvc.Core) - MVC core abstactions, interfaces and types used by Carcass.Mvc.* libraries.
 
-Redis distributed cache provider implementation based on Microsoft.Extensions.Caching.Redis.
+- [Carcass.Mvc.Razor.Rendering](https://www.nuget.org/packages/Carcass.Mvc.Razor.Rendering) - Razor view renderer.
 
-### FrontMatter.Core
+- [Carcass.ObjectStorage.Core](https://www.nuget.org/packages/Carcass.ObjectStorage.Core) - Object storage core abstactions, interfaces and types used by Carcass.ObjectStorage.* libraries.
 
-Front matter core abstactions, interfaces and types used by Carcass.FrontMatter.* libraries.
+- [Carcass.ObjectStorage.Minio](https://www.nuget.org/packages/Carcass.ObjectStorage.Minio) - Object storage provider implementation based on Minio.
 
-### FrontMatter.Markdown
+- [Carcass.Yaml.Core](https://www.nuget.org/packages/Carcass.Yaml.Core) - YAML core abstactions, interfaces and types used by Carcass.Yaml.* libraries.
 
-Markdown front matter parser implementation based on Markdig.
-
-### FrontMatter.Razor
-
-Razor front matter parser implementation.
-
-### Json.Core
-
-JSON core abstactions, interfaces and types used by Carcass.Json.* libraries.
-
-### Json.NewtonsoftJson
-
-JSON provider implementation based on Newtonsoft.Json.
-
-### Json.SystemTextJson
-
-JSON provider implementation based on System.Text.Json.
-
-### Logging.Core
-
-Logging core abstactions, interfaces and types used by Carcass.Logging.* libraries.
-
-### Mapping.Core
-
-Mapping core abstactions, interfaces and types used by Carcass.Mapping.* libraries.
-
-### Mapping.AutoMapper
-
-Mapper provider implementation based on AutoMapper.
-
-### Multitenancy.Core
-
-Multitenancy core abstactions, interfaces and types used by Carcass.Multitenancy.* libraries.
-
-### Mvc.Core
-
-MVC core abstactions, interfaces and types used by Carcass.Mvc.* libraries.
-
-### Mvc.Razor.Rendering
-
-Razor view renderer.
-
-### ObjectStorage.Core
-
-Object storage core abstactions, interfaces and types used by Carcass.ObjectStorage.* libraries.
-
-### ObjectStorage.Minio
-
-Object storage provider implementation based on Minio.
-
-### Yaml.Core
-
-YAML core abstactions, interfaces and types used by Carcass.Yaml.* libraries.
-
-### Yaml.DotNetYaml
-
-YAML provider implementation based on YamlDotNet.
+- [Carcass.Yaml.DotNetYaml](https://www.nuget.org/packages/Carcass.Yaml.DotNetYaml) - YAML provider implementation based on YamlDotNet.
 
 ## License
 
