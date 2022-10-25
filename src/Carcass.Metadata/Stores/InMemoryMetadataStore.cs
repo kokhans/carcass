@@ -53,7 +53,7 @@ public sealed class InMemoryMetadataStore : IMetadataStore
 
         ArgumentVerifier.NotNull(key, nameof(key));
 
-        _metadata.Remove(key, out _);
+        _metadata.TryRemove(key, out _);
 
         return Task.CompletedTask;
     }

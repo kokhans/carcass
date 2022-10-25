@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <Description>CLI logging core abstactions, interfaces and types used by Carcass.Cli.Logging.* libraries.</Description>
-    <PackageTags>carcass, cli, logging</PackageTags>
-  </PropertyGroup>
-
-</Project>
