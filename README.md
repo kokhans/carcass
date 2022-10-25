@@ -21,7 +21,6 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - Distributed Cache
 - Microservices
 - Audit Logging
-- Object Storage
 
 ## Getting Started
 
@@ -38,10 +37,6 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 
 - [Carcass.Swashbuckle](https://www.nuget.org/packages/Carcass.Swashbuckle) - Swashbuckle toolchain.
 
-- [Carcass.Cli.Logging.Core](https://www.nuget.org/packages/Carcass.Cli.Logging.Core) - CLI logging core abstactions, interfaces and types used by Carcass.Cli.Logging.* libraries.
-
-- [Carcass.Cli.Logging.Spectre](https://www.nuget.org/packages/Carcass.Cli.Logging.Spectre) - CLI logger implementation based on Spectre.Console.
-
 - [Carcass.Data.Core](https://www.nuget.org/packages/Carcass.Data.Core) - Domain-Driven Design, CQRS and Event Sourcing core abstactions, interfaces and types used by Carcass.Data.* libraries.
 
 - [Carcass.Data.Elasticsearch](https://www.nuget.org/packages/Carcass.Data.Elasticsearch) - Domain-Driven Design, CQRS and Event Sourcing implementation based on Elasticsearch.
@@ -55,12 +50,6 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - [Carcass.DistributedCache.Core](https://www.nuget.org/packages/Carcass.DistributedCache.Core) - Distributed cache core abstactions, interfaces and types used by Carcass.DistributedCache.* libraries.
 
 - [Carcass.DistributedCache.Redis](https://www.nuget.org/packages/Carcass.DistributedCache.Redis) - Redis distributed cache provider implementation based on Microsoft.Extensions.Caching.Redis.
-
-- [Carcass.FrontMatter.Core](https://www.nuget.org/packages/Carcass.FrontMatter.Core) - Front matter core abstactions, interfaces and types used by Carcass.FrontMatter.* libraries.
-
-- [Carcass.FrontMatter.Markdown](https://www.nuget.org/packages/Carcass.FrontMatter.Markdown) - Markdown front matter parser implementation based on Markdig.
-
-- [Carcass.FrontMatter.Razor](https://www.nuget.org/packages/Carcass.FrontMatter.Razor) - Razor front matter parser implementation.
 
 - [Carcass.Json.Core](https://www.nuget.org/packages/Carcass.Json.Core) - JSON core abstactions, interfaces and types used by Carcass.Json.* libraries.
 
@@ -77,12 +66,6 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - [Carcass.Multitenancy.Core](https://www.nuget.org/packages/Carcass.Multitenancy.Core) - Multitenancy core abstactions, interfaces and types used by Carcass.Multitenancy.* libraries.
 
 - [Carcass.Mvc.Core](https://www.nuget.org/packages/Carcass.Mvc.Core) - MVC core abstactions, interfaces and types used by Carcass.Mvc.* libraries.
-
-- [Carcass.Mvc.Razor.Rendering](https://www.nuget.org/packages/Carcass.Mvc.Razor.Rendering) - Razor view renderer.
-
-- [Carcass.ObjectStorage.Core](https://www.nuget.org/packages/Carcass.ObjectStorage.Core) - Object storage core abstactions, interfaces and types used by Carcass.ObjectStorage.* libraries.
-
-- [Carcass.ObjectStorage.Minio](https://www.nuget.org/packages/Carcass.ObjectStorage.Minio) - Object storage provider implementation based on Minio.
 
 - [Carcass.Yaml.Core](https://www.nuget.org/packages/Carcass.Yaml.Core) - YAML core abstactions, interfaces and types used by Carcass.Yaml.* libraries.
 

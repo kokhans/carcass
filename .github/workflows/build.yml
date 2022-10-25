@@ -1,0 +1,27 @@
+﻿name: Build
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install .NET Core SDK 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Build Solution
+        run: dotnet build -c Release --nologo
+
+      - name: Run Tests
+        run: dotnet test --no-restore --nologo

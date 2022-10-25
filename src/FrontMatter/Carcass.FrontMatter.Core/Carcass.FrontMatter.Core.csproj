@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <Description>Front matter core abstactions, interfaces and types used by Carcass.FrontMatter.* libraries.</Description>
-    <PackageTags>carcass, frontmatter</PackageTags>
-  </PropertyGroup>
-
-</Project>
