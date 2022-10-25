@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -19,3 +19,6 @@ jobs:
 
       - name: Pack NuGet
         run: dotnet pack -c Release -p:PackageVersion=${{ github.ref_name }} -o ./artifacts/nupkgs --nologo
+
+      - name: Push NuGet
+        run: dotnet nuget push './artifacts/nupkgs/*.nupkg' -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate
