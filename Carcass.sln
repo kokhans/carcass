@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Multitenancy", "Multitenanc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.Metadata", "src\Carcass.Metadata\Carcass.Metadata.csproj", "{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carcass.SignalR", "src\Carcass.SignalR\Carcass.SignalR.csproj", "{DD2872BC-4313-4DD1-A9DA-214E7819ED69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2872BC-4313-4DD1-A9DA-214E7819ED69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2872BC-4313-4DD1-A9DA-214E7819ED69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2872BC-4313-4DD1-A9DA-214E7819ED69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2872BC-4313-4DD1-A9DA-214E7819ED69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +195,7 @@ Global
 		{6B02D698-349A-46D5-9309-04AD8D879957} = {61A68D24-DE33-43E5-BCA7-070959981130}
 		{9378839E-8B73-4169-9FEC-ACE3D80DED93} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
 		{3E263E9A-7C5C-4450-9C3E-4A1EF75A54CE} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
+		{DD2872BC-4313-4DD1-A9DA-214E7819ED69} = {BF512DA8-458F-47D7-B69C-2B9AEB65131E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17270BF5-EC0A-4530-AABB-2473823DBA7B}

@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj" />
-    <ProjectReference Include="..\Mvc\Carcass.Mvc.Core\Carcass.Mvc.Core.csproj" />
   </ItemGroup>
 
 </Project>

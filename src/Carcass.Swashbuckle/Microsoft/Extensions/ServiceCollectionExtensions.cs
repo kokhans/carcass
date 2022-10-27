@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Mvc.Core;
 using Carcass.Swashbuckle.Exclude;
 using Carcass.Swashbuckle.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 // ReSharper disable CheckNamespace
 
@@ -36,7 +36,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCarcassSwashbuckle(
         this IServiceCollection services,
-        IConfiguration configuration
+        IConfiguration configuration,
+        Action<SwaggerGenOptions>? configure
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
@@ -61,32 +62,7 @@ public static class ServiceCollectionExtensions
                         }
                     );
                     sgo.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
-                    sgo.AddSecurityDefinition(
-                        AuthenticationSchema.Bearer,
-                        new OpenApiSecurityScheme
-                        {
-                            Description = $"JWT authorization header using the {AuthenticationSchema.Bearer} scheme.",
-                            Name = "Authorization",
-                            In = ParameterLocation.Header,
-                            Type = SecuritySchemeType.ApiKey,
-                            Scheme = AuthenticationSchema.Bearer
-                        }
-                    );
-                    sgo.AddSecurityRequirement(new OpenApiSecurityRequirement
-                        {
-                            {
-                                new OpenApiSecurityScheme
-                                {
-                                    Reference = new OpenApiReference
-                                    {
-                                        Type = ReferenceType.SecurityScheme,
-                                        Id = AuthenticationSchema.Bearer
-                                    }
-                                },
-                                new List<string>()
-                            }
-                        }
-                    );
+                    configure?.Invoke(sgo);
                 }
             ).AddSwaggerGenNewtonsoftSupport();
     }
