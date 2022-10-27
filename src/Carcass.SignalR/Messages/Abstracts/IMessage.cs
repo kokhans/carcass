@@ -20,14 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.ComponentModel.DataAnnotations;
+namespace Carcass.SignalR.Messages.Abstracts;
 
-#pragma warning disable CS8618
-
-namespace Carcass.Swashbuckle.Options;
-
-public sealed class SwashbuckleOptions
+public interface IMessage
 {
-    [Required] public string Name { get; set; }
-    [Required] public string Version { get; set; }
 }

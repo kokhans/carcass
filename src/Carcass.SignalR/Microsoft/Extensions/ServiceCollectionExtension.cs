@@ -21,39 +21,37 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Core.Accessors.UserId.Abstracts;
-using Carcass.Mvc.Core.Accessors.UserId;
-using Carcass.Mvc.Core.Accessors.UserId.Abstracts;
-using Carcass.Mvc.Core.Providers.UserId;
-using Carcass.Mvc.Core.Providers.UserId.Abstracts;
-using Carcass.Mvc.Core.Settings;
+using Carcass.SignalR.Dispatchers;
+using Carcass.SignalR.Dispatchers.Abstracts;
+using Carcass.SignalR.Publishers.Abstracts;
+using Microsoft.Extensions.DependencyInjection;
 
-// ReSharper disable CheckNamespace
+namespace Carcass.SignalR.Microsoft.Extensions;
 
-namespace Microsoft.Extensions.DependencyInjection;
-
-public static class ServiceCollectionExtensions
+public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddCarcassHttpUserIdentityProvider(
-        this IServiceCollection services,
-        HttpUserIdentityProviderSettings settings
+    public static IServiceCollection AddCarcassSignalRPublisher<TPublisher>(
+        this IServiceCollection services
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
-        ArgumentVerifier.NotNull(settings, nameof(settings));
 
-        return services
-            .AddSingleton(settings)
-            .AddSingleton<IHttpUserIdentityProviderFactory, HttpUserIdentityProviderFactory>()
-            .AddSingleton<IHttpUserIdentityProvider, HttpUserIdentityProvider>();
+        Type publisherType = typeof(TPublisher);
+        Type hubPublisherType = typeof(HubPublisher<,>);
+        if (publisherType.BaseType is not { IsGenericType: true } ||
+            publisherType.BaseType.GetGenericTypeDefinition() != hubPublisherType)
+            throw new ArgumentException(
+                $"{publisherType.FullName} should implement {hubPublisherType.FullName}.");
+
+        services.AddSingleton(publisherType.BaseType, publisherType);
+
+        return services;
     }
 
-    public static IServiceCollection AddCarcassHttpUserIdAccessor(this IServiceCollection services)
+    public static IServiceCollection AddCarcassInMemoryMessageDispatcher(this IServiceCollection services)
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services
-            .AddSingleton<IUserIdAccessor, HttpUserIdAccessor>()
-            .AddSingleton<IHttpUserIdAccessor, HttpUserIdAccessor>();
+        return services.AddSingleton<IMessageDispatcher, InMemoryMessageDispatcher>();
     }
 }

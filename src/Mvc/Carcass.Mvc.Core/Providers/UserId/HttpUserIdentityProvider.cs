@@ -25,8 +25,7 @@ using Carcass.Logging.Core.Adapters;
 using Carcass.Logging.Core.Adapters.Abstracts;
 using Carcass.Mvc.Core.Extensions;
 using Carcass.Mvc.Core.Providers.UserId.Abstracts;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
+using Carcass.Mvc.Core.Settings;
 using Microsoft.AspNetCore.Http;
 
 namespace Carcass.Mvc.Core.Providers.UserId;
@@ -34,43 +33,25 @@ namespace Carcass.Mvc.Core.Providers.UserId;
 public sealed class HttpUserIdentityProvider : IHttpUserIdentityProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly HttpUserIdentityProviderSettings _settings;
     private readonly LoggerAdapter<HttpUserIdentityProvider> _loggerAdapter;
 
     public HttpUserIdentityProvider(
         ILoggerAdapterFactory loggerAdapterFactory,
-        IHttpContextAccessor httpContextAccessor
+        IHttpContextAccessor httpContextAccessor,
+        HttpUserIdentityProviderSettings settings
     )
     {
         ArgumentVerifier.NotNull(loggerAdapterFactory, nameof(loggerAdapterFactory));
         ArgumentVerifier.NotNull(httpContextAccessor, nameof(httpContextAccessor));
+        ArgumentVerifier.NotNull(settings, nameof(settings));
 
-        _loggerAdapter = loggerAdapterFactory.CreateLoggerAdapter<HttpUserIdentityProvider>();
         _httpContextAccessor = httpContextAccessor;
+        _settings = settings;
+        _loggerAdapter = loggerAdapterFactory.CreateLoggerAdapter<HttpUserIdentityProvider>();
     }
 
-    public string? TryGetUserId() => TryGet(JwtClaimTypes.Subject);
-
-    public string? TryGetUserName() => TryGet(JwtClaimTypes.PreferredUserName);
-
-    public string? TryGetUserEmail() => TryGet(JwtClaimTypes.Email);
-
-    public string? TryGetUserPhoneNumber() => TryGet(JwtClaimTypes.PhoneNumber);
-
-    public async Task<string?> GetTokenAsync(
-        string schema = AuthenticationSchema.Bearer,
-        string tokenName = Token.AccessToken,
-        CancellationToken cancellationToken = default
-    )
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        ArgumentVerifier.NotNull(schema, nameof(schema));
-        ArgumentVerifier.NotNull(tokenName, nameof(tokenName));
-
-        return _httpContextAccessor.HttpContext is not null
-            ? await _httpContextAccessor.HttpContext.GetTokenAsync(schema, tokenName)
-            : null;
-    }
+    public string? TryGetUserId() => TryGet(_settings.UserIdClaim);
 
     private string? TryGet(string claimType)
     {

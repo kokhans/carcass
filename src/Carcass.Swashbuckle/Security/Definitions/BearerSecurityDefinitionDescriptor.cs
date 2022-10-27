@@ -20,14 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.ComponentModel.DataAnnotations;
+using Carcass.Core;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-#pragma warning disable CS8618
+namespace Carcass.Swashbuckle.Security.Definitions;
 
-namespace Carcass.Swashbuckle.Options;
-
-public sealed class SwashbuckleOptions
+public static class BearerSecurityDefinitionDescriptor
 {
-    [Required] public string Name { get; set; }
-    [Required] public string Version { get; set; }
+    public static void AddBearerAuthenticationDefinition(this SwaggerGenOptions swaggerOptions)
+    {
+        ArgumentVerifier.NotNull(swaggerOptions, nameof(swaggerOptions));
+
+        swaggerOptions.AddSecurityDefinition(
+            "Bearer",
+            new OpenApiSecurityScheme
+            {
+                Description = "Bearer authentication.",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            }
+        );
+    }
 }

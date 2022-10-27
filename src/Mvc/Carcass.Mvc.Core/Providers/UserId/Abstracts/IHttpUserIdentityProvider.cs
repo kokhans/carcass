@@ -25,13 +25,4 @@ namespace Carcass.Mvc.Core.Providers.UserId.Abstracts;
 public interface IHttpUserIdentityProvider
 {
     string? TryGetUserId();
-    string? TryGetUserName();
-    string? TryGetUserEmail();
-    string? TryGetUserPhoneNumber();
-
-    Task<string?> GetTokenAsync(
-        string schema = AuthenticationSchema.Bearer,
-        string tokenName = Token.AccessToken,
-        CancellationToken cancellationToken = default
-    );
 }

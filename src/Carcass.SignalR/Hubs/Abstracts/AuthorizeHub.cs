@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Mvc.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
-public static class Token
+namespace Carcass.SignalR.Hubs.Abstracts;
+
+[Authorize]
+public abstract class AuthorizeHub : Hub
 {
-    public const string AccessToken = "access_token";
 }

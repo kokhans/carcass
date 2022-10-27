@@ -20,14 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.ComponentModel.DataAnnotations;
+using Carcass.SignalR.Hubs.Abstracts;
+using Carcass.SignalR.Messages.Abstracts;
 
-#pragma warning disable CS8618
+namespace Carcass.SignalR.Dispatchers.Abstracts;
 
-namespace Carcass.Swashbuckle.Options;
-
-public sealed class SwashbuckleOptions
+public interface IMessageDispatcher
 {
-    [Required] public string Name { get; set; }
-    [Required] public string Version { get; set; }
+    Task DispatchAsync<THub, TMessage>(
+        TMessage message,
+        CancellationToken cancellationToken = default
+    )
+        where THub : AuthorizeHub
+        where TMessage : class, IMessage;
 }

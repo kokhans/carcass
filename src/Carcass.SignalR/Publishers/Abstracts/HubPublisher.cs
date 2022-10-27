@@ -20,9 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Carcass.Mvc.Core;
+using Carcass.Core;
+using Carcass.SignalR.Hubs.Abstracts;
+using Carcass.SignalR.Messages.Abstracts;
+using Microsoft.AspNetCore.SignalR;
 
-public static class AuthenticationSchema
+namespace Carcass.SignalR.Publishers.Abstracts;
+
+public abstract class HubPublisher<THub, TMessage>
+    where THub : AuthorizeHub
+    where TMessage : IMessage
 {
-    public const string Bearer = "Bearer";
+    protected readonly IHubContext<THub> HubContext;
+
+    protected HubPublisher(IHubContext<THub> hubContext)
+    {
+        ArgumentVerifier.NotNull(hubContext, nameof(hubContext));
+
+        HubContext = hubContext;
+    }
+
+    public abstract Task SendAsync(TMessage message, CancellationToken cancellationToken = default);
 }
