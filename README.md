@@ -1,6 +1,6 @@
 # Carcass [![GitHub](https://img.shields.io/github/license/kokhans/carcass?style=flat-square)](LICENSE)
 
-Carcass is a free, open-source, community-focused infrastructure framework based on .NET 6 for building modern applications.
+Carcass is a free, open-source, community-focused infrastructure framework based on .NET 7 for building modern applications.
 
 ## Status
 
@@ -26,7 +26,7 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 
 ### Prerequisites
 
-- [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
 
 ## Packages
@@ -34,6 +34,8 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - [Carcass.Core](https://www.nuget.org/packages/Carcass.Core) - Core abstactions, interfaces and types used by Carcass.* libraries.
 
 - [Carcass.Metadata](https://www.nuget.org/packages/Carcass.Core) - Metadata toolchain.
+
+- [Carcass.SignalR](https://www.nuget.org/packages/Carcass.SignalR) - SignalR toolchain.
 
 - [Carcass.Swashbuckle](https://www.nuget.org/packages/Carcass.Swashbuckle) - Swashbuckle toolchain.
 

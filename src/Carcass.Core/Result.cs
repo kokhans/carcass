@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022 Serhii Kokhan
 //
@@ -34,7 +34,7 @@ public sealed class Result<T>
         if (failureException is not null)
         {
             FailureException = failureException;
-            FailureReason = failureException.Message;
+            FailureReason = failureException.GetBaseException().Message;
         }
 
         if (!string.IsNullOrWhiteSpace(failureReason))

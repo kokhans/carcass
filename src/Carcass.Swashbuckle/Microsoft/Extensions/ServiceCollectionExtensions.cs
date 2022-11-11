@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCarcassSwashbuckle(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<SwaggerGenOptions>? configure
+        Action<SwaggerGenOptions>? configure = default
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
