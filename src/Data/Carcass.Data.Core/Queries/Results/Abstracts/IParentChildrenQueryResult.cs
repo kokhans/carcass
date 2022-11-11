@@ -22,9 +22,9 @@
 
 namespace Carcass.Data.Core.Queries.Results.Abstracts;
 
-public interface IParentChildrenQuery<TParentQueryResult> : IQueryResult
+public interface IParentChildrenQueryResult<TParentQueryResult> : IQueryResult
     where TParentQueryResult : class, IQueryResult
 {
-    TParentQueryResult Parent { get; set; }
+    TParentQueryResult? Parent { get; set; }
     bool HasChildren { get; set; }
 }
