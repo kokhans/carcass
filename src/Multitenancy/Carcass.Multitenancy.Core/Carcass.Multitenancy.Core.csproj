@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Multitenancy core abstactions, interfaces and types used by Carcass.Multitenancy.* libraries.</Description>
+    <Description>Multitenancy core abstractions, interfaces, and types used by Carcass.Multitenancy.* libraries.</Description>
     <PackageTags>carcass, multitenancy</PackageTags>
   </PropertyGroup>
 

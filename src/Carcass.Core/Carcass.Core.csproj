@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Core abstactions, interfaces and types used by Carcass.* libraries.</Description>
+    <Description>Core abstractions, interfaces, and types used by Carcass.* libraries.</Description>
     <PackageTags>carcass</PackageTags>
   </PropertyGroup>
 

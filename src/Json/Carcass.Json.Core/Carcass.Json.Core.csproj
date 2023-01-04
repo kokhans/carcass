@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>JSON core abstactions, interfaces and types used by Carcass.Json.* libraries.</Description>
+    <Description>JSON core abstractions, interfaces, and types used by Carcass.Json.* libraries.</Description>
     <PackageTags>carcass, json</PackageTags>
   </PropertyGroup>
 

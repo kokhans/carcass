@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Domain-Driven Design, CQRS and Event Sourcing implementation based on Elasticsearch.</Description>
+    <Description>Domain-Driven Design, CQRS, and Event Sourcing implementation based on Elasticsearch.</Description>
     <PackageTags>carcass, data, ddd, cqrs, eventsourcing, elasticsearch, nest</PackageTags>
   </PropertyGroup>
 
