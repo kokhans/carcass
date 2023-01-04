@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Logging core abstactions, interfaces and types used by Carcass.Logging.* libraries.</Description>
+    <Description>Logging core abstractions, interfaces, and types used by Carcass.Logging.* libraries.</Description>
     <PackageTags>carcass, logging</PackageTags>
   </PropertyGroup>
 

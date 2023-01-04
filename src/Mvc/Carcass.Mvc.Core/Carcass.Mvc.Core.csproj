@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>MVC core abstactions, interfaces and types used by Carcass.Mvc.* libraries.</Description>
+    <Description>MVC core abstractions, interfaces, and types used by Carcass.Mvc.* libraries.</Description>
     <PackageTags>carcass, mvc</PackageTags>
   </PropertyGroup>
 

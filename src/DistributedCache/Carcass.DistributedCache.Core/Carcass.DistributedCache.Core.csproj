@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Distributed cache core abstactions, interfaces and types used by Carcass.DistributedCache.* libraries.</Description>
+    <Description>Distributed cache core abstractions, interfaces, and types used by Carcass.DistributedCache.* libraries.</Description>
     <PackageTags>carcass, distributed, cache, distributedcache</PackageTags>
   </PropertyGroup>
 
