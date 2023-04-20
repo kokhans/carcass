@@ -48,6 +48,7 @@ public sealed class TenantProvider<TTenant> : ITenantProvider<TTenant>
         cancellationToken.ThrowIfCancellationRequested();
 
         string? tenantId = await _tenantResolutionStrategy.GetTenantIdAsync(cancellationToken);
+
         return tenantId is not null
             ? await _tenantStore.LoadTenantAsync(tenantId, cancellationToken)
             : null;

@@ -33,16 +33,18 @@ using Carcass.Data.Core.Snapshotting.Abstracts;
 using Carcass.Data.Core.Snapshotting.Repositories.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.Extensions;
 using Carcass.Data.EventStoreDb.Aggregates.ResolutionStrategies.Extensions;
-using Carcass.Data.EventStoreDb.Conductors.Abstracts;
 using Carcass.Data.EventStoreDb.Extensions;
+using Carcass.Data.EventStoreDb.Options;
 using Carcass.Json.Core.Providers.Abstracts;
 using EventStore.Client;
+using Microsoft.Extensions.Options;
 
 namespace Carcass.Data.EventStoreDb.Aggregates.Repositories;
 
 public sealed class EventStoreDbAggregateRepository : IAggregateRepository
 {
-    private readonly IEventStoreDbConductor _eventStoreDbConductor;
+    private readonly EventStoreClient _eventStoreClient;
+    private readonly IOptions<EventStoreDbOptions> _optionsAccessor;
     private readonly IJsonProvider _jsonProvider;
     private readonly IAggregateNameResolutionStrategy _aggregateNameResolutionStrategy;
     private readonly IDomainEventLocator _domainEventLocator;
@@ -55,7 +57,8 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
         ISnapshotRepository snapshotRepository,
         IDomainEventUpgraderDispatcher domainEventUpgraderDispatcher,
         IDomainEventLocator domainEventLocator,
-        IEventStoreDbConductor eventStoreDbConductor
+        EventStoreClient eventStoreClient,
+        IOptions<EventStoreDbOptions> optionsAccessor
     )
     {
         ArgumentVerifier.NotNull(jsonProvider, nameof(jsonProvider));
@@ -63,14 +66,15 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
         ArgumentVerifier.NotNull(snapshotRepository, nameof(snapshotRepository));
         ArgumentVerifier.NotNull(domainEventUpgraderDispatcher, nameof(domainEventUpgraderDispatcher));
         ArgumentVerifier.NotNull(domainEventLocator, nameof(domainEventLocator));
-        ArgumentVerifier.NotNull(eventStoreDbConductor, nameof(eventStoreDbConductor));
+        ArgumentVerifier.NotNull(eventStoreClient, nameof(eventStoreClient));
 
         _jsonProvider = jsonProvider;
         _aggregateNameResolutionStrategy = aggregateNameResolutionStrategy;
         _snapshotRepository = snapshotRepository;
         _domainEventUpgraderDispatcher = domainEventUpgraderDispatcher;
         _domainEventLocator = domainEventLocator;
-        _eventStoreDbConductor = eventStoreDbConductor;
+        _eventStoreClient = eventStoreClient;
+        _optionsAccessor = optionsAccessor;
     }
 
     public async Task SaveAggregateAsync<TAggregate>(
@@ -96,14 +100,14 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
 
         string aggregateKey = _aggregateNameResolutionStrategy.GetEventStoreDbStreamName(aggregate);
 
-        await _eventStoreDbConductor.Instance.AppendToStreamAsync(
+        await _eventStoreClient.AppendToStreamAsync(
             aggregateKey,
             StreamState.Any,
             history,
             cancellationToken: cancellationToken
         );
 
-        EventStoreClient.ReadStreamResult readStreamResult = _eventStoreDbConductor.Instance.ReadStreamAsync(
+        EventStoreClient.ReadStreamResult readStreamResult = _eventStoreClient.ReadStreamAsync(
             Direction.Backwards,
             aggregateKey,
             StreamPosition.End,
@@ -118,8 +122,8 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
             long lastResolvedEventNumber = resolvedEvents.First().Event.GetEventNumber();
             AggregateVersionAttribute aggregateVersionAttribute =
                 AggregateHelper.GetAggregateVersionAttribute<TAggregate>();
-            long takeSnapshotAfterEventsCount = _eventStoreDbConductor.Options.TakeSnapshotAfterEventsCount;
-            long eventsMaxCount = _eventStoreDbConductor.Options.EventsMaxCount;
+            long takeSnapshotAfterEventsCount = _optionsAccessor.Value.TakeSnapshotAfterEventsCount;
+            long eventsMaxCount = _optionsAccessor.Value.EventsMaxCount;
 
             ISnapshot? snapshot = await _snapshotRepository.LoadSnapshotAsync(aggregateKey, cancellationToken);
             if (
@@ -136,7 +140,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
 
                 if (lastResolvedEventNumber - aggregateFromSnapshot.Version >= takeSnapshotAfterEventsCount)
                 {
-                    TAggregate aggregateForNewSnapshot = await _eventStoreDbConductor.Instance.GetAggregateAsync(
+                    TAggregate aggregateForNewSnapshot = await _eventStoreClient.GetAggregateAsync(
                         _domainEventLocator,
                         _domainEventUpgraderDispatcher,
                         _jsonProvider,
@@ -162,11 +166,11 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
             }
             else if (lastResolvedEventNumber > takeSnapshotAfterEventsCount)
             {
-                TAggregate aggregateForNewSnapshot = await _eventStoreDbConductor.Instance.GetAggregateAsync(
+                TAggregate aggregateForNewSnapshot = await _eventStoreClient.GetAggregateAsync(
                     _domainEventLocator,
                     _domainEventUpgraderDispatcher,
                     _jsonProvider,
-                    new TAggregate {Id = aggregate.Id},
+                    new TAggregate { Id = aggregate.Id },
                     aggregateKey,
                     Direction.Forwards,
                     StreamPosition.Start,
@@ -199,10 +203,10 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
         AggregateVersionAttribute aggregateVersionAttribute =
             AggregateHelper.GetAggregateVersionAttribute<TAggregate>();
         string aggregateKey = _aggregateNameResolutionStrategy.GetEventStoreDbStreamName(aggregate);
-        long takeSnapshotAfterEventsCount = _eventStoreDbConductor.Options.TakeSnapshotAfterEventsCount;
-        long eventsMaxCount = _eventStoreDbConductor.Options.EventsMaxCount;
+        long takeSnapshotAfterEventsCount = _optionsAccessor.Value.TakeSnapshotAfterEventsCount;
+        long eventsMaxCount = _optionsAccessor.Value.EventsMaxCount;
 
-        EventStoreClient.ReadStreamResult latestSlice = _eventStoreDbConductor.Instance.ReadStreamAsync(
+        EventStoreClient.ReadStreamResult latestSlice = _eventStoreClient.ReadStreamAsync(
             Direction.Backwards,
             aggregateKey,
             StreamPosition.End,
@@ -237,7 +241,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
                         if (aggregate.Version == latestResolvedEventNumber)
                             return aggregate;
 
-                        return await _eventStoreDbConductor.Instance.GetAggregateAsync(
+                        return await _eventStoreClient.GetAggregateAsync(
                             _domainEventLocator,
                             _domainEventUpgraderDispatcher,
                             _jsonProvider,
@@ -267,7 +271,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
                         return aggregate;
                     }
 
-                    return await _eventStoreDbConductor.Instance.GetAggregateAsync(
+                    return await _eventStoreClient.GetAggregateAsync(
                         _domainEventLocator,
                         _domainEventUpgraderDispatcher,
                         _jsonProvider,
@@ -280,7 +284,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
                     );
                 }
 
-                return await _eventStoreDbConductor.Instance.GetAggregateAsync(
+                return await _eventStoreClient.GetAggregateAsync(
                     _domainEventLocator,
                     _domainEventUpgraderDispatcher,
                     _jsonProvider,

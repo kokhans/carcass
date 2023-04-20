@@ -24,8 +24,6 @@ using Carcass.Core;
 using Carcass.Data.Core.Checkpoints.Repositories.Abstracts;
 using Carcass.Data.Core.Snapshotting.Repositories.Abstracts;
 using Carcass.Data.MongoDb.Checkpoints.Repositories;
-using Carcass.Data.MongoDb.Conductors;
-using Carcass.Data.MongoDb.Conductors.Abstracts;
 using Carcass.Data.MongoDb.Options;
 using Carcass.Data.MongoDb.Sessions;
 using Carcass.Data.MongoDb.Sessions.Abstracts;
@@ -43,14 +41,16 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassMongoDbConductor(
+    public static IServiceCollection AddCarcassMongoDb(
         this IServiceCollection services,
         IConfiguration configuration,
-        Func<MongoDbOptions, Tuple<MongoClient, IMongoDatabase>>? factory = default,
-        bool reloadOptions = false
+        Func<MongoDbOptions, MongoClient>? mongoClientFactory = default,
+        Func<MongoDbOptions, MongoClient, IMongoDatabase>? mongoDatabaseFactory = default,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
+        ArgumentVerifier.NotNull(configuration, nameof(configuration));
 
         services.Configure<MongoDbOptions>(configuration.GetSection("Carcass:MongoDb"));
 
@@ -60,40 +60,113 @@ public static class ServiceCollectionExtensions
             new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128))
         );
 
-        if (reloadOptions)
-            services.AddSingleton<IMongoDbConductor>(sp => new MongoDbConductor(
-                    sp.GetRequiredService<IOptionsMonitor<MongoDbOptions>>(),
-                    factory
+        // Register MongoClient
+        if (mongoClientFactory is null)
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(MongoClient), sp =>
+                    {
+                        IOptions<MongoDbOptions> options =
+                            sp.GetRequiredService<IOptions<MongoDbOptions>>();
+
+                        return new MongoClient(options.Value.ConnectionString);
+                    },
+                    lifetime
                 )
             );
         else
-            services.AddSingleton<IMongoDbConductor>(sp => new MongoDbConductor(
-                    sp.GetRequiredService<IOptions<MongoDbOptions>>(),
-                    factory
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(MongoClient), sp =>
+                    {
+                        IOptions<MongoDbOptions> options =
+                            sp.GetRequiredService<IOptions<MongoDbOptions>>();
+
+                        return mongoClientFactory(options.Value);
+                    },
+                    lifetime
                 )
             );
 
-        return services.AddSingleton<IMongoDbSession, MongoDbSession>();
+        // Register IMongoDatabase
+        if (mongoDatabaseFactory is null)
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(IMongoDatabase), sp =>
+                    {
+                        IOptions<MongoDbOptions> options =
+                            sp.GetRequiredService<IOptions<MongoDbOptions>>();
+
+                        MongoClient mongoClient = sp.GetRequiredService<MongoClient>();
+
+                        return mongoClient.GetDatabase(options.Value.DatabaseName);
+                    },
+                    lifetime
+                )
+            );
+        else
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(IMongoDatabase), sp =>
+                    {
+                        IOptions<MongoDbOptions> options =
+                            sp.GetRequiredService<IOptions<MongoDbOptions>>();
+
+                        MongoClient mongoClient = sp.GetRequiredService<MongoClient>();
+
+                        return mongoDatabaseFactory(options.Value, mongoClient);
+                    },
+                    lifetime
+                )
+            );
+
+        return services;
     }
 
-    public static IServiceCollection AddCarcassMongoDbSession(this IServiceCollection services)
+    public static IServiceCollection AddCarcassMongoDbSession(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IMongoDbSession, MongoDbSession>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IMongoDbSession),
+                typeof(MongoDbSession),
+                lifetime
+            )
+        );
+
+        return services;
     }
 
-    public static IServiceCollection AddCarcassMongoDbCheckpointRepository(this IServiceCollection services)
+    public static IServiceCollection AddCarcassMongoDbCheckpointRepository(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<ICheckpointRepository, MongoDbCheckpointRepository>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(ICheckpointRepository),
+                typeof(MongoDbCheckpointRepository),
+                lifetime
+            )
+        );
+
+        return services;
     }
 
-    public static IServiceCollection AddCarcassMongoDbSnapshotRepository(this IServiceCollection services)
+    public static IServiceCollection AddCarcassMongoDbSnapshotRepository(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<ISnapshotRepository, MongoDbSnapshotRepository>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(ISnapshotRepository),
+                typeof(MongoDbSnapshotRepository),
+                lifetime
+            )
+        );
+
+        return services;
     }
 }

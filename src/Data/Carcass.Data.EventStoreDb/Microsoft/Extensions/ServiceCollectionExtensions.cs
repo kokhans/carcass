@@ -23,8 +23,6 @@
 using Carcass.Core;
 using Carcass.Data.Core.Aggregates.Repositories.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.Repositories;
-using Carcass.Data.EventStoreDb.Conductors;
-using Carcass.Data.EventStoreDb.Conductors.Abstracts;
 using Carcass.Data.EventStoreDb.Options;
 using EventStore.Client;
 using Microsoft.Extensions.Configuration;
@@ -36,11 +34,11 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassEventStoreDbConductor(
+    public static IServiceCollection AddCarcassEventStoreDb(
         this IServiceCollection services,
         IConfiguration configuration,
         Func<EventStoreDbOptions, EventStoreClient>? factory = default,
-        bool reloadOptions = false
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
@@ -48,26 +46,53 @@ public static class ServiceCollectionExtensions
 
         services.Configure<EventStoreDbOptions>(configuration.GetSection("Carcass:EventStoreDb"));
 
-        if (reloadOptions)
-            services.AddSingleton<IEventStoreDbConductor>(sp => new EventStoreDbConductor(
-                    sp.GetRequiredService<IOptionsMonitor<EventStoreDbOptions>>(),
-                    factory
+        if (factory is null)
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(EventStoreClient),
+                    sp =>
+                    {
+                        IOptions<EventStoreDbOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<EventStoreDbOptions>>();
+
+                        return new EventStoreClient(EventStoreClientSettings.Create(
+                                optionsAccessor.Value.ConnectionString
+                            )
+                        );
+                    },
+                    lifetime
                 )
             );
         else
-            services.AddSingleton<IEventStoreDbConductor>(sp => new EventStoreDbConductor(
-                    sp.GetRequiredService<IOptions<EventStoreDbOptions>>(),
-                    factory
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(EventStoreClient),
+                    sp =>
+                    {
+                        IOptions<EventStoreDbOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<EventStoreDbOptions>>();
+
+                        return factory(optionsAccessor.Value);
+                    },
+                    lifetime
                 )
             );
 
         return services;
     }
 
-    public static IServiceCollection AddCarcassEventStoreDbAggregateRepository(this IServiceCollection services)
+    public static IServiceCollection AddCarcassEventStoreDbAggregateRepository(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IAggregateRepository, EventStoreDbAggregateRepository>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IAggregateRepository),
+                typeof(EventStoreDbAggregateRepository),
+                lifetime
+            )
+        );
+
+        return services;
     }
 }

@@ -29,7 +29,6 @@ using Carcass.Data.Core.DomainEvents.Abstracts;
 using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
 using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.ResolutionStrategies.Extensions;
-using Carcass.Data.EventStoreDb.Conductors.Abstracts;
 using Carcass.Data.EventStoreDb.Extensions;
 using Carcass.Json.Core.Providers.Abstracts;
 using Carcass.Logging.Core.Adapters;
@@ -48,7 +47,7 @@ public abstract class EventStoreDbSubscriptionHostedService : IHostedService
     private readonly IDomainEventLocator _domainEventLocator;
     private readonly IDomainEventUpgraderDispatcher _domainEventUpgraderDispatcher;
     private readonly ICheckpointRepository _checkpointRepository;
-    private readonly IEventStoreDbConductor _eventStoreDbConductor;
+    private readonly EventStoreClient _eventStoreClient;
     private readonly EventStorePersistentSubscriptionsClient _persistentSubscriptionsClient;
     private readonly string _streamName;
     private PersistentSubscription? _persistentSubscription;
@@ -60,7 +59,7 @@ public abstract class EventStoreDbSubscriptionHostedService : IHostedService
         IDomainEventLocator domainEventLocator,
         IDomainEventUpgraderDispatcher domainEventUpgraderDispatcher,
         ICheckpointRepository checkpointRepository,
-        IEventStoreDbConductor eventStoreDbConductor,
+        EventStoreClient eventStoreClient,
         EventStorePersistentSubscriptionsClient persistentSubscriptionsClient
     )
     {
@@ -70,7 +69,7 @@ public abstract class EventStoreDbSubscriptionHostedService : IHostedService
         ArgumentVerifier.NotNull(domainEventLocator, nameof(domainEventLocator));
         ArgumentVerifier.NotNull(domainEventUpgraderDispatcher, nameof(domainEventUpgraderDispatcher));
         ArgumentVerifier.NotNull(checkpointRepository, nameof(checkpointRepository));
-        ArgumentVerifier.NotNull(eventStoreDbConductor, nameof(eventStoreDbConductor));
+        ArgumentVerifier.NotNull(eventStoreClient, nameof(eventStoreClient));
         ArgumentVerifier.NotNull(persistentSubscriptionsClient, nameof(persistentSubscriptionsClient));
 
         _loggerAdapter = loggerAdapterFactory.CreateLoggerAdapter<EventStoreDbSubscriptionHostedService>();
@@ -78,7 +77,7 @@ public abstract class EventStoreDbSubscriptionHostedService : IHostedService
         _domainEventLocator = domainEventLocator;
         _domainEventUpgraderDispatcher = domainEventUpgraderDispatcher;
         _checkpointRepository = checkpointRepository;
-        _eventStoreDbConductor = eventStoreDbConductor;
+        _eventStoreClient = eventStoreClient;
         _persistentSubscriptionsClient = persistentSubscriptionsClient;
         _streamName = aggregateNameResolutionStrategy.GetEventStoreDbPersistentSubscriptionStreamName(AggregateName);
     }
@@ -128,7 +127,7 @@ public abstract class EventStoreDbSubscriptionHostedService : IHostedService
                     do
                     {
                         EventStoreClient.ReadStreamResult readStreamResult =
-                            _eventStoreDbConductor.Instance.ReadStreamAsync(
+                            _eventStoreClient.ReadStreamAsync(
                                 Direction.Forwards,
                                 _streamName,
                                 StreamPosition.FromInt64(nextPageStart),

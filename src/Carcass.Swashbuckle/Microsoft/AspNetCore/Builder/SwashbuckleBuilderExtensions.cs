@@ -36,16 +36,17 @@ public static class SwashbuckleBuilderExtensions
     {
         ArgumentVerifier.NotNull(app, nameof(app));
 
-        IOptions<SwashbuckleOptions> options = app.ApplicationServices.GetRequiredService<IOptions<SwashbuckleOptions>>();
+        IOptions<SwashbuckleOptions> optionsAccessor =
+            app.ApplicationServices.GetRequiredService<IOptions<SwashbuckleOptions>>();
 
         return app
             .UseSwagger()
             .UseSwaggerUI(suo =>
                 {
                     suo.SwaggerEndpoint(
-                        $"/swagger/{options.Value.Version}/swagger.json",
-                        $"{options.Value.Name} " +
-                        $"{options.Value.Version}"
+                        $"/swagger/{optionsAccessor.Value.Version}/swagger.json",
+                        $"{optionsAccessor.Value.Name} " +
+                        $"{optionsAccessor.Value.Version}"
                     );
                     suo.DocExpansion(DocExpansion.None);
                 }
