@@ -47,18 +47,19 @@ public static class ServiceCollectionExtensions
 
         ServiceProvider serviceProvider = services.BuildServiceProvider(true);
 
-        IOptions<SwashbuckleOptions> options = serviceProvider.GetRequiredService<IOptions<SwashbuckleOptions>>();
+        IOptions<SwashbuckleOptions> optionsAccessor =
+            serviceProvider.GetRequiredService<IOptions<SwashbuckleOptions>>();
 
         return services
             .AddSwaggerGen(sgo =>
                 {
                     sgo.SchemaFilter<SwashbuckleExcludeSchemaFilter>();
                     sgo.SwaggerDoc(
-                        options.Value.Version,
+                        optionsAccessor.Value.Version,
                         new OpenApiInfo
                         {
-                            Title = options.Value.Name,
-                            Version = options.Value.Version
+                            Title = optionsAccessor.Value.Name,
+                            Version = optionsAccessor.Value.Version
                         }
                     );
                     sgo.CustomSchemaIds(t => t.FullName?.Replace("+", "."));

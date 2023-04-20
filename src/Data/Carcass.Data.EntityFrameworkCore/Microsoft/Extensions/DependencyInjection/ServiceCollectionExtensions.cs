@@ -32,11 +32,19 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCarcassEntityFrameworkCoreSession<TDbContext>(
-        this IServiceCollection services
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     ) where TDbContext : DbContext
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services.AddSingleton<IEntityFrameworkCoreSession, EntityFrameworkCoreSession<TDbContext>>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IEntityFrameworkCoreSession),
+                typeof(EntityFrameworkCoreSession<TDbContext>),
+                lifetime
+            )
+        );
+
+        return services;
     }
 }

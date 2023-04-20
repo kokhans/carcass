@@ -21,27 +21,27 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.DistributedCache.Redis.Conductors.Abstracts;
 using Carcass.DistributedCache.Redis.Providers.Abstracts;
 using Carcass.Json.Core.Providers.Abstracts;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 
 namespace Carcass.DistributedCache.Redis.Providers;
 
 public sealed class RedisProvider : IRedisProvider
 {
-    private readonly IRedisConductor _redisConductor;
+    private readonly RedisCache _redisCache;
     private readonly IJsonProvider _jsonProvider;
 
     public RedisProvider(
-        IRedisConductor redisConductor,
+        RedisCache redisCache,
         IJsonProvider jsonProvider
     )
     {
-        ArgumentVerifier.NotNull(redisConductor, nameof(redisConductor));
+        ArgumentVerifier.NotNull(redisCache, nameof(redisCache));
         ArgumentVerifier.NotNull(jsonProvider, nameof(jsonProvider));
 
-        _redisConductor = redisConductor;
+        _redisCache = redisCache;
         _jsonProvider = jsonProvider;
     }
 
@@ -52,7 +52,7 @@ public sealed class RedisProvider : IRedisProvider
         ArgumentVerifier.NotNull(key, nameof(key));
 
         return _jsonProvider.Deserialize<T>(
-            await _redisConductor.Instance.GetStringAsync(key, cancellationToken)
+            await _redisCache.GetStringAsync(key, cancellationToken)
         );
     }
 
@@ -67,7 +67,7 @@ public sealed class RedisProvider : IRedisProvider
 
         ArgumentVerifier.NotNull(key, nameof(key));
 
-        await _redisConductor.Instance.SetStringAsync(
+        await _redisCache.SetStringAsync(
             key,
             _jsonProvider.Serialize(data),
             distributedCacheEntryOptions,

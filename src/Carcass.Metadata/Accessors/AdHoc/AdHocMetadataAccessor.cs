@@ -31,16 +31,19 @@ namespace Carcass.Metadata.Accessors.AdHoc;
 
 public sealed class AdHocMetadataAccessor : IAdHocMetadataAccessor
 {
-    private readonly AdHocMetadataAccessorOptions _options;
+    private readonly IOptions<AdHocMetadataAccessorOptions> _optionsAccessor;
     private readonly IMetadataStore _metadataStore;
     private readonly Dictionary<string, object?> _adHocMetadata;
 
-    public AdHocMetadataAccessor(IOptions<AdHocMetadataAccessorOptions> options, IMetadataStore metadataStore)
+    public AdHocMetadataAccessor(
+        IOptions<AdHocMetadataAccessorOptions> optionsAccessor,
+        IMetadataStore metadataStore
+    )
     {
-        ArgumentVerifier.NotNull(options, nameof(options));
+        ArgumentVerifier.NotNull(optionsAccessor, nameof(optionsAccessor));
         ArgumentVerifier.NotNull(metadataStore, nameof(metadataStore));
 
-        _options = options.Value;
+        _optionsAccessor = optionsAccessor;
         _metadataStore = metadataStore;
         _adHocMetadata = new Dictionary<string, object?>();
     }
@@ -68,7 +71,7 @@ public sealed class AdHocMetadataAccessor : IAdHocMetadataAccessor
         foreach (KeyValuePair<string, object?> item in metadata)
         {
             if (_adHocMetadata.ContainsKey(item.Key))
-                switch (_options.ResolutionStrategy)
+                switch (_optionsAccessor.Value.ResolutionStrategy)
                 {
                     case AdHocMetadataResolutionStrategy.ReplaceWithAdHoc:
                         continue;

@@ -30,7 +30,7 @@ public static class ArgumentVerifier
     public static void NotNull<T>(
         T? argument,
         string argumentName,
-        bool skipStringWhiteSpace = false
+        bool skipStringWhiteSpace = default
     ) where T : class
     {
         if (string.IsNullOrWhiteSpace(argumentName))

@@ -22,8 +22,6 @@
 
 using Carcass.Core;
 using Carcass.DistributedCache.Core.Providers.Abstracts;
-using Carcass.DistributedCache.Redis.Conductors;
-using Carcass.DistributedCache.Redis.Conductors.Abstracts;
 using Carcass.DistributedCache.Redis.Options;
 using Carcass.DistributedCache.Redis.Providers;
 using Carcass.DistributedCache.Redis.Providers.Abstracts;
@@ -37,11 +35,11 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassRedisConductor(
+    public static IServiceCollection AddCarcassRedis(
         this IServiceCollection services,
         IConfiguration configuration,
         Func<RedisOptions, RedisCache>? factory = default,
-        bool reloadOptions = false
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
@@ -49,28 +47,61 @@ public static class ServiceCollectionExtensions
 
         services.Configure<RedisOptions>(configuration.GetSection("Carcass:Redis"));
 
-        if (reloadOptions)
-            services.AddSingleton<IRedisConductor>(sp => new RedisConductor(
-                    sp.GetRequiredService<IOptionsMonitor<RedisOptions>>(),
-                    factory
+        if (factory is null)
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(RedisCache),
+                    sp =>
+                    {
+                        IOptions<RedisOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<RedisOptions>>();
+
+                        return new RedisCache(new RedisCacheOptions
+                        {
+                            Configuration = optionsAccessor.Value.Configuration
+                        }
+                        );
+                    },
+                    lifetime
                 )
             );
         else
-            services.AddSingleton<IRedisConductor>(sp => new RedisConductor(
-                    sp.GetRequiredService<IOptions<RedisOptions>>(),
-                    factory
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(RedisCache),
+                    sp =>
+                    {
+                        IOptions<RedisOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<RedisOptions>>();
+
+                        return factory(optionsAccessor.Value);
+                    },
+                    lifetime
                 )
             );
 
         return services;
     }
 
-    public static IServiceCollection AddCarcassRedisProvider(this IServiceCollection services)
+    public static IServiceCollection AddCarcassRedisProvider(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        return services
-            .AddSingleton<IDistributedCacheProvider, RedisProvider>()
-            .AddSingleton<IRedisProvider, RedisProvider>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IDistributedCacheProvider),
+                typeof(RedisProvider),
+                lifetime
+            )
+        );
+
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IRedisProvider),
+                typeof(RedisProvider),
+                lifetime
+            )
+        );
+
+        return services;
     }
 }

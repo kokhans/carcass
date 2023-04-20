@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -23,41 +23,44 @@
 using Carcass.Core;
 using Carcass.Data.Core.Commands.Notifications.Abstracts;
 using Carcass.Data.Core.Commands.Notifications.Stores.Abstracts;
-using Carcass.Data.Elasticsearch.Conductors.Abstracts;
 using Carcass.Data.Elasticsearch.Notifications.Abstracts;
 using Carcass.Data.Elasticsearch.Options;
 using Microsoft.Extensions.Options;
+using Nest;
 
 namespace Carcass.Data.Elasticsearch.Notifications.Stores;
 
 public sealed class ElasticsearchNotificationStore : INotificationStore
 {
-    private readonly IElasticsearchConductor _elasticsearchConductor;
-    private readonly IOptionsMonitor<ElasticsearchOptions> _optionsMonitor;
+    private readonly IElasticClient _elasticClient;
+    private readonly IOptions<ElasticsearchOptions> _optionsAccessor;
 
     public ElasticsearchNotificationStore(
-        IElasticsearchConductor elasticsearchConductor,
-        IOptionsMonitor<ElasticsearchOptions> optionsMonitor
+        IElasticClient elasticClient,
+        IOptions<ElasticsearchOptions> optionsAccessorAccessor
     )
     {
-        ArgumentVerifier.NotNull(elasticsearchConductor, nameof(elasticsearchConductor));
-        ArgumentVerifier.NotNull(optionsMonitor, nameof(optionsMonitor));
+        ArgumentVerifier.NotNull(elasticClient, nameof(elasticClient));
+        ArgumentVerifier.NotNull(optionsAccessorAccessor, nameof(optionsAccessorAccessor));
 
-        _elasticsearchConductor = elasticsearchConductor;
-        _optionsMonitor = optionsMonitor;
+        _elasticClient = elasticClient;
+        _optionsAccessor = optionsAccessorAccessor;
     }
 
-    public async Task SaveNotificationAsync(INotification notification, CancellationToken cancellationToken = default)
+    public async Task SaveNotificationAsync(
+        INotification notification,
+        CancellationToken cancellationToken = default
+    )
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotNull(notification, nameof(notification));
 
-        if (_optionsMonitor.CurrentValue.Audit is null)
-            throw new InvalidOperationException("Elasticsearch audit options is not configured.");
-
         if (notification is IElasticsearchNotification)
-            await _elasticsearchConductor.Instance
-                .IndexAsync(notification, id => id.Index(_optionsMonitor.CurrentValue.Audit.Index), cancellationToken);
+            await _elasticClient
+                .IndexAsync(notification,
+                    id => id.Index(_optionsAccessor.Value.Audit!.Index),
+                    cancellationToken
+                );
     }
 }

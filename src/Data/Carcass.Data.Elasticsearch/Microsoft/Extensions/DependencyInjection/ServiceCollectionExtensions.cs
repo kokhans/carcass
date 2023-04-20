@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -22,8 +22,6 @@
 
 using Carcass.Core;
 using Carcass.Data.Core.Commands.Notifications.Stores.Abstracts;
-using Carcass.Data.Elasticsearch.Conductors;
-using Carcass.Data.Elasticsearch.Conductors.Abstracts;
 using Carcass.Data.Elasticsearch.Notifications.Stores;
 using Carcass.Data.Elasticsearch.Options;
 using Microsoft.Extensions.Configuration;
@@ -36,11 +34,11 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassElasticsearchConductor(
+    public static IServiceCollection AddCarcassElasticsearch(
         this IServiceCollection services,
         IConfiguration configuration,
         Func<ElasticsearchOptions, IElasticClient>? factory = default,
-        bool reloadOptions = false
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
@@ -48,16 +46,30 @@ public static class ServiceCollectionExtensions
 
         services.Configure<ElasticsearchOptions>(configuration.GetSection("Carcass:Elasticsearch"));
 
-        if (reloadOptions)
-            services.AddSingleton<IElasticsearchConductor>(sp => new ElasticsearchConductor(
-                    sp.GetRequiredService<IOptionsMonitor<ElasticsearchOptions>>(),
-                    factory
+        if (factory is null)
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(IElasticClient),
+                    sp =>
+                    {
+                        IOptions<ElasticsearchOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<ElasticsearchOptions>>();
+
+                        return new ElasticClient(optionsAccessor.Value.Uri);
+                    },
+                    lifetime
                 )
             );
         else
-            services.AddSingleton<IElasticsearchConductor>(sp => new ElasticsearchConductor(
-                    sp.GetRequiredService<IOptions<ElasticsearchOptions>>(),
-                    factory
+            services.Add(ServiceDescriptor.Describe(
+                    typeof(IElasticClient),
+                    sp =>
+                    {
+                        IOptions<ElasticsearchOptions> optionsAccessor =
+                            sp.GetRequiredService<IOptions<ElasticsearchOptions>>();
+
+                        return factory(optionsAccessor.Value);
+                    },
+                    lifetime
                 )
             );
 
@@ -66,12 +78,20 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCarcassElasticsearchNotificationStore(
         this IServiceCollection services,
-        IConfiguration configuration
+        IConfiguration configuration,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
         ArgumentVerifier.NotNull(configuration, nameof(configuration));
 
-        return services.AddSingleton<INotificationStore, ElasticsearchNotificationStore>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(INotificationStore),
+                typeof(ElasticsearchNotificationStore),
+                lifetime
+            )
+        );
+
+        return services;
     }
 }

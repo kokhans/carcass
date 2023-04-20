@@ -23,7 +23,6 @@
 using System.Collections;
 using System.Linq.Expressions;
 using Carcass.Core;
-using Carcass.Data.MongoDb.Conductors.Abstracts;
 using Carcass.Data.MongoDb.Entities.Abstracts;
 using Carcass.Data.MongoDb.Sessions.Abstracts;
 using MongoDB.Bson;
@@ -33,14 +32,17 @@ namespace Carcass.Data.MongoDb.Sessions;
 
 public sealed class MongoDbSession : IMongoDbSession
 {
-    private readonly IMongoDbConductor _mongoDbConductor;
+    private readonly IMongoClient _mongoClient;
+    private readonly IMongoDatabase _mongoDatabase;
     private IClientSessionHandle? _clientSessionHandle;
 
-    public MongoDbSession(IMongoDbConductor mongoDbConductor)
+    public MongoDbSession(MongoClient mongoClient, IMongoDatabase mongoDatabase)
     {
-        ArgumentVerifier.NotNull(mongoDbConductor, nameof(mongoDbConductor));
+        ArgumentVerifier.NotNull(mongoClient, nameof(mongoClient));
+        ArgumentVerifier.NotNull(mongoDatabase, nameof(mongoDatabase));
 
-        _mongoDbConductor = mongoDbConductor;
+        _mongoClient = mongoClient;
+        _mongoDatabase = mongoDatabase;
     }
 
     public BsonDocument? TransactionId { get; private set; }
@@ -54,7 +56,7 @@ public sealed class MongoDbSession : IMongoDbSession
         cancellationToken.ThrowIfCancellationRequested();
 
         _clientSessionHandle =
-            await _mongoDbConductor.Instance.Item1.StartSessionAsync(clientSessionOptions, cancellationToken);
+            await _mongoClient.StartSessionAsync(clientSessionOptions, cancellationToken);
         TransactionId = _clientSessionHandle.ServerSession.Id;
         _clientSessionHandle.StartTransaction(transactionOptions);
     }
@@ -102,7 +104,7 @@ public sealed class MongoDbSession : IMongoDbSession
         ArgumentVerifier.NotNull(collectionName, nameof(collectionName));
         ArgumentVerifier.NotNull(document, nameof(document));
 
-        await _mongoDbConductor.Instance.Item2
+        await _mongoDatabase
             .GetCollection<TDocument>(collectionName)
             .InsertOneAsync(document, null, cancellationToken);
     }
@@ -129,7 +131,7 @@ public sealed class MongoDbSession : IMongoDbSession
         ArgumentVerifier.NotNull(document, nameof(document));
 
         FilterDefinition<TDocument> filterDefinition = Builders<TDocument>.Filter.Eq(d => d.Id, document.Id);
-        await _mongoDbConductor.Instance.Item2
+        await _mongoDatabase
             .GetCollection<TDocument>(collectionName)
             .FindOneAndUpdateAsync(
                 filterDefinition,
@@ -192,7 +194,7 @@ public sealed class MongoDbSession : IMongoDbSession
             return;
         }
 
-        await _mongoDbConductor.Instance.Item2
+        await _mongoDatabase
             .GetCollection<TDocument>(collectionName)
             .DeleteOneAsync(d => d.Id == id, cancellationToken);
     }
@@ -247,7 +249,7 @@ public sealed class MongoDbSession : IMongoDbSession
         if (((IList) typeof(TDocument).GetInterfaces()).Contains(typeof(ISoftDeletableDocument)))
             filterDefinition &= Builders<TDocument>.Filter.Eq(nameof(ISoftDeletableDocument.IsDeleted), false);
 
-        IAsyncCursor<TDocument> cursor = await _mongoDbConductor.Instance.Item2
+        IAsyncCursor<TDocument> cursor = await _mongoDatabase
             .GetCollection<TDocument>(collectionName)
             .FindAsync(filterDefinition, cancellationToken: cancellationToken);
 
@@ -275,7 +277,7 @@ public sealed class MongoDbSession : IMongoDbSession
         ArgumentVerifier.NotNull(collectionName, nameof(collectionName));
 
         IMongoCollection<TDocument> collection =
-            _mongoDbConductor.Instance.Item2.GetCollection<TDocument>(collectionName);
+            _mongoDatabase.GetCollection<TDocument>(collectionName);
 
         if (filter is null)
             return await collection.Find(_ => true).ToListAsync(cancellationToken);
@@ -312,7 +314,7 @@ public sealed class MongoDbSession : IMongoDbSession
         if (filter is not null)
             filterDefinition &= filter;
 
-        return await _mongoDbConductor.Instance.Item2
+        return await _mongoDatabase
             .GetCollection<TDocument>(collectionName)
             .CountDocumentsAsync(filterDefinition, cancellationToken: cancellationToken);
     }
