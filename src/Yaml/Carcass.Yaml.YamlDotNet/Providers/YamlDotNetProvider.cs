@@ -42,21 +42,35 @@ public sealed class YamlDotNetProvider : IYamlDotNetProvider
         _deserializer = deserializer;
     }
 
-    public T? Deserialize<T>(string data) where T : class
+    public T? TryDeserialize<T>(string yaml) where T : class
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(yaml, nameof(yaml));
 
-        return _deserializer.Deserialize<T>(data);
+        return _deserializer.Deserialize<T>(yaml);
     }
 
-    public object? Deserialize(string data, Type type)
+    public object? TryDeserialize(string yaml, Type type)
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(yaml, nameof(yaml));
 
-        return _deserializer.Deserialize(data, type);
+        return _deserializer.Deserialize(yaml, type);
     }
 
-    public string? Serialize<T>(T data) where T : class
+    public T Deserialize<T>(string yaml) where T : class
+    {
+        ArgumentVerifier.NotNull(yaml, nameof(yaml));
+
+        return TryDeserialize<T>(yaml) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public object Deserialize(string yaml, Type type)
+    {
+        ArgumentVerifier.NotNull(yaml, nameof(yaml));
+
+        return TryDeserialize(yaml, type) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public string Serialize<T>(T data) where T : class
     {
         ArgumentVerifier.NotNull(data, nameof(data));
 

@@ -24,6 +24,4 @@ using Carcass.Mapping.Core.Providers.Abstracts;
 
 namespace Carcass.Mapping.AutoMapper.Providers.Abstracts;
 
-public interface IAutoMapperProvider : IMapperProvider
-{
-}
+public interface IAutoMapperProvider : IMapperProvider { }

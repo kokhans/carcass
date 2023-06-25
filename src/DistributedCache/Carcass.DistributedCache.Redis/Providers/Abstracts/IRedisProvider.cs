@@ -24,6 +24,4 @@ using Carcass.DistributedCache.Core.Providers.Abstracts;
 
 namespace Carcass.DistributedCache.Redis.Providers.Abstracts;
 
-public interface IRedisProvider : IDistributedCacheProvider
-{
-}
+public interface IRedisProvider : IDistributedCacheProvider { }

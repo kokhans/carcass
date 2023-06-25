@@ -24,6 +24,4 @@ using Carcass.Json.Core.Providers.Abstracts;
 
 namespace Carcass.Json.SystemTextJson.Providers.Abstracts;
 
-public interface ISystemTextJsonProvider : IJsonProvider
-{
-}
+public interface ISystemTextJsonProvider : IJsonProvider { }

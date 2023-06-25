@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -131,18 +131,18 @@ public static class ModelBuilderExtensions
         );
         if (applyConfigurationMethodInfo is not null)
             foreach (Type type in assembly.GetTypes().Where(
-                         t1 => t1.IsClass && !t1.IsAbstract && !t1.ContainsGenericParameters
+                         t1 => t1 is { IsClass: true, IsAbstract: false, ContainsGenericParameters: false }
                      )
                     )
-            foreach (Type @interface in type.GetInterfaces().Where(
-                         t2 => t2.IsGenericType && t2.GetGenericTypeDefinition() == entityTypeConfigurationType
-                     )
-                    )
-            {
-                MethodInfo applyConcreteMethod = applyConfigurationMethodInfo
-                    .MakeGenericMethod(@interface.GenericTypeArguments.First());
-                applyConcreteMethod.Invoke(modelBuilder, new[] {Activator.CreateInstance(type)});
-            }
+                foreach (Type @interface in type.GetInterfaces().Where(
+                             t2 => t2.IsGenericType && t2.GetGenericTypeDefinition() == entityTypeConfigurationType
+                         )
+                        )
+                {
+                    MethodInfo applyConcreteMethod = applyConfigurationMethodInfo
+                        .MakeGenericMethod(@interface.GenericTypeArguments.First());
+                    applyConcreteMethod.Invoke(modelBuilder, new[] { Activator.CreateInstance(type) });
+                }
 
         return modelBuilder;
     }

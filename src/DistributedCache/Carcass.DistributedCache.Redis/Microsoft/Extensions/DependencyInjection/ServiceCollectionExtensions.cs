@@ -25,7 +25,7 @@ using Carcass.DistributedCache.Core.Providers.Abstracts;
 using Carcass.DistributedCache.Redis.Options;
 using Carcass.DistributedCache.Redis.Providers;
 using Carcass.DistributedCache.Redis.Providers.Abstracts;
-using Microsoft.Extensions.Caching.Redis;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 

@@ -50,7 +50,7 @@ public static class ResolvedEventExtensions
             return false;
         }
 
-        domainEvent = jsonProvider.Deserialize(data, eventType) as IDomainEvent;
+        domainEvent = jsonProvider.TryDeserialize(data, eventType) as IDomainEvent;
 
         return true;
     }

@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Carcass.Core;
 using Carcass.Multitenancy.Core.Entities.Abstracts;
 using Carcass.Multitenancy.Core.Providers;
 using Carcass.Multitenancy.Core.ResolutionStrategies.Abstracts;
@@ -36,6 +37,8 @@ public sealed class TenantBuilder<TTenant> where TTenant : class, ITenant
 
     public TenantBuilder(IServiceCollection services)
     {
+        ArgumentVerifier.NotNull(services, nameof(services));
+
         services.AddTransient<TenantProvider<TTenant>>();
         _services = services;
     }
@@ -55,8 +58,9 @@ public sealed class TenantBuilder<TTenant> where TTenant : class, ITenant
         return this;
     }
 
-    public TenantBuilder<TTenant> WithTenantStore<TTenantStore>(ServiceLifetime lifetime = ServiceLifetime.Singleton)
-        where TTenantStore : ITenantStore<TTenant>
+    public TenantBuilder<TTenant> WithTenantStore<TTenantStore>(
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    ) where TTenantStore : ITenantStore<TTenant>
     {
         _services.Add(ServiceDescriptor.Describe(
                 typeof(ITenantStore<TTenant>),

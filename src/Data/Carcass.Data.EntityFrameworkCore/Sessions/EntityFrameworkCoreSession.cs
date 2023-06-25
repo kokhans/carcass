@@ -42,6 +42,8 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         _dbContext = dbContext;
     }
 
+    public Guid? TransactionId { get; private set; }
+
     public async Task BeginTransactionAsync(
         IsolationLevel isolationLevel,
         CancellationToken cancellationToken = default
@@ -57,8 +59,6 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         _dbContextTransaction = await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
         TransactionId = _dbContextTransaction.TransactionId;
     }
-
-    public Guid TransactionId { get; private set; }
 
     public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
     {
@@ -168,6 +168,32 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
                 .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
+    public async Task<TTenantifiableEntity?> TryGetByIdAsync<TTenantifiableEntity>(
+        Guid id,
+        string? tenantId,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TTenantifiableEntity : class, ITenantifiableEntity
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotDefault(id, nameof(id));
+
+        if (_dbContext is null)
+            throw new InvalidOperationException(
+                $"Entity {id} could not be retrieved due to {nameof(DbContext)} is null."
+            );
+
+        return asNoTracking == false
+            ? await _dbContext
+                .Set<TTenantifiableEntity>()
+                .SingleOrDefaultAsync(te => te.Id == id && te.TenantId == tenantId, cancellationToken)
+            : await _dbContext
+                .Set<TTenantifiableEntity>()
+                .AsNoTracking()
+                .SingleOrDefaultAsync(te => te.Id == id && te.TenantId == tenantId, cancellationToken);
+    }
+
     public async Task<TIdentifiableEntity> GetByIdAsync<TIdentifiableEntity>(
         Guid id,
         bool asNoTracking = default,
@@ -179,16 +205,30 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         ArgumentVerifier.NotDefault(id, nameof(id));
 
         TIdentifiableEntity? entity = await TryGetByIdAsync<TIdentifiableEntity>(id, asNoTracking, cancellationToken);
-        if (entity is null)
-            throw new InvalidOperationException($"Entity {id} not found.");
 
-        return entity;
+        return entity ?? throw new InvalidOperationException($"Entity {id} not found.");
     }
 
-    public IQueryable<TEntity> Query<TEntity>(
+    public async Task<TTenantifiableEntity> GetByIdAsync<TTenantifiableEntity>(
+        Guid id,
+        string? tenantId,
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
-    ) where TEntity : class, IIdentifiableEntity
+    ) where TTenantifiableEntity : class, ITenantifiableEntity
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotDefault(id, nameof(id));
+
+        TTenantifiableEntity? entity = await TryGetByIdAsync<TTenantifiableEntity>(id, tenantId, asNoTracking, cancellationToken);
+
+        return entity ?? throw new InvalidOperationException($"Entity {id} not found.");
+    }
+
+    public IQueryable<TIdentifiableEntity> Query<TIdentifiableEntity>(
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -198,8 +238,31 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
             );
 
         return asNoTracking == false
-            ? _dbContext.Set<TEntity>()
-            : _dbContext.Set<TEntity>().AsNoTracking();
+            ? _dbContext.Set<TIdentifiableEntity>()
+            : _dbContext.Set<TIdentifiableEntity>().AsNoTracking();
+    }
+
+    public IQueryable<TTenantifiableEntity> Query<TTenantifiableEntity>(
+        string? tenantId,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TTenantifiableEntity : class, ITenantifiableEntity
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (_dbContext is null)
+            throw new InvalidOperationException(
+                $"Entities could not be retrieved due to {nameof(DbContext)} is null."
+            );
+
+        return asNoTracking == false
+            ? _dbContext
+                .Set<TTenantifiableEntity>()
+                .Where(te => te.TenantId == tenantId)
+            : _dbContext
+                .Set<TTenantifiableEntity>()
+                .Where(te => te.TenantId == tenantId)
+                .AsNoTracking();
     }
 
     public void Dispose()

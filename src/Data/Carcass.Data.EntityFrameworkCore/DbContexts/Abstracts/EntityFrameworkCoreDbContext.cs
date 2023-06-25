@@ -90,6 +90,7 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
     private void OnBeforeSaveChanges()
     {
         DateTime dateTime = Clock.Current.UtcNow;
+
         IUserIdAccessor userIdAccessor = ServiceProviderLocator.Current.GetRequiredService<IUserIdAccessor>();
         string? userId = userIdAccessor.TryGetUserId();
 
@@ -98,36 +99,32 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
             switch (entityEntry.State)
             {
                 case EntityState.Added:
+                    if (entityEntry.Entity is IAuditableEntity)
                     {
-                        if (entityEntry.Entity is IAuditableEntity)
-                        {
-                            SetAuditBeforeAdd(entityEntry, userId, dateTime);
-                            _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                        }
-
-                        break;
+                        SetAuditBeforeAdd(entityEntry, userId, dateTime);
+                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
                     }
+
+                    break;
                 case EntityState.Modified:
+                    if (entityEntry.Entity is IAuditableEntity)
                     {
-                        if (entityEntry.Entity is IAuditableEntity)
-                        {
-                            SetAuditBeforeUpdate(entityEntry, userId, dateTime);
-                            _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                        }
-
-                        break;
+                        SetAuditBeforeUpdate(entityEntry, userId, dateTime);
+                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
                     }
+
+                    break;
                 case EntityState.Deleted:
-                    switch (entityEntry.Entity)
+                    if (entityEntry.Entity is ISoftDeletableEntity)
                     {
-                        case ISoftDeletableEntity:
-                            entityEntry.State = EntityState.Modified;
-                            entityEntry.CurrentValues[nameof(ISoftDeletable<Guid>.IsDeleted)] = true;
-                            break;
-                        case IAuditableEntity:
-                            SetAuditBeforeDelete(entityEntry, userId, dateTime);
-                            _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                            break;
+                        entityEntry.State = EntityState.Modified;
+                        entityEntry.CurrentValues[nameof(ISoftDeletable<Guid>.IsDeleted)] = true;
+                    }
+
+                    if (entityEntry.Entity is IAuditableEntity)
+                    {
+                        SetAuditBeforeDelete(entityEntry, userId, dateTime);
+                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
                     }
 
                     break;
@@ -156,16 +153,16 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
     {
         ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
 
-        entityEntry.CurrentValues[nameof(IAuditable<Guid>.CreatedBy)] = createdBy;
-        entityEntry.CurrentValues[nameof(IAuditable<Guid>.CreatedAt)] = createdAt;
+        entityEntry.CurrentValues[nameof(IAuditableEntity.CreatedBy)] = createdBy;
+        entityEntry.CurrentValues[nameof(IAuditableEntity.CreatedAt)] = createdAt;
     }
 
     private static void SetAuditBeforeUpdate(EntityEntry entityEntry, string? updatedBy, DateTime updatedAt)
     {
         ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
 
-        entityEntry.CurrentValues[nameof(IAuditable<Guid>.UpdatedAt)] = updatedAt;
-        entityEntry.CurrentValues[nameof(IAuditable<Guid>.UpdatedBy)] = updatedBy;
+        entityEntry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = updatedAt;
+        entityEntry.CurrentValues[nameof(IAuditableEntity.UpdatedBy)] = updatedBy;
     }
 
     private static void SetAuditBeforeDelete(EntityEntry entityEntry, string? deletedBy, DateTime deletedAt)

@@ -20,8 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Json.Core.Providers.Abstracts;
+using Carcass.Core.Accessors.TenantId.Abstracts;
 
-namespace Carcass.Json.NewtonsoftJson.Providers.Abstracts;
+namespace Carcass.Core.Accessors.TenantId;
 
-public interface INewtonsoftJsonProvider : IJsonProvider { }
+public sealed class NullableTenantIdAccessor : ITenantIdAccessor
+{
+    public string? TryGetTenantId() => null;
+}

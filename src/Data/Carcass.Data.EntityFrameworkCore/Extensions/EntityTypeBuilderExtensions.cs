@@ -28,12 +28,20 @@ namespace Carcass.Data.EntityFrameworkCore.Extensions;
 
 public static class EntityTypeBuilderExtensions
 {
-    public static void ConfigureIdentifiableEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
-        where TEntity : class, IIdentifiableEntity
+    public static void ConfigureIdentifiableEntity<TIdentifiableEntity>(this EntityTypeBuilder<TIdentifiableEntity> builder)
+        where TIdentifiableEntity : class, IIdentifiableEntity
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));
 
         builder.HasKey(e => e.Id);
+    }
+
+    public static void ConfigureTenantifiableEntity<TTenantifiableEntity>(this EntityTypeBuilder<TTenantifiableEntity> builder)
+        where TTenantifiableEntity : class, ITenantifiableEntity
+    {
+        ArgumentVerifier.NotNull(builder, nameof(builder));
+
+        builder.Property(e => e.TenantId).IsRequired(false);
     }
 
     public static void ConfigureAuditableEntity<TAuditableEntity>(this EntityTypeBuilder<TAuditableEntity> builder)

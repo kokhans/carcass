@@ -39,26 +39,44 @@ public sealed class NewtonsoftJsonProvider : INewtonsoftJsonProvider
         _jsonSerializer = JsonSerializer.Create(_jsonSerializerSettings);
     }
 
-    public T? Deserialize<T>(string data)
+    public T? TryDeserialize<T>(string json) where T : class
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(json, nameof(json));
 
-        return JsonConvert.DeserializeObject<T>(data, _jsonSerializerSettings);
+        return JsonConvert.DeserializeObject<T>(json, _jsonSerializerSettings);
     }
 
-    public object? Deserialize(string data, Type type)
+    public object? TryDeserialize(string json, Type type)
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(json, nameof(json));
         ArgumentVerifier.NotNull(type, nameof(type));
 
-        return JsonConvert.DeserializeObject(data, type, _jsonSerializerSettings);
+        return JsonConvert.DeserializeObject(json, type, _jsonSerializerSettings);
     }
 
-    public string? Serialize<T>(T? data)
+    public T Deserialize<T>(string json) where T : class
     {
+        ArgumentVerifier.NotNull(json, nameof(json));
+
+        return TryDeserialize<T>(json) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public object Deserialize(string json, Type type)
+    {
+        ArgumentVerifier.NotNull(json, nameof(json));
+
+        return TryDeserialize(json, type) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public string Serialize<T>(T data) where T : class
+    {
+        ArgumentVerifier.NotNull(data, nameof(data));
+
         TextWriter textWriter = new StringWriter();
         _jsonSerializer.Serialize(textWriter, data);
 
-        return textWriter.ToString();
+        string? json = textWriter.ToString();
+
+        return json ?? throw new InvalidOperationException("JSON is null.");
     }
 }

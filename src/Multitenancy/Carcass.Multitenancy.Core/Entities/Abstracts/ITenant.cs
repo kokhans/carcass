@@ -20,13 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Entities.Abstracts;
-
-#pragma warning disable CS8618
-
 namespace Carcass.Multitenancy.Core.Entities.Abstracts;
 
-public interface ITenant : ITenantifiable<string, string>
+public interface ITenant
 {
+    string Id { get; }
+    string Identifier { get; }
     Dictionary<string, object> Items { get; }
 }
