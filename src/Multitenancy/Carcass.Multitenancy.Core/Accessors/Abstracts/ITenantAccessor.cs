@@ -20,11 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Carcass.Core.Accessors.TenantId.Abstracts;
 using Carcass.Multitenancy.Core.Entities.Abstracts;
 
 namespace Carcass.Multitenancy.Core.Accessors.Abstracts;
 
-public interface ITenantAccessor<out TTenant> where TTenant : class, ITenant
+public interface ITenantAccessor<out TTenant> : ITenantIdAccessor
+    where TTenant : class, ITenant
 {
-    TTenant? Tenant { get; }
+    TTenant? TryGetTenant();
 }

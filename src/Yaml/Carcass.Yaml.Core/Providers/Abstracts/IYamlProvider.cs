@@ -24,7 +24,9 @@ namespace Carcass.Yaml.Core.Providers.Abstracts;
 
 public interface IYamlProvider
 {
-    T? Deserialize<T>(string data) where T : class;
-    object? Deserialize(string data, Type type);
-    string? Serialize<T>(T data) where T : class;
+    T? TryDeserialize<T>(string yaml) where T : class;
+    object? TryDeserialize(string yaml, Type type);
+    T Deserialize<T>(string yaml) where T : class;
+    object Deserialize(string yaml, Type type);
+    string Serialize<T>(T data) where T : class;
 }

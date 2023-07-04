@@ -39,5 +39,6 @@ public sealed class TenantAccessor<TTenant> : ITenantAccessor<TTenant> where TTe
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public TTenant? Tenant => _httpContextAccessor.HttpContext.GetTenant<TTenant>();
+    public string? TryGetTenantId() => TryGetTenant()?.Identifier;
+    public TTenant? TryGetTenant() => _httpContextAccessor.HttpContext.GetTenant<TTenant>();
 }

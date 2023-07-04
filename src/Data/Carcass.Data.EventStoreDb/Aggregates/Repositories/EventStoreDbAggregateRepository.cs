@@ -90,7 +90,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
             .Select(o => new EventData(
                     Uuid.NewUuid(),
                     o.GetType().Name,
-                    Encoding.UTF8.GetBytes(_jsonProvider.Serialize(o)!),
+                    Encoding.UTF8.GetBytes(_jsonProvider.Serialize(o)),
                     Encoding.UTF8.GetBytes(o.GetType().FullName!)
                 )
             ).ToArray();
@@ -132,7 +132,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
                 snapshot.AggregateSchemaVersion == aggregateVersionAttribute.Version
             )
             {
-                TAggregate? aggregateFromSnapshot = _jsonProvider.Deserialize<TAggregate>(snapshot.Payload);
+                TAggregate? aggregateFromSnapshot = _jsonProvider.TryDeserialize<TAggregate>(snapshot.Payload);
                 if (aggregateFromSnapshot is null)
                     throw new InvalidOperationException(
                         $"Aggregate {typeof(TAggregate).Name} could not be restored from snapshot."
@@ -227,7 +227,7 @@ public sealed class EventStoreDbAggregateRepository : IAggregateRepository
                     snapshot.AggregateSchemaVersion == aggregateVersionAttribute.Version
                    )
                 {
-                    aggregate = _jsonProvider.Deserialize<TAggregate>(snapshot.Payload);
+                    aggregate = _jsonProvider.TryDeserialize<TAggregate>(snapshot.Payload);
                     if (aggregate is null)
                         throw new InvalidOperationException(
                             $"Aggregate {typeof(TAggregate).Name} could not be restored from snapshot."

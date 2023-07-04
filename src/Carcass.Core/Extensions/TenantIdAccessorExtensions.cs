@@ -20,8 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Json.Core.Providers.Abstracts;
+using Carcass.Core.Accessors.TenantId.Abstracts;
 
-namespace Carcass.Json.NewtonsoftJson.Providers.Abstracts;
+namespace Carcass.Core.Extensions;
 
-public interface INewtonsoftJsonProvider : IJsonProvider { }
+public static class TenantIdAccessorExtensions
+{
+    public static string GetTenantId(this ITenantIdAccessor tenantIdAccessor)
+    {
+        ArgumentVerifier.NotNull(tenantIdAccessor, nameof(tenantIdAccessor));
+
+        string? tenantId = tenantIdAccessor.TryGetTenantId();
+
+        if (string.IsNullOrWhiteSpace(tenantId))
+            throw new InvalidOperationException("TenantId is null.");
+
+        return tenantId;
+    }
+}

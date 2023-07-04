@@ -34,24 +34,27 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassInMemoryTenantStore<TTenant>(this IServiceCollection services)
-        where TTenant : class, ITenant
+    public static IServiceCollection AddCarcassInMemoryTenantStore<TTenant>(
+        this IServiceCollection services
+    ) where TTenant : class, ITenant
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
         return services.AddSingleton<ITenantStore<TTenant>, InMemoryTenantStore<TTenant>>();
     }
 
-    public static IServiceCollection AddCarcassTenantProvider<TTenant>(this IServiceCollection services)
-        where TTenant : class, ITenant
+    public static IServiceCollection AddCarcassTenantProvider<TTenant>(
+        this IServiceCollection services
+    ) where TTenant : class, ITenant
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
         return services.AddSingleton<ITenantProvider<TTenant>, TenantProvider<TTenant>>();
     }
 
-    public static TenantBuilder<TTenant> AddCarcassTenantBuilder<TTenant>(this IServiceCollection services)
-        where TTenant : class, ITenant
+    public static TenantBuilder<TTenant> AddCarcassMultitenancy<TTenant>(
+        this IServiceCollection services
+    ) where TTenant : class, ITenant
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 

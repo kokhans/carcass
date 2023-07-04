@@ -24,6 +24,4 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface ITenantifiableEntity : ITenantifiable<Guid, Guid>, IIdentifiableEntity
-{
-}
+public interface ITenantifiableEntity : ITenantifiable<Guid>, IIdentifiableEntity { }

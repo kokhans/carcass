@@ -26,7 +26,7 @@ using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 namespace Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 
 public interface IEntityFrameworkCoreSession :
-    IRelationDatabaseTransactionalSession<Guid>, IDisposable, IAsyncDisposable
+    IRelationDatabaseTransactionalSession<Guid?>, IDisposable, IAsyncDisposable
 {
     Task CreateAsync<TIdentifiableEntity>(
         TIdentifiableEntity entity,
@@ -43,20 +43,40 @@ public interface IEntityFrameworkCoreSession :
         CancellationToken cancellationToken = default
     ) where TIdentifiableEntity : class, IIdentifiableEntity;
 
-    Task<TIdentifiableEntity> GetByIdAsync<TIdentifiableEntity>(
-        Guid id,
-        bool asNoTracking = default,
-        CancellationToken cancellationToken = default
-    ) where TIdentifiableEntity : class, IIdentifiableEntity;
-
     Task<TIdentifiableEntity?> TryGetByIdAsync<TIdentifiableEntity>(
         Guid id,
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
     ) where TIdentifiableEntity : class, IIdentifiableEntity;
 
+    Task<TTenantifiableEntity?> TryGetByIdAsync<TTenantifiableEntity>(
+        Guid id,
+        string? tenantId,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TTenantifiableEntity : class, ITenantifiableEntity;
+
+    Task<TIdentifiableEntity> GetByIdAsync<TIdentifiableEntity>(
+        Guid id,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TIdentifiableEntity : class, IIdentifiableEntity;
+
+    Task<TTenantifiableEntity> GetByIdAsync<TTenantifiableEntity>(
+        Guid id,
+        string? tenantId,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TTenantifiableEntity : class, ITenantifiableEntity;
+
     IQueryable<TIdentifiableEntity> Query<TIdentifiableEntity>(
         bool asNoTracking = default,
         CancellationToken cancellationToken = default
     ) where TIdentifiableEntity : class, IIdentifiableEntity;
+
+    IQueryable<TTenantifiableEntity> Query<TTenantifiableEntity>(
+        string? tenantId,
+        bool asNoTracking = default,
+        CancellationToken cancellationToken = default
+    ) where TTenantifiableEntity : class, ITenantifiableEntity;
 }

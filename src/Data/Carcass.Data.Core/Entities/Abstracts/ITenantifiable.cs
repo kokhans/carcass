@@ -22,7 +22,7 @@
 
 namespace Carcass.Data.Core.Entities.Abstracts;
 
-public interface ITenantifiable<TId, TTenantId> : IIdentifiable<TId>
+public interface ITenantifiable<TId> : IIdentifiable<TId>
 {
-    public TTenantId TenantId { get; set; }
+    public string? TenantId { get; set; }
 }

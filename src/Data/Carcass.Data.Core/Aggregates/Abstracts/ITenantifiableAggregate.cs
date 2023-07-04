@@ -24,6 +24,4 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.Core.Aggregates.Abstracts;
 
-public interface ITenantifiableAggregate : ITenantifiable<Guid, Guid>
-{
-}
+public interface ITenantifiableAggregate : ITenantifiable<Guid> { }

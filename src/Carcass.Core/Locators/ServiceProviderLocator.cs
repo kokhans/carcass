@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -49,7 +49,7 @@ public sealed class ServiceProviderLocator
         }
     }
 
-    public object GetOptionalService(Type serviceType)
+    public object? GetOptionalService(Type serviceType)
     {
         ArgumentVerifier.NotNull(serviceType, nameof(serviceType));
 

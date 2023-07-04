@@ -24,6 +24,4 @@ using Carcass.Yaml.Core.Providers.Abstracts;
 
 namespace Carcass.Yaml.YamlDotNet.Providers.Abstracts;
 
-public interface IYamlDotNetProvider : IYamlProvider
-{
-}
+public interface IYamlDotNetProvider : IYamlProvider { }

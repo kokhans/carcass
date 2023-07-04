@@ -24,7 +24,9 @@ namespace Carcass.Json.Core.Providers.Abstracts;
 
 public interface IJsonProvider
 {
-    T? Deserialize<T>(string data);
-    object? Deserialize(string data, Type type);
-    string? Serialize<T>(T? data);
+    T? TryDeserialize<T>(string json) where T : class;
+    object? TryDeserialize(string json, Type type);
+    T Deserialize<T>(string json) where T : class;
+    object Deserialize(string json, Type type);
+    string Serialize<T>(T data) where T : class;
 }

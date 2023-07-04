@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -26,12 +26,15 @@ namespace Carcass.DistributedCache.Core.Providers.Abstracts;
 
 public interface IDistributedCacheProvider
 {
-    Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default);
+    Task<T?> TryGetAsync<T>(string key, CancellationToken cancellationToken = default)
+        where T : class;
+    Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+        where T : class;
 
     Task SetAsync<T>(
         string key,
         T data,
         DistributedCacheEntryOptions? distributedCacheEntryOptions = default,
         CancellationToken cancellationToken = default
-    );
+    ) where T : class;
 }

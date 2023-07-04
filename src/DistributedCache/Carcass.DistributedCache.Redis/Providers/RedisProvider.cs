@@ -24,7 +24,7 @@ using Carcass.Core;
 using Carcass.DistributedCache.Redis.Providers.Abstracts;
 using Carcass.Json.Core.Providers.Abstracts;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace Carcass.DistributedCache.Redis.Providers;
 
@@ -45,15 +45,32 @@ public sealed class RedisProvider : IRedisProvider
         _jsonProvider = jsonProvider;
     }
 
-    public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+    public async Task<T?> TryGetAsync<T>(
+        string key,
+        CancellationToken cancellationToken = default
+    ) where T : class
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotNull(key, nameof(key));
 
-        return _jsonProvider.Deserialize<T>(
-            await _redisCache.GetStringAsync(key, cancellationToken)
-        );
+        string? json = await _redisCache.GetStringAsync(key, cancellationToken);
+
+        return string.IsNullOrWhiteSpace(json)
+            ? default
+            : _jsonProvider.TryDeserialize<T>(json);
+    }
+
+    public async Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default)
+        where T : class
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        ArgumentVerifier.NotNull(key, nameof(key));
+
+        T? json = await TryGetAsync<T>(key, cancellationToken);
+
+        return json ?? throw new InvalidOperationException("JSON is null.");
     }
 
     public async Task SetAsync<T>(
@@ -61,17 +78,24 @@ public sealed class RedisProvider : IRedisProvider
         T data,
         DistributedCacheEntryOptions? distributedCacheEntryOptions = default,
         CancellationToken cancellationToken = default
-    )
+    ) where T : class
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         ArgumentVerifier.NotNull(key, nameof(key));
 
-        await _redisCache.SetStringAsync(
+        if (distributedCacheEntryOptions is null)
+            await _redisCache.SetStringAsync(
             key,
             _jsonProvider.Serialize(data),
-            distributedCacheEntryOptions,
             cancellationToken
         );
+        else
+            await _redisCache.SetStringAsync(
+                key,
+                _jsonProvider.Serialize(data),
+                distributedCacheEntryOptions,
+                cancellationToken
+            );
     }
 }

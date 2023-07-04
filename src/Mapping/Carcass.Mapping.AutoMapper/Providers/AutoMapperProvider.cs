@@ -37,7 +37,10 @@ public sealed class AutoMapperProvider : IAutoMapperProvider
         _mapper = mapper;
     }
 
-    public TDestination Map<TSource, TDestination>(TSource source, IDictionary<string, object>? metadata = default)
+    public TDestination Map<TSource, TDestination>(
+        TSource source,
+        IDictionary<string, object>? metadata = default
+    )
     {
         if (metadata is null)
             return _mapper.Map<TSource, TDestination>(source);

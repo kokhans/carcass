@@ -37,20 +37,39 @@ public sealed class SystemTextJsonProvider : ISystemTextJsonProvider
         _jsonSerializerOptions = jsonSerializerOptions;
     }
 
-    public T? Deserialize<T>(string data)
+    public T? TryDeserialize<T>(string json) where T : class
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(json, nameof(json));
 
-        return JsonSerializer.Deserialize<T>(data, _jsonSerializerOptions);
+        return JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
     }
 
-    public object? Deserialize(string data, Type type)
+    public object? TryDeserialize(string json, Type type)
     {
-        ArgumentVerifier.NotNull(data, nameof(data));
+        ArgumentVerifier.NotNull(json, nameof(json));
         ArgumentVerifier.NotNull(type, nameof(type));
 
-        return JsonSerializer.Deserialize(data, type, _jsonSerializerOptions);
+        return JsonSerializer.Deserialize(json, type, _jsonSerializerOptions);
     }
 
-    public string Serialize<T>(T? data) => JsonSerializer.Serialize(data, _jsonSerializerOptions);
+    public T Deserialize<T>(string json) where T : class
+    {
+        ArgumentVerifier.NotNull(json, nameof(json));
+
+        return TryDeserialize<T>(json) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public object Deserialize(string json, Type type)
+    {
+        ArgumentVerifier.NotNull(json, nameof(json));
+
+        return TryDeserialize(json, type) ?? throw new InvalidOperationException("Data is null.");
+    }
+
+    public string Serialize<T>(T data) where T : class
+    {
+        ArgumentVerifier.NotNull(data, nameof(data));
+
+        return JsonSerializer.Serialize(data, _jsonSerializerOptions);
+    }
 }

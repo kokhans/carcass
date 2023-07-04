@@ -24,6 +24,4 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface IAuditableEntity : IAuditable<Guid>, IIdentifiableEntity
-{
-}
+public interface IAuditableEntity : IAuditable<Guid>, IIdentifiableEntity { }
