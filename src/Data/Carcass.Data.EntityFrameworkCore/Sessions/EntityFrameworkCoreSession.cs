@@ -22,6 +22,7 @@
 
 using System.Data;
 using Carcass.Core;
+using Carcass.Data.EntityFrameworkCore.DbContexts.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Carcass.Data.EntityFrameworkCore.Sessions;
 
 public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCoreSession
-    where TDbContext : DbContext
+    where TDbContext : EntityFrameworkCoreDbContext<TDbContext>
 {
     private readonly TDbContext? _dbContext;
     private IDbContextTransaction? _dbContextTransaction;
@@ -66,10 +67,9 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
 
         try
         {
-            if (_dbContext is null || _dbContextTransaction is null)
+            if (_dbContextTransaction is null)
                 throw new InvalidOperationException("The transaction could not be committed due to it is not started.");
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
             await _dbContextTransaction.CommitAsync(cancellationToken);
         }
         catch
@@ -87,6 +87,16 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
             throw new InvalidOperationException("The transaction could not be rollback due to it is not started.");
 
         await _dbContextTransaction.RollbackAsync(cancellationToken);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (_dbContext is null)
+            throw new InvalidOperationException($"The changes could not be saved due to {nameof(DbContext)} is null.");
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task CreateAsync<TIdentifiableEntity>(
@@ -233,9 +243,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         cancellationToken.ThrowIfCancellationRequested();
 
         if (_dbContext is null)
-            throw new InvalidOperationException(
-                $"Entities could not be retrieved due to {nameof(DbContext)} is null."
-            );
+            throw new InvalidOperationException($"Entities could not be retrieved due to {nameof(DbContext)} is null.");
 
         return asNoTracking == false
             ? _dbContext.Set<TIdentifiableEntity>()
@@ -251,9 +259,7 @@ public sealed class EntityFrameworkCoreSession<TDbContext> : IEntityFrameworkCor
         cancellationToken.ThrowIfCancellationRequested();
 
         if (_dbContext is null)
-            throw new InvalidOperationException(
-                $"Entities could not be retrieved due to {nameof(DbContext)} is null."
-            );
+            throw new InvalidOperationException($"Entities could not be retrieved due to {nameof(DbContext)} is null.");
 
         return asNoTracking == false
             ? _dbContext

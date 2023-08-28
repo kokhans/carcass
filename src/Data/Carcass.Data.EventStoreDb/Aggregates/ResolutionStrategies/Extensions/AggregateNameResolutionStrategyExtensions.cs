@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Aggregates.Abstracts;
-using Carcass.Data.Core.Aggregates.ResolutionStrategies.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies.Abstracts;
 
 namespace Carcass.Data.EventStoreDb.Aggregates.ResolutionStrategies.Extensions;
 

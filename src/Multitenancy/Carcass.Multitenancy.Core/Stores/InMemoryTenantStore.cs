@@ -30,12 +30,7 @@ namespace Carcass.Multitenancy.Core.Stores;
 public sealed class InMemoryTenantStore<TTenant> : ITenantStore<TTenant>
     where TTenant : class, ITenant
 {
-    private readonly ConcurrentBag<TTenant> _tenants;
-
-    public InMemoryTenantStore()
-    {
-        _tenants = new ConcurrentBag<TTenant>();
-    }
+    private readonly ConcurrentBag<TTenant> _tenants = new();
 
     public Task<TTenant?> LoadTenantAsync(string tenantId, CancellationToken cancellationToken = default)
     {

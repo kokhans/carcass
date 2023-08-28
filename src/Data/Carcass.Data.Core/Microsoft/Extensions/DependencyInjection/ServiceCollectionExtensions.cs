@@ -21,24 +21,12 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Aggregates.ResolutionStrategies;
-using Carcass.Data.Core.Aggregates.ResolutionStrategies.Abstracts;
-using Carcass.Data.Core.Commands.Dispatchers;
-using Carcass.Data.Core.Commands.Dispatchers.Abstracts;
-using Carcass.Data.Core.Commands.Handlers.Abstracts;
-using Carcass.Data.Core.Commands.Notifications.Dispatchers;
-using Carcass.Data.Core.Commands.Notifications.Dispatchers.Abstracts;
-using Carcass.Data.Core.Commands.Notifications.Stores;
-using Carcass.Data.Core.Commands.Notifications.Stores.Abstracts;
-using Carcass.Data.Core.Commands.Validators.Abstracts;
-using Carcass.Data.Core.DomainEvents.Locators;
-using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
-using Carcass.Data.Core.DomainEvents.Upgraders;
-using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
-using Carcass.Data.Core.Queries.Dispatchers;
-using Carcass.Data.Core.Queries.Dispatchers.Abstracts;
-using Carcass.Data.Core.Queries.Handlers.Abstracts;
-using Scrutor;
+using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies;
+using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Locators;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Locators.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 
 // ReSharper disable CheckNamespace
 
@@ -46,35 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassInMemoryCommandDispatcher(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<ICommandDispatcher, InMemoryCommandDispatcher>();
-    }
-
-    public static IServiceCollection AddCarcassInMemoryQueryDispatcher(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<IQueryDispatcher, InMemoryQueryDispatcher>();
-    }
-
-    public static IServiceCollection AddCarcassInMemoryNotificationStore(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<INotificationStore, InMemoryNotificationStore>();
-    }
-
-    public static IServiceCollection AddCarcassInMemoryNotificationDispatcher(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        return services.AddSingleton<INotificationDispatcher, InMemoryNotificationDispatcher>();
-    }
-
-    public static IServiceCollection AddCarcassCapitalizedAggregateNameResolutionStrategy(
+    public static IServiceCollection AddCarcassEventSourcingCapitalizedAggregateNameResolutionStrategy(
         this IServiceCollection services
     )
     {
@@ -83,7 +43,7 @@ public static class ServiceCollectionExtensions
         return services.AddSingleton<IAggregateNameResolutionStrategy, CapitalizedAggregateNameResolutionStrategy>();
     }
 
-    public static IServiceCollection AddCarcassDomainEvents(this IServiceCollection services)
+    public static IServiceCollection AddCarcassEventSourcingDomainEvents(this IServiceCollection services)
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
@@ -91,29 +51,5 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IDomainEventLocator, DomainEventLocator>()
             .AddSingleton<IDomainEventUpgraderFactory, DomainEventUpgraderFactory>()
             .AddSingleton<IDomainEventUpgraderDispatcher, DomainEventUpgraderDispatcher>();
-    }
-
-    public static IServiceCollection ScanCarcassCommandsAndQueries(
-        this IServiceCollection services,
-        Func<ITypeSourceSelector, IImplementationTypeSelector> scanFunc
-    )
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-        ArgumentVerifier.NotNull(scanFunc, nameof(scanFunc));
-
-        return services.Scan(tss => scanFunc(tss)
-            .AddClasses(itp => itp.AssignableTo(typeof(ICommandValidator<,>)))
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsSelfWithInterfaces()
-            .WithSingletonLifetime()
-            .AddClasses(itp => itp.AssignableTo(typeof(ICommandHandler<,,>)))
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsImplementedInterfaces()
-            .WithSingletonLifetime()
-            .AddClasses(itp => itp.AssignableTo(typeof(IQueryHandler<,>)))
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsImplementedInterfaces()
-            .WithSingletonLifetime()
-        );
     }
 }

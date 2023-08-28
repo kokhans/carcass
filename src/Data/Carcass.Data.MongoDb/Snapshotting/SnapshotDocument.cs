@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Carcass.Data.Core.Snapshotting.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Abstracts;
 using Carcass.Data.MongoDb.Entities.Abstracts;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

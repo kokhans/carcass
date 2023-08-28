@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Aggregates.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.Repositories.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.Repositories;
 using Carcass.Data.EventStoreDb.Options;
 using EventStore.Client;

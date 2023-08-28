@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Aggregates.Abstracts;
-using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
-using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Locators.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.Extensions;
 using Carcass.Json.Core.Providers.Abstracts;
 using EventStore.Client;

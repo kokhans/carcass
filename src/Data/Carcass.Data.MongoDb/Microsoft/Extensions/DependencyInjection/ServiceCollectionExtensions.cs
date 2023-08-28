@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Checkpoints.Repositories.Abstracts;
-using Carcass.Data.Core.Snapshotting.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Checkpoints.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Repositories.Abstracts;
 using Carcass.Data.MongoDb.Checkpoints.Repositories;
 using Carcass.Data.MongoDb.Options;
 using Carcass.Data.MongoDb.Sessions;
@@ -60,7 +60,7 @@ public static class ServiceCollectionExtensions
             new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128))
         );
 
-        // Register MongoClient
+        // Register MongoClient.
         if (mongoClientFactory is null)
             services.Add(ServiceDescriptor.Describe(
                     typeof(MongoClient), sp =>
@@ -86,7 +86,7 @@ public static class ServiceCollectionExtensions
                 )
             );
 
-        // Register IMongoDatabase
+        // Register IMongoDatabase.
         if (mongoDatabaseFactory is null)
             services.Add(ServiceDescriptor.Describe(
                     typeof(IMongoDatabase), sp =>

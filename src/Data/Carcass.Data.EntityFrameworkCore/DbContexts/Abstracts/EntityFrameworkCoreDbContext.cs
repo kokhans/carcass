@@ -23,11 +23,10 @@
 using System.Reflection;
 using Carcass.Core;
 using Carcass.Core.Accessors.UserId.Abstracts;
+using Carcass.Core.Helpers;
 using Carcass.Core.Locators;
-using Carcass.Data.Core.Commands.Notifications;
-using Carcass.Data.Core.Commands.Notifications.Dispatchers.Abstracts;
 using Carcass.Data.Core.Entities.Abstracts;
-using Carcass.Data.EntityFrameworkCore.Commands.Notifications;
+using Carcass.Data.EntityFrameworkCore.Audit;
 using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -39,42 +38,38 @@ namespace Carcass.Data.EntityFrameworkCore.DbContexts.Abstracts;
 
 public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where TDbContext : DbContext
 {
-    private readonly List<AuditTrailEntry> _auditTrailEntries;
+    private readonly List<AuditEntry> _auditEntries = new();
 
     protected EntityFrameworkCoreDbContext(DbContextOptions<TDbContext> options) : base(options)
     {
-        _auditTrailEntries = new List<AuditTrailEntry>();
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
     protected abstract Assembly Assembly { get; }
 
+    public DbSet<AuditEntry> AuditEntries { get; set; }
+
     public override int SaveChanges()
     {
-        OnBeforeSaveChanges();
+        AsyncHelper.RunSync(() => OnBeforeSaveChangesAsync());
 
         return base.SaveChanges();
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        OnBeforeSaveChanges();
+        AsyncHelper.RunSync(() => OnBeforeSaveChangesAsync());
 
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
-    public override async Task<int> SaveChangesAsync(
-        bool acceptAllChangesOnSuccess,
-        CancellationToken cancellationToken = default
-    )
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        OnBeforeSaveChanges();
-        int result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        await OnAfterSaveChangesAsync(cancellationToken);
+        await OnBeforeSaveChangesAsync(cancellationToken);
 
-        return result;
+        return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,12 +78,15 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
 
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.ApplyConfiguration(new AuditEntryConfiguration());
         modelBuilder.ApplyEntityConfigurations(Assembly);
         modelBuilder.ApplyIsDeletedQueryFilter();
     }
 
-    private void OnBeforeSaveChanges()
+    private async Task OnBeforeSaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         DateTime dateTime = Clock.Current.UtcNow;
 
         IUserIdAccessor userIdAccessor = ServiceProviderLocator.Current.GetRequiredService<IUserIdAccessor>();
@@ -100,19 +98,11 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
             {
                 case EntityState.Added:
                     if (entityEntry.Entity is IAuditableEntity)
-                    {
                         SetAuditBeforeAdd(entityEntry, userId, dateTime);
-                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                    }
-
                     break;
                 case EntityState.Modified:
                     if (entityEntry.Entity is IAuditableEntity)
-                    {
                         SetAuditBeforeUpdate(entityEntry, userId, dateTime);
-                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                    }
-
                     break;
                 case EntityState.Deleted:
                     if (entityEntry.Entity is ISoftDeletableEntity)
@@ -122,31 +112,17 @@ public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where
                     }
 
                     if (entityEntry.Entity is IAuditableEntity)
-                    {
                         SetAuditBeforeDelete(entityEntry, userId, dateTime);
-                        _auditTrailEntries.Add(new AuditTrailEntry(entityEntry));
-                    }
-
                     break;
             }
+
+            AuditEntry? auditEntry = entityEntry.ToAuditEntry();
+            if (auditEntry is not null)
+                _auditEntries.Add(auditEntry);
         }
-    }
 
-    private async Task OnAfterSaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (_auditTrailEntries.Any())
-        {
-            List<AuditTrailTransactionalNotification> notifications =
-                _auditTrailEntries.Select(ate => ate.ToAuditTrailTransactionalDomainEvent()).ToList();
-            List<INotificationDispatcher> notificationDispatchers =
-                ServiceProviderLocator.Current.GetRequiredServices<INotificationDispatcher>().ToList();
-
-            foreach (INotificationDispatcher notificationDispatcher in notificationDispatchers)
-                foreach (AuditTrailTransactionalNotification notification in notifications)
-                    await notificationDispatcher.DispatchNotificationAsync(notification, cancellationToken);
-        }
+        await Set<AuditEntry>().AddRangeAsync(_auditEntries, cancellationToken);
+        _auditEntries.Clear();
     }
 
     private static void SetAuditBeforeAdd(EntityEntry entityEntry, string? createdBy, DateTime createdAt)

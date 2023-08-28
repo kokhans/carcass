@@ -21,9 +21,10 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Commands.Notifications.Stores.Abstracts;
-using Carcass.Data.Elasticsearch.Notifications.Stores;
+using Carcass.Data.Core.Audit.Abstracts;
+using Carcass.Data.Elasticsearch.Audit;
 using Carcass.Data.Elasticsearch.Options;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Nest;
@@ -76,22 +77,15 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCarcassElasticsearchNotificationStore(
+    public static IServiceCollection AddCarcassElasticsearchAuditEntryNotificationHandler(
         this IServiceCollection services,
-        IConfiguration configuration,
-        ServiceLifetime lifetime = ServiceLifetime.Singleton
+        IConfiguration configuration
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
         ArgumentVerifier.NotNull(configuration, nameof(configuration));
 
-        services.Add(ServiceDescriptor.Describe(
-                typeof(INotificationStore),
-                typeof(ElasticsearchNotificationStore),
-                lifetime
-            )
-        );
-
-        return services;
+        return services
+            .AddTransient<INotificationHandler<IAuditEntryNotification>, ElasticsearchAuditEntryNotificationHandler>();
     }
 }
