@@ -22,15 +22,15 @@
 
 using System.Text;
 using Carcass.Core;
-using Carcass.Data.Core.Aggregates.Abstracts;
-using Carcass.Data.Core.Aggregates.Attributes;
-using Carcass.Data.Core.Aggregates.Helpers;
-using Carcass.Data.Core.Aggregates.Repositories.Abstracts;
-using Carcass.Data.Core.Aggregates.ResolutionStrategies.Abstracts;
-using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
-using Carcass.Data.Core.DomainEvents.Upgraders.Abstracts;
-using Carcass.Data.Core.Snapshotting.Abstracts;
-using Carcass.Data.Core.Snapshotting.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.Attributes;
+using Carcass.Data.Core.EventSourcing.Aggregates.Helpers;
+using Carcass.Data.Core.EventSourcing.Aggregates.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Locators.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Repositories.Abstracts;
 using Carcass.Data.EventStoreDb.Aggregates.Extensions;
 using Carcass.Data.EventStoreDb.Aggregates.ResolutionStrategies.Extensions;
 using Carcass.Data.EventStoreDb.Extensions;

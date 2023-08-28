@@ -28,6 +28,8 @@ namespace Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 public interface IEntityFrameworkCoreSession :
     IRelationDatabaseTransactionalSession<Guid?>, IDisposable, IAsyncDisposable
 {
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
+
     Task CreateAsync<TIdentifiableEntity>(
         TIdentifiableEntity entity,
         CancellationToken cancellationToken = default

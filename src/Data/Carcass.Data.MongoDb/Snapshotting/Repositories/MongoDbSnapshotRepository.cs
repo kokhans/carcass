@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Snapshotting.Abstracts;
-using Carcass.Data.Core.Snapshotting.Repositories.Abstracts;
-using Carcass.Data.Core.Snapshotting.ResolutionStrategies.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Snapshotting.ResolutionStrategies.Abstracts;
 using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Snapshotting.Repositories;

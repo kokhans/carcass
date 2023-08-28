@@ -22,8 +22,8 @@
 
 using System.Text;
 using Carcass.Core;
-using Carcass.Data.Core.DomainEvents.Abstracts;
-using Carcass.Data.Core.DomainEvents.Locators.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Abstracts;
+using Carcass.Data.Core.EventSourcing.DomainEvents.Locators.Abstracts;
 using Carcass.Json.Core.Providers.Abstracts;
 using EventStore.Client;
 

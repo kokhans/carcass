@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -22,6 +22,4 @@
 
 namespace Carcass.Data.Core.Sessions.Abstracts;
 
-public interface ISession
-{
-}
+public interface ISession { }

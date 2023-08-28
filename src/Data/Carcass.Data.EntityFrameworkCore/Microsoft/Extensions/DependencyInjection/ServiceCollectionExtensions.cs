@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using Carcass.Core;
+using Carcass.Data.EntityFrameworkCore.DbContexts.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Sessions;
 using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
-using Microsoft.EntityFrameworkCore;
 
 // ReSharper disable CheckNamespace
 
@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCarcassEntityFrameworkCoreSession<TDbContext>(
         this IServiceCollection services
-    ) where TDbContext : DbContext
+    ) where TDbContext : EntityFrameworkCoreDbContext<TDbContext>
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 

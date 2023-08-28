@@ -29,12 +29,7 @@ namespace Carcass.Metadata.Stores;
 
 public sealed class InMemoryMetadataStore : IMetadataStore
 {
-    private readonly ConcurrentDictionary<string, object?> _metadata;
-
-    public InMemoryMetadataStore()
-    {
-        _metadata = new ConcurrentDictionary<string, object?>();
-    }
+    private readonly ConcurrentDictionary<string, object?> _metadata = new();
 
     public Task AddOrUpdateMetadataAsync(string key, object? value, CancellationToken cancellationToken = default)
     {

@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Checkpoints.Abstracts;
-using Carcass.Data.Core.Checkpoints.Repositories.Abstracts;
+using Carcass.Data.Core.EventSourcing.Checkpoints.Abstracts;
+using Carcass.Data.Core.EventSourcing.Checkpoints.Repositories.Abstracts;
 using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Checkpoints.Repositories;
