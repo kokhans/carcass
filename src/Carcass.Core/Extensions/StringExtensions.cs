@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -27,6 +27,21 @@ namespace Carcass.Core.Extensions;
 
 public static class StringExtensions
 {
+    public static string? ToAscii(this string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return value;
+
+        StringBuilder sb = new();
+
+        value
+            .ToCharArray()
+            .ToList()
+            .ForEach(c => sb.Append(c.RemapInternationalCharToAscii()));
+
+        return sb.ToString();
+    }
+
     public static IEnumerable<string> SplitCapitalizedWords(this string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -113,27 +128,27 @@ public static class StringExtensions
                     prevDash = false;
                     break;
                 case ' ' or ',' or '.' or '/' or '\\' or '-' or '_' or '=':
-                {
-                    if (!prevDash && stringBuilder.Length > 0)
                     {
-                        stringBuilder.Append('-');
-                        prevDash = true;
-                    }
+                        if (!prevDash && stringBuilder.Length > 0)
+                        {
+                            stringBuilder.Append('-');
+                            prevDash = true;
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 default:
-                {
-                    if (c >= 128)
                     {
-                        int prevLength = stringBuilder.Length;
-                        stringBuilder.Append(c.RemapInternationalCharToAscii());
-                        if (prevLength != stringBuilder.Length)
-                            prevDash = false;
-                    }
+                        if (c >= 128)
+                        {
+                            int prevLength = stringBuilder.Length;
+                            stringBuilder.Append(c.RemapInternationalCharToAscii());
+                            if (prevLength != stringBuilder.Length)
+                                prevDash = false;
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             if (i == maxLength)

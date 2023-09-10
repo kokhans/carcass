@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Firebase toolchain.</Description>
+    <PackageTags>carcass, firebase</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\Json\Carcass.Json.Core\Carcass.Json.Core.csproj" />
+    <ProjectReference Include="..\Mvc\Carcass.Mvc.Core\Carcass.Mvc.Core.csproj" />
+  </ItemGroup>
+
+</Project>
