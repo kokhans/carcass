@@ -28,6 +28,36 @@ namespace Carcass.Core.UnitTests.Extensions;
 
 public sealed class StringExtensionsTest
 {
+    [Theory]
+    [InlineData("àåáâäãåą", "aaaaaaaa")]
+    [InlineData("èéêëę", "eeeee")]
+    [InlineData("ìíîïı", "iiiii")]
+    [InlineData("òóôõöøőð", "oooooooo")]
+    [InlineData("ùúûüŭů", "uuuuuu")]
+    [InlineData("çćčĉ", "cccc")]
+    [InlineData("żźž", "zzz")]
+    [InlineData("śşšŝ", "ssss")]
+    [InlineData("ñń", "nn")]
+    [InlineData("ýÿ", "yy")]
+    [InlineData("ğĝ", "gg")]
+    [InlineData("ř", "r")]
+    [InlineData("ł", "l")]
+    [InlineData("đ", "d")]
+    [InlineData("ß", "ss")]
+    [InlineData("Þ", "th")]
+    [InlineData("ĥ", "h")]
+    [InlineData("ĵ", "j")]
+    public void GivenString_WhenToAscii_ThenShouldBeAsExpected(string given, string expected)
+    {
+        // Arrange
+
+        // Act
+        string? actual = given.ToAscii();
+
+        // Assert
+        actual.Should().Be(expected);
+    }
+
     [Fact]
     public void GivenString_WhenToSnakeCase_ThenShouldBeAsExpected()
     {

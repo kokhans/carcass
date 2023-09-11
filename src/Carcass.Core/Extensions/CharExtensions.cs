@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2022-2023 Serhii Kokhan
 //
@@ -24,7 +24,7 @@ namespace Carcass.Core.Extensions;
 
 public static class CharExtensions
 {
-    public static string? RemapInternationalCharToAscii(this char c)
+    public static string ToAscii(this char c)
     {
         string s = c.ToString().ToLowerInvariant();
 
@@ -82,6 +82,6 @@ public static class CharExtensions
         if (c == 'ĵ')
             return "j";
 
-        return null;
+        return c.ToString();
     }
 }

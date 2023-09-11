@@ -37,7 +37,7 @@ public static class StringExtensions
         value
             .ToCharArray()
             .ToList()
-            .ForEach(c => sb.Append(c.RemapInternationalCharToAscii()));
+            .ForEach(c => sb.Append(c.ToAscii()));
 
         return sb.ToString();
     }
@@ -142,7 +142,7 @@ public static class StringExtensions
                         if (c >= 128)
                         {
                             int prevLength = stringBuilder.Length;
-                            stringBuilder.Append(c.RemapInternationalCharToAscii());
+                            stringBuilder.Append(c.ToAscii());
                             if (prevLength != stringBuilder.Length)
                                 prevDash = false;
                         }
