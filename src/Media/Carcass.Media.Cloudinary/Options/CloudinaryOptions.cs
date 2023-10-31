@@ -26,7 +26,7 @@ namespace Carcass.Media.Cloudinary.Options;
 
 public sealed class CloudinaryOptions
 {
-    [Required] public string CloudName { get; set; }
-    [Required] public string ApiKey { get; set; }
-    [Required] public string ApiSecret { get; set; }
+    [Required] public required string CloudName { get; set; }
+    [Required] public required string ApiKey { get; set; }
+    [Required] public required string ApiSecret { get; set; }
 }

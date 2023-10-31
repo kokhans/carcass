@@ -15,12 +15,19 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - Distributed Cache
 - Microservices
 - Audit Logging
+- Secuirty
+- Media
+- Data Formats
 
 ## Packages
 
 - [Carcass.Core](https://www.nuget.org/packages/Carcass.Core) - Core abstractions, interfaces, and types used by Carcass.* libraries.
 
+- [Carcass.Firebase](https://www.nuget.org/packages/Carcass.Firebase) - Firebase toolchain.
+
 - [Carcass.Metadata](https://www.nuget.org/packages/Carcass.Core) - Metadata toolchain.
+
+- [Carcass.MassTransit](https://www.nuget.org/packages/Carcass.MassTransit) - MassTransit toolchain.
 
 - [Carcass.SignalR](https://www.nuget.org/packages/Carcass.SignalR) - SignalR toolchain.
 
@@ -33,6 +40,8 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - [Carcass.Data.EntityFrameworkCore](https://www.nuget.org/packages/Carcass.Data.EntityFrameworkCore) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on EntityFramework Core.
 
 - [Carcass.Data.EventStoreDb](https://www.nuget.org/packages/Carcass.Data.EventStoreDb) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on EventStoreDB.
+
+- [Carcass.Data.Firestore](https://www.nuget.org/packages/Carcass.Data.Firestore) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on Firestore.
 
 - [Carcass.Data.MongoDb](https://www.nuget.org/packages/Carcass.Data.MongoDb) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on MongoDB.
 
@@ -53,6 +62,12 @@ Carcass is a feature-rich infrastructure framework. It provides a set of modules
 - [Carcass.Mapping.AutoMapper](https://www.nuget.org/packages/Carcass.Mapping.AutoMapper) - Mapper provider implementation based on AutoMapper.
 
 - [Carcass.Multitenancy.Core](https://www.nuget.org/packages/Carcass.Multitenancy.Core) - Multitenancy core abstractions, interfaces, and types used by Carcass.Multitenancy.* libraries.
+
+- [Carcass.Media.Abstracts](https://www.nuget.org/packages/Carcass.Media.Abstracts) - Media management core abstractions, interfaces, and types used by Carcass.Media.* libraries.
+
+- [Carcass.Media.Azure.Storage.Blobs](https://www.nuget.org/packages/Carcass.Media.Azure.Storage.Blobs) - Media management provider implementation based on Azure Storage Blobs.
+
+- [Carcass.Media.Cloudinary](https://www.nuget.org/packages/Carcass.Media.Cloudinary) - Media management provider implementation based on Cloudinary.
 
 - [Carcass.Mvc.Core](https://www.nuget.org/packages/Carcass.Mvc.Core) - MVC core abstractions, interfaces, and types used by Carcass.Mvc.* libraries.
 

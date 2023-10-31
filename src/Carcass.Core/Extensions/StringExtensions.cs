@@ -47,7 +47,7 @@ public static class StringExtensions
         if (string.IsNullOrWhiteSpace(value))
             yield break;
 
-        foreach (Match m in Regex.Matches(value, @"([A-Z][a-z]+)"))
+        foreach (Match m in Regex.Matches(value, "([A-Z][a-z]+)"))
             yield return m.Value;
     }
 
@@ -72,8 +72,8 @@ public static class StringExtensions
         if (string.IsNullOrWhiteSpace(value))
             return value;
 
-        return Regex.Match(value, @"^_+") +
-               Regex.Replace(value, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
+        return Regex.Match(value, "^_+") +
+               Regex.Replace(value, "([a-z0-9])([A-Z])", "$1_$2").ToLower();
     }
 
     public static string? AppendTrailingSlash(this string? value)

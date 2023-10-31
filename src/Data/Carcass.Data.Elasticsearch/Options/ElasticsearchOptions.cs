@@ -22,18 +22,16 @@
 
 using System.ComponentModel.DataAnnotations;
 
-#pragma warning disable CS8618
-
 namespace Carcass.Data.Elasticsearch.Options;
 
 public sealed class ElasticsearchOptions
 {
-    [Required] public Uri Uri { get; set; }
+    [Required] public required Uri Uri { get; set; }
 
     public ElasticsearchAuditOptions? Audit { get; set; }
 
     public sealed class ElasticsearchAuditOptions
     {
-        [Required] public string Index { get; set; }
+        [Required] public required string Index { get; set; }
     }
 }

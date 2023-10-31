@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Domain-Driven Design, CQRS, and Event Sourcing implementation based on Firestore.</Description>
+    <PackageTags>carcass, data, ddd, cqrs, eventsourcing, firestore</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -22,9 +22,10 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Carcass.DistributedCache.Redis.Options;
+namespace Carcass.Data.Firestore.Options;
 
-public sealed class RedisOptions
+public sealed class FirestoreOptions
 {
-    [Required] public required string Configuration { get; set; }
+    [Required] public required string ProjectId { get; set; }
+    [Required] public required string Json { get; set; }
 }

@@ -22,12 +22,10 @@
 
 using System.ComponentModel.DataAnnotations;
 
-#pragma warning disable CS8618
-
 namespace Carcass.Data.MongoDb.Options;
 
 public sealed class MongoDbOptions
 {
-    [Required] public string ConnectionString { get; set; }
-    [Required] public string DatabaseName { get; set; }
+    [Required] public required string ConnectionString { get; set; }
+    [Required] public required string DatabaseName { get; set; }
 }
