@@ -21,16 +21,11 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Core.Accessors.TenantId.Abstracts;
-using Carcass.Core.Accessors.UserId.Abstracts;
-using Carcass.Firebase.Accessors;
-using Carcass.Firebase.Accessors.Abstracts;
-using Carcass.Firebase.AuthenticationHandlers;
-using Carcass.Firebase.Options;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Carcass.Data.Firestore.Options;
+using Carcass.Data.Firestore.Sessions;
+using Carcass.Data.Firestore.Sessions.Abstracts;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -40,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCarcassFirebase(
+    public static IServiceCollection AddCarcassFirestore(
         this IServiceCollection services,
         IConfiguration configuration
     )
@@ -48,40 +43,32 @@ public static class ServiceCollectionExtensions
         ArgumentVerifier.NotNull(services, nameof(services));
         ArgumentVerifier.NotNull(configuration, nameof(configuration));
 
-        services.Configure<FirebaseOptions>(configuration.GetSection("Carcass:Firebase"));
+        services.Configure<FirestoreOptions>(configuration.GetSection("Carcass:Firestore"));
 
         services.AddSingleton(sp =>
         {
-            IOptions<FirebaseOptions> optionsAccessor = sp.GetRequiredService<IOptions<FirebaseOptions>>();
+            IOptions<FirestoreOptions> optionsAccessor = sp.GetRequiredService<IOptions<FirestoreOptions>>();
+            FirestoreClientBuilder firestoreClientBuilder = new() { JsonCredentials = optionsAccessor.Value.Json };
 
-            return FirebaseApp.Create(new AppOptions
-            {
-                Credential = GoogleCredential.FromJson(optionsAccessor.Value.Json)
-            });
+            return FirestoreDb.Create(optionsAccessor.Value.ProjectId, firestoreClientBuilder.Build());
         });
 
         return services;
     }
 
-    public static IServiceCollection AddCarcassFirebaseAuthenticationHandler(this IServiceCollection services)
+    public static IServiceCollection AddCarcassFirestoreSession(
+        this IServiceCollection services,
+        ServiceLifetime lifetime = ServiceLifetime.Singleton
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddScheme<AuthenticationSchemeOptions, FirebaseAuthenticationHandler>(JwtBearerDefaults.AuthenticationScheme, _ => { });
-
-        return services;
-    }
-
-    public static IServiceCollection AddCarcassFirebaseUserAccessor(this IServiceCollection services)
-    {
-        ArgumentVerifier.NotNull(services, nameof(services));
-
-        services
-            .AddSingleton<IUserIdAccessor, FirebaseUserAccessor>()
-            .AddSingleton<ITenantIdAccessor, FirebaseUserAccessor>()
-            .AddSingleton<IFirebaseUserAccessor, FirebaseUserAccessor>();
+        services.Add(ServiceDescriptor.Describe(
+                typeof(IFirestoreSession),
+                typeof(FirestoreSession),
+                lifetime
+            )
+        );
 
         return services;
     }

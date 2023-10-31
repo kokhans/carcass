@@ -23,7 +23,8 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Carcass.Firebase.Options;
+
 public sealed class FirebaseOptions
 {
-    [Required] public string Json { get; set; }
+    [Required] public required string Json { get; set; }
 }

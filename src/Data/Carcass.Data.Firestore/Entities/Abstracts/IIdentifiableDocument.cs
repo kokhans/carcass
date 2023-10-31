@@ -20,11 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.ComponentModel.DataAnnotations;
+using Carcass.Data.Core.Entities.Abstracts;
+using Google.Cloud.Firestore;
 
-namespace Carcass.DistributedCache.Redis.Options;
+namespace Carcass.Data.Firestore.Entities.Abstracts;
 
-public sealed class RedisOptions
-{
-    [Required] public required string Configuration { get; set; }
-}
+public interface IIdentifiableDocument : IIdentifiable<DocumentReference> { }

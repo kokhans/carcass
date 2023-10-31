@@ -22,13 +22,11 @@
 
 using System.ComponentModel.DataAnnotations;
 
-#pragma warning disable CS8618
-
 namespace Carcass.Data.EventStoreDb.Options;
 
 public sealed class EventStoreDbOptions
 {
-    [Required] public string ConnectionString { get; set; }
+    [Required] public required string ConnectionString { get; set; }
     [Required] public long TakeSnapshotAfterEventsCount { get; set; } = 900;
     [Required] public long EventsMaxCount { get; set; } = 4096;
 }

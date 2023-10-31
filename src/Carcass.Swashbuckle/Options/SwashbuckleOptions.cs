@@ -22,12 +22,10 @@
 
 using System.ComponentModel.DataAnnotations;
 
-#pragma warning disable CS8618
-
 namespace Carcass.Swashbuckle.Options;
 
 public sealed class SwashbuckleOptions
 {
-    [Required] public string Name { get; set; }
-    [Required] public string Version { get; set; }
+    [Required] public required string Name { get; set; }
+    [Required] public required string Version { get; set; }
 }

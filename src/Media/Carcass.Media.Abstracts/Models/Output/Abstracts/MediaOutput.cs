@@ -24,11 +24,6 @@ namespace Carcass.Media.Abstracts.Models.Output.Abstracts;
 
 public abstract class MediaOutput
 {
-    public MediaOutput()
-    {
-        Metadata = new Dictionary<string, string?>();
-    }
-
     public string FolderName { get; set; }
     public string FileName { get; set; }
     public string Extension { get; set; }
@@ -36,5 +31,5 @@ public abstract class MediaOutput
     public long Size { get; set; }
     public DateTime CreatedAt { get; set; }
     public MediaType MediaType { get; set; }
-    public Dictionary<string, string?> Metadata { get; set; }
+    public Dictionary<string, string?> Metadata { get; set; } = new();
 }
