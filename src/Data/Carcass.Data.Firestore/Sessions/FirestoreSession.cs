@@ -83,7 +83,7 @@ public sealed class FirestoreSession : IFirestoreSession
         ArgumentVerifier.NotNull(collectionName, nameof(collectionName));
         ArgumentVerifier.NotNull(document, nameof(document));
 
-        DocumentReference documentReference = _firestoreDb.Collection(collectionName).Document(document.Id.ToString());
+        DocumentReference documentReference = _firestoreDb.Collection(collectionName).Document(document.Id.Id);
         await documentReference.SetAsync(document, SetOptions.MergeAll, cancellationToken);
     }
 
