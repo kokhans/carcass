@@ -29,7 +29,6 @@ using Carcass.Firebase.AuthenticationHandlers;
 using Carcass.Firebase.Options;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -63,13 +62,19 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCarcassFirebaseAuthenticationHandler(this IServiceCollection services)
+    public static IServiceCollection AddCarcassFirebaseAuthenticationHandler(
+        this IServiceCollection services,
+        Action<JwtBearerOptions>? configure = default
+    )
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddScheme<AuthenticationSchemeOptions, FirebaseAuthenticationHandler>(JwtBearerDefaults.AuthenticationScheme, _ => { });
+            .AddScheme<JwtBearerOptions, FirebaseAuthenticationHandler>(
+                JwtBearerDefaults.AuthenticationScheme,
+                aso => configure?.Invoke(aso)
+            );
 
         return services;
     }

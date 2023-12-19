@@ -32,14 +32,14 @@ using Microsoft.Extensions.Options;
 
 namespace Carcass.Firebase.AuthenticationHandlers;
 
-public sealed class FirebaseAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public sealed class FirebaseAuthenticationHandler : AuthenticationHandler<JwtBearerOptions>
 {
     private const string BearerPrefix = "Bearer ";
 
     private readonly FirebaseApp _firebaseApp;
 
     public FirebaseAuthenticationHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options,
+        IOptionsMonitor<JwtBearerOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
         ISystemClock clock,
@@ -77,7 +77,9 @@ public sealed class FirebaseAuthenticationHandler : AuthenticationHandler<Authen
                 }
             );
 
-            return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, JwtBearerDefaults.AuthenticationScheme));
+            return AuthenticateResult.Success(
+                new AuthenticationTicket(claimsPrincipal, JwtBearerDefaults.AuthenticationScheme)
+            );
         }
         catch (Exception exception)
         {
