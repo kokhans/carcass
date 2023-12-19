@@ -32,7 +32,7 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddCarcassSignalRPublisher<TPublisher>(
         this IServiceCollection services
-    )
+    ) where TPublisher : class
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
@@ -44,6 +44,7 @@ public static class ServiceCollectionExtension
                 $"{publisherType.FullName} should implement {hubPublisherType.FullName}.");
 
         services.AddSingleton(publisherType.BaseType, publisherType);
+        services.AddSingleton<TPublisher>();
 
         return services;
     }
