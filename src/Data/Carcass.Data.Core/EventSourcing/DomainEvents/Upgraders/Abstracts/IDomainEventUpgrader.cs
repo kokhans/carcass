@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,21 @@ using Carcass.Data.Core.EventSourcing.DomainEvents.Abstracts;
 
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 
+/// <summary>
+///     Represents a contract for upgrading domain events to newer versions in an event-sourced system.
+/// </summary>
+/// <remarks>
+///     Implementations of this interface are responsible for transforming domain events
+///     to ensure compatibility with the current domain event structure while preserving
+///     the integrity of event data.
+/// </remarks>
 public interface IDomainEventUpgrader
 {
+    /// <summary>
+    ///     Upgrades a given domain event to its latest version supported in the system.
+    /// </summary>
+    /// <param name="domainEvent">The domain event to be upgraded.</param>
+    /// <returns>The upgraded domain event.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="domainEvent" /> is null.</exception>
     IDomainEvent UpgradeDomainEvent(IDomainEvent domainEvent);
 }

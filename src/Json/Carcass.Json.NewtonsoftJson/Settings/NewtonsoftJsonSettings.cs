@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,26 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace Carcass.Json.NewtonsoftJson.Settings;
 
+/// <summary>
+///     Provides a collection of default configuration settings for Newtonsoft.Json serialization and deserialization.
+/// </summary>
 public sealed class NewtonsoftJsonSettings
 {
+    /// <summary>
+    ///     Provides default settings for JSON serialization using Newtonsoft.Json.
+    /// </summary>
+    /// <returns>
+    ///     A configured instance of <see cref="JsonSerializerSettings" /> that includes settings
+    ///     such as ignoring null values, handling reference loops, and using camel case
+    ///     property naming.
+    /// </returns>
+    /// <exception cref="JsonException">
+    ///     Thrown if the default settings could not be constructed.
+    /// </exception>
     public static JsonSerializerSettings Defaults() => new()
     {
         NullValueHandling = NullValueHandling.Ignore,

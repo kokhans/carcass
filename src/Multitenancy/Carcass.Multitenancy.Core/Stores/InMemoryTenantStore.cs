@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,40 @@ using Carcass.Multitenancy.Core.Stores.Abstracts;
 
 namespace Carcass.Multitenancy.Core.Stores;
 
+/// <summary>
+///     Represents an in-memory implementation of the <see cref="ITenantStore{TTenant}" /> interface for managing tenant
+///     information.
+/// </summary>
+/// <typeparam name="TTenant">
+///     The type of tenant being managed, which must implement the <see cref="ITenant" /> interface.
+/// </typeparam>
 public sealed class InMemoryTenantStore<TTenant> : ITenantStore<TTenant>
     where TTenant : class, ITenant
 {
-    private readonly ConcurrentBag<TTenant> _tenants = new();
+    /// <summary>
+    ///     Represents an in-memory collection of tenant entities used by the <see cref="InMemoryTenantStore{TTenant}" />.
+    /// </summary>
+    /// <remarks>
+    ///     This collection is intended to store tenant instances in a concurrent and thread-safe manner using a
+    ///     <see cref="ConcurrentBag{T}" />.
+    /// </remarks>
+    /// <typeparam name="TTenant">
+    ///     The type of tenant being managed, which must implement the <see cref="ITenant" /> interface.
+    /// </typeparam>
+    private readonly ConcurrentBag<TTenant> _tenants = [];
 
+    /// <summary>
+    ///     Asynchronously loads a tenant by its identifier from the in-memory tenant store.
+    /// </summary>
+    /// <typeparam name="TTenant">The type of the tenant implementing the <see cref="ITenant" /> interface.</typeparam>
+    /// <param name="tenantId">The identifier of the tenant to load. Cannot be null.</param>
+    /// <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
+    /// <returns>A task representing the operation. The task result may contain the tenant or null if the tenant is not found.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="tenantId" /> is null.</exception>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the
+    ///     <paramref name="cancellationToken" />.
+    /// </exception>
     public Task<TTenant?> LoadTenantAsync(string tenantId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -43,6 +72,17 @@ public sealed class InMemoryTenantStore<TTenant> : ITenantStore<TTenant>
         return Task.FromResult(tenant);
     }
 
+    /// <summary>
+    ///     Saves a tenant to the in-memory tenant store.
+    /// </summary>
+    /// <param name="tenant">The tenant instance to save. Cannot be null.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task representing the asynchronous save operation.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="tenant" /> parameter is null.</exception>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the
+    ///     <paramref name="cancellationToken" />.
+    /// </exception>
     public Task SaveTenantAsync(TTenant tenant, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

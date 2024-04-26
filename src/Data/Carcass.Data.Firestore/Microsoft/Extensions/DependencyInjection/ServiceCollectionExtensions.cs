@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,12 +29,27 @@ using Google.Cloud.Firestore.V1;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods for registering Firestore services in an IServiceCollection.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Configures and adds Firestore services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to which Firestore services will be added.</param>
+    /// <param name="configuration">The configuration object containing Firestore settings.</param>
+    /// <returns>The updated service collection.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the <paramref name="services" /> or
+    ///     <paramref name="configuration" /> parameter is null.
+    /// </exception>
     public static IServiceCollection AddCarcassFirestore(
         this IServiceCollection services,
         IConfiguration configuration
@@ -48,7 +63,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(sp =>
         {
             IOptions<FirestoreOptions> optionsAccessor = sp.GetRequiredService<IOptions<FirestoreOptions>>();
-            FirestoreClientBuilder firestoreClientBuilder = new() { JsonCredentials = optionsAccessor.Value.Json };
+            FirestoreClientBuilder firestoreClientBuilder = new() {JsonCredentials = optionsAccessor.Value.Json};
 
             return FirestoreDb.Create(optionsAccessor.Value.ProjectId, firestoreClientBuilder.Build());
         });
@@ -56,6 +71,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Adds Firestore session services to the specified IServiceCollection.
+    /// </summary>
+    /// <param name="services">The service collection to which the Firestore session services will be added.</param>
+    /// <param name="lifetime">The lifetime of the Firestore session services. Defaults to Singleton.</param>
+    /// <returns>The updated IServiceCollection.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="services" /> parameter is null.</exception>
     public static IServiceCollection AddCarcassFirestoreSession(
         this IServiceCollection services,
         ServiceLifetime lifetime = ServiceLifetime.Singleton

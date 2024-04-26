@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,26 @@ using EventStore.Client;
 
 namespace Carcass.Data.EventStoreDb.Extensions;
 
+/// <summary>
+///     Provides extension methods for working with <see cref="EventStore.Client.ResolvedEvent" /> instances.
+/// </summary>
 public static class ResolvedEventExtensions
 {
+    /// <summary>
+    ///     Attempts to retrieve a domain event from the specified <see cref="ResolvedEvent" />.
+    /// </summary>
+    /// <param name="resolvedEvent">The resolved event containing the data to attempt to deserialize into a domain event.</param>
+    /// <param name="domainEvent">
+    ///     When this method returns, contains the domain event if the operation succeeded; otherwise, <c>null</c>.
+    /// </param>
+    /// <param name="domainEventLocator">The locator to determine the domain event type based on the event metadata.</param>
+    /// <param name="jsonProvider">The JSON provider used to deserialize the event data into a domain event.</param>
+    /// <returns>
+    ///     <c>true</c> if a domain event could be successfully retrieved and deserialized; <c>false</c> otherwise.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="domainEventLocator" /> or <paramref name="jsonProvider" /> is <c>null</c>.
+    /// </exception>
     public static bool TryGetDomainEvent(
         this ResolvedEvent resolvedEvent,
         out IDomainEvent? domainEvent,

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,7 @@ using Carcass.Json.Core.Providers.Abstracts;
 
 namespace Carcass.Json.SystemTextJson.Providers.Abstracts;
 
-public interface ISystemTextJsonProvider : IJsonProvider { }
+/// <summary>
+///     Interface for system text JSON provider that extends the functionality of the base JSON provider.
+/// </summary>
+public interface ISystemTextJsonProvider : IJsonProvider;

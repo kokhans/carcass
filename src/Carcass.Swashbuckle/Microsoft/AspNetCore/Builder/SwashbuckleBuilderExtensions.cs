@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,29 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.AspNetCore.Builder;
 
+/// <summary>
+///     Provides extension methods for configuring and utilizing Swashbuckle within an application.
+/// </summary>
 public static class SwashbuckleBuilderExtensions
 {
+    /// <summary>
+    ///     Configures and enables the Carcass Swashbuckle middleware in the application pipeline.
+    /// </summary>
+    /// <param name="app">
+    ///     The application builder used to configure the middleware components.
+    /// </param>
+    /// <returns>
+    ///     The configured application builder to support method chaining.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="app" /> argument is null.
+    /// </exception>
     public static IApplicationBuilder UseCarcassSwashbuckle(this IApplicationBuilder app)
     {
         ArgumentVerifier.NotNull(app, nameof(app));

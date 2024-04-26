@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,32 @@ using Carcass.Json.SystemTextJson.Settings;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+///     Provides extension methods for registering services related to the Carcass JSON system using System.Text.Json in an
+///     <see cref="IServiceCollection" />.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Adds the Carcass System.Text.Json provider to the dependency injection container.
+    ///     This provider facilitates JSON serialization and deserialization using <see cref="System.Text.Json" />.
+    /// </summary>
+    /// <param name="services">
+    ///     The <see cref="IServiceCollection" /> instance to which the provider will be registered.
+    /// </param>
+    /// <param name="options">
+    ///     Optional JSON serialization options to configure the behavior of the System.Text.Json provider.
+    ///     If null, default configuration values will be used.
+    /// </param>
+    /// <returns>
+    ///     The modified <see cref="IServiceCollection" /> instance with the Carcass System.Text.Json provider registered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="services" /> parameter is null.
+    /// </exception>
     public static IServiceCollection AddCarcassSystemTextJsonProvider(
         this IServiceCollection services,
-        JsonSerializerOptions? options = default
+        JsonSerializerOptions? options = null
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));

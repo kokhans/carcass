@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,35 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Carcass.Data.MongoDb.Options;
 
+/// <summary>
+///     Represents the configuration options for MongoDB,
+///     including the connection string and database name.
+/// </summary>
 public sealed class MongoDbOptions
 {
-    [Required] public required string ConnectionString { get; set; }
-    [Required] public required string DatabaseName { get; set; }
+    /// <summary>
+    ///     Represents the connection string used to connect to the MongoDB server.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required and must contain a valid connection string
+    ///     that specifies the necessary information for accessing the MongoDB instance,
+    ///     including server address, port, and optional authentication credentials.
+    /// </remarks>
+    /// <exception cref="ValidationException">
+    ///     Thrown if the connection string is not specified or is invalid.
+    /// </exception>
+    [Required]
+    public required string ConnectionString { get; init; }
+
+    /// <summary>
+    ///     Gets the name of the MongoDB database to be used by the application.
+    /// </summary>
+    /// <value>
+    ///     A required string representing the name of the MongoDB database.
+    /// </value>
+    /// <exception cref="ValidationException">
+    ///     Thrown when the database name is not provided during configuration.
+    /// </exception>
+    [Required]
+    public required string DatabaseName { get; init; }
 }

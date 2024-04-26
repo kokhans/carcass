@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,20 @@
 
 namespace Carcass.Core.Accessors.TenantId.Abstracts;
 
+/// <summary>
+///     Provides an interface for accessing a tenant identifier, allowing retrieval
+///     of the tenant ID if available.
+/// </summary>
 public interface ITenantIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the identifier of the current tenant.
+    /// </summary>
+    /// <returns>
+    ///     A string representing the tenant identifier, or null if it cannot be determined.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the tenant identifier cannot be accessed or is invalid.
+    /// </exception>
     string? TryGetTenantId();
 }

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,8 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface ISoftDeletableEntity : ISoftDeletable<Guid>, IIdentifiableEntity { }
+/// <summary>
+///     Defines an interface for an entity that supports soft deletion behaviors.
+///     Soft deletion allows entities to be marked as deleted without physically removing them from the database.
+/// </summary>
+public interface ISoftDeletableEntity : ISoftDeletable<Guid>, IIdentifiableEntity;

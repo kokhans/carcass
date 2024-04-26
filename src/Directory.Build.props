@@ -12,7 +12,7 @@
         <PackageProjectUrl>https://github.com/kokhans/carcass</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Authors>Serhii Kokhan</Authors>
-        <Copyright>© 2022-2023 Serhii Kokhan</Copyright>
+        <Copyright>© 2022-2025 Serhii Kokhan</Copyright>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

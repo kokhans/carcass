@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,24 @@ using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies.Abstracts;
 
 namespace Carcass.Data.EventStoreDb.Aggregates.ResolutionStrategies.Extensions;
 
+/// <summary>
+///     Provides extension methods for the <see cref="IAggregateNameResolutionStrategy" /> interface to assist
+///     in resolving aggregate names for use with EventStoreDB stream naming conventions.
+/// </summary>
 public static class AggregateNameResolutionStrategyExtensions
 {
+    /// <summary>
+    ///     Generates the Event Store DB stream name for a given aggregate based on its type name and identifier.
+    /// </summary>
+    /// <typeparam name="TAggregate">The type of the aggregate. Must inherit from <see cref="Aggregate" />.</typeparam>
+    /// <param name="aggregateNameResolutionStrategy">
+    ///     The strategy responsible for resolving the aggregate's name.
+    /// </param>
+    /// <param name="aggregate">The instance of the aggregate for which the stream name is generated.</param>
+    /// <returns>The constructed Event Store DB stream name in the format "{AggregateName}-{AggregateId}".</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="aggregateNameResolutionStrategy" /> or <paramref name="aggregate" /> is null.
+    /// </exception>
     public static string GetEventStoreDbStreamName<TAggregate>(
         this IAggregateNameResolutionStrategy aggregateNameResolutionStrategy,
         TAggregate aggregate
@@ -39,6 +55,18 @@ public static class AggregateNameResolutionStrategyExtensions
         return $"{aggregateNameResolutionStrategy.GetAggregateName(aggregate.GetType().Name)}-{aggregate.Id}";
     }
 
+    /// <summary>
+    ///     Resolves the persistent subscription stream name for the specified aggregate type name using the provided strategy.
+    /// </summary>
+    /// <param name="aggregateNameResolutionStrategy">
+    ///     The aggregate name resolution strategy to use for resolving the stream
+    ///     name.
+    /// </param>
+    /// <param name="aggregateTypeName">The type name of the aggregate for which to resolve the stream name.</param>
+    /// <returns>The persistent subscription stream name for the specified aggregate type.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="aggregateNameResolutionStrategy" /> or <paramref name="aggregateTypeName" /> is null.
+    /// </exception>
     public static string GetEventStoreDbPersistentSubscriptionStreamName(
         this IAggregateNameResolutionStrategy aggregateNameResolutionStrategy,
         string aggregateTypeName

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,42 @@
 using System.Collections.ObjectModel;
 using Carcass.Core.Extensions;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Exceptions;
 
+/// <summary>
+///     Represents an exception that is thrown when an unexpected null value is encountered,
+///     or additional metadata needs to be supplied for context regarding the null value.
+/// </summary>
 public class NullException : Exception
 {
+    /// <summary>
+    ///     Represents an exception that is thrown when a null-related issue occurs.
+    ///     Provides additional constructors for specific use cases, including support for metadata.
+    /// </summary>
     public NullException()
     {
     }
 
+    /// <summary>
+    ///     Represents an exception that is thrown when a null value is encountered where it is not expected.
+    /// </summary>
     public NullException(string? message) : base(message)
     {
     }
 
+    /// <summary>
+    ///     Represents an exception that is thrown when a null value is encountered where it is not expected.
+    /// </summary>
     public NullException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 
+    /// <summary>
+    ///     Represents an exception that is thrown when a null value is encountered in a context where it is not allowed.
+    /// </summary>
     public NullException(Dictionary<string, object?> metadata)
     {
         ArgumentVerifier.NotNull(metadata, nameof(metadata));
@@ -46,5 +66,13 @@ public class NullException : Exception
         Metadata = metadata.AsReadOnlyDictionary();
     }
 
+    /// <summary>
+    ///     Represents metadata associated with an exception.
+    ///     Provides additional contextual information in a key-value pair structure.
+    /// </summary>
+    /// <remarks>
+    ///     The metadata is represented as a read-only dictionary, ensuring immutability
+    ///     once it is initialized.
+    /// </remarks>
     public ReadOnlyDictionary<string, object?>? Metadata { get; }
 }

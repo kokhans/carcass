@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,19 @@ using Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies.Abstracts;
 
 namespace Carcass.Data.Core.EventSourcing.Aggregates.ResolutionStrategies;
 
+/// <summary>
+///     A strategy for resolving aggregate names by removing the word "Aggregate"
+///     and combining the component words of a type name that are split based on capitalization.
+/// </summary>
 public sealed class CapitalizedAggregateNameResolutionStrategy : IAggregateNameResolutionStrategy
 {
+    /// <summary>
+    ///     Resolves the aggregate name by processing the given aggregate type name.
+    ///     Removes the term "Aggregate" and joins split capitalized words.
+    /// </summary>
+    /// <param name="aggregateTypeName">The name of the aggregate type to be resolved into an aggregate name.</param>
+    /// <returns>A processed string representing the resolved aggregate name.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided <paramref name="aggregateTypeName" /> is null.</exception>
     public string GetAggregateName(string aggregateTypeName)
     {
         ArgumentVerifier.NotNull(aggregateTypeName, nameof(aggregateTypeName));

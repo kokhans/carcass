@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,25 @@
 
 using Carcass.Core.Accessors.CorrelationId.Abstracts;
 
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for the <see cref="ICorrelationIdAccessor" /> interface.
+/// </summary>
 public static class CorrelationIdAccessorExtensions
 {
+    /// <summary>
+    ///     Retrieves the current correlation ID from the provided <see cref="ICorrelationIdAccessor" /> instance.
+    /// </summary>
+    /// <param name="correlationIdAccessor">The accessor instance used to obtain the correlation ID.</param>
+    /// <returns>The current correlation ID as a string.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="correlationIdAccessor" /> is null.</exception>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the correlation ID is null, empty, or consists only of whitespace.
+    /// </exception>
     public static string GetCorrelationId(this ICorrelationIdAccessor correlationIdAccessor)
     {
         ArgumentVerifier.NotNull(correlationIdAccessor, nameof(correlationIdAccessor));

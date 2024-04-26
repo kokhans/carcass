@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,30 @@ using Carcass.Core;
 using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.Data.EntityFrameworkCore.Extensions;
 
+/// <summary>
+///     Provides extension methods for configuring different types of entities
+///     using the <see cref="Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{TEntity}" />.
+/// </summary>
 public static class EntityTypeBuilderExtensions
 {
-    public static void ConfigureIdentifiableEntity<TIdentifiableEntity>(this EntityTypeBuilder<TIdentifiableEntity> builder)
+    /// <summary>
+    ///     Configures a given entity type as an identifiable entity by setting its primary key to the "Id" property.
+    /// </summary>
+    /// <typeparam name="TIdentifiableEntity">
+    ///     The type of the entity to configure, which must implement <see cref="IIdentifiableEntity" />.
+    /// </typeparam>
+    /// <param name="builder">
+    ///     An <see cref="EntityTypeBuilder{TEntity}" /> used to configure the entity type.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="builder" /> is null.
+    /// </exception>
+    public static void ConfigureIdentifiableEntity<TIdentifiableEntity>(
+        this EntityTypeBuilder<TIdentifiableEntity> builder)
         where TIdentifiableEntity : class, IIdentifiableEntity
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));
@@ -36,7 +55,23 @@ public static class EntityTypeBuilderExtensions
         builder.HasKey(e => e.Id);
     }
 
-    public static void ConfigureTenantifiableEntity<TTenantifiableEntity>(this EntityTypeBuilder<TTenantifiableEntity> builder)
+    /// <summary>
+    ///     Configures the entity as a tenantifiable entity by setting up the tenant-related properties.
+    ///     This method applies metadata constraints and configurations for an entity that implements
+    ///     <see cref="ITenantifiableEntity" />.
+    /// </summary>
+    /// <typeparam name="TTenantifiableEntity">
+    ///     The type of the tenantifiable entity being configured. This type must implement <see cref="ITenantifiableEntity" />
+    ///     .
+    /// </typeparam>
+    /// <param name="builder">
+    ///     The <see cref="EntityTypeBuilder{TTenantifiableEntity}" /> used to configure the entity model.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="builder" /> argument is null.
+    /// </exception>
+    public static void ConfigureTenantifiableEntity<TTenantifiableEntity>(
+        this EntityTypeBuilder<TTenantifiableEntity> builder)
         where TTenantifiableEntity : class, ITenantifiableEntity
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));
@@ -44,6 +79,19 @@ public static class EntityTypeBuilderExtensions
         builder.Property(e => e.TenantId).IsRequired(false);
     }
 
+    /// <summary>
+    ///     Configures the properties for an auditable entity to ensure proper database mapping
+    ///     and enforce constraints for audit-related fields (CreatedBy, CreatedAt, UpdatedBy, UpdatedAt).
+    /// </summary>
+    /// <typeparam name="TAuditableEntity">
+    ///     The type of the entity implementing <see cref="IAuditableEntity" />.
+    /// </typeparam>
+    /// <param name="builder">
+    ///     The <see cref="EntityTypeBuilder{T}" /> instance used to configure the entity type.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the <paramref name="builder" /> is null.
+    /// </exception>
     public static void ConfigureAuditableEntity<TAuditableEntity>(this EntityTypeBuilder<TAuditableEntity> builder)
         where TAuditableEntity : class, IAuditableEntity
     {
@@ -55,7 +103,21 @@ public static class EntityTypeBuilderExtensions
         builder.Property(ae => ae.UpdatedAt).IsRequired(false);
     }
 
-    public static void ConfigureSoftDeletableEntity<TSoftDeletableEntity>(this EntityTypeBuilder<TSoftDeletableEntity> builder)
+    /// <summary>
+    ///     Configures an entity type to include properties and behaviors related to soft deletion.
+    ///     Sets up the required properties for managing soft deletable entities, particularly the "IsDeleted" flag.
+    /// </summary>
+    /// <typeparam name="TSoftDeletableEntity">
+    ///     The type of the entity that implements <see cref="ISoftDeletableEntity" />.
+    /// </typeparam>
+    /// <param name="builder">
+    ///     The builder used to configure the entity type.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="builder" /> parameter is null.
+    /// </exception>
+    public static void ConfigureSoftDeletableEntity<TSoftDeletableEntity>(
+        this EntityTypeBuilder<TSoftDeletableEntity> builder)
         where TSoftDeletableEntity : class, ISoftDeletableEntity
     {
         ArgumentVerifier.NotNull(builder, nameof(builder));

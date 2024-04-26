@@ -1,17 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>YAML provider implementation based on YamlDotNet.</Description>
-    <PackageTags>carcass, yaml, yamldotnet</PackageTags>
+    <Description>YAML serialization, deserialization, and transformation built with YamlDotNet.</Description>
+    <PackageTags>carcass, yaml, serialization, deserialization, yamldotnet</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
-    <ProjectReference Include="..\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj" />
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.Yaml.Core\Carcass.Yaml.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
   </ItemGroup>
 
 </Project>

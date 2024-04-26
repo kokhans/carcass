@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,51 @@
 // SOFTWARE.
 
 using Carcass.Core;
-using Carcass.Data.Core.Audit;
-using Carcass.Data.EntityFrameworkCore.Audit;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
 using Carcass.Core.Accessors.CorrelationId.Abstracts;
 using Carcass.Core.Locators;
+using Carcass.Data.Core.Audit;
+using Carcass.Data.EntityFrameworkCore.Audit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+// ReSharper disable SwitchStatementMissingSomeEnumCasesNoDefault
+// ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
 
 namespace Carcass.Data.EntityFrameworkCore.Extensions;
 
+/// <summary>
+///     Provides extension methods for the <see cref="EntityEntry" /> type,
+///     allowing the addition of auditing functionalities.
+/// </summary>
 public static class EntityEntryExtensions
 {
+    /// <summary>
+    ///     Converts an <see cref="EntityEntry" /> into an <see cref="AuditEntry" /> representing the audit details of the
+    ///     tracked entity.
+    /// </summary>
+    /// <param name="entityEntry">
+    ///     The <see cref="EntityEntry" /> being converted, which contains the entity and its change
+    ///     state.
+    /// </param>
+    /// <returns>
+    ///     An <see cref="AuditEntry" /> containing audit information or null if the entity's state is not Added, Modified, or
+    ///     Deleted.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="entityEntry" /> is null.</exception>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if required dependencies for audit entry creation, such as <see cref="TimeProvider" /> or
+    ///     <see cref="ICorrelationIdAccessor" />, cannot be resolved.
+    /// </exception>
     public static AuditEntry? ToAuditEntry(this EntityEntry entityEntry)
     {
         ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
 
+        TimeProvider timeProvider = ServiceProviderLocator.Current.GetRequiredService<TimeProvider>();
+
         AuditEntry auditEntry = new()
         {
             EntityName = entityEntry.Metadata.GetTableName(),
-            Timestamp = Clock.Current.UtcNow
+            Timestamp = timeProvider.GetUtcNow().UtcDateTime
         };
 
         switch (entityEntry.State)
@@ -78,13 +104,12 @@ public static class EntityEntryExtensions
                     break;
                 case EntityState.Modified:
                     if (propertyEntry.IsModified)
-                    {
-                        if (originalValue is not null && !originalValue.Equals(currentValue) || originalValue is null && currentValue is not null)
+                        if (originalValue is not null && !originalValue.Equals(currentValue) ||
+                            originalValue is null && currentValue is not null)
                         {
                             auditEntry.OldValues[propertyName] = originalValue;
                             auditEntry.NewValues[propertyName] = currentValue;
                         }
-                    }
 
                     break;
             }

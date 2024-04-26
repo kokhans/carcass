@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,4 +25,12 @@ using MongoDB.Bson;
 
 namespace Carcass.Data.MongoDb.Entities.Abstracts;
 
-public interface IIdentifiableDocument : IIdentifiable<ObjectId> { }
+/// <summary>
+///     Defines a MongoDB document that can be uniquely identified using an <see cref="ObjectId" />.
+/// </summary>
+/// <remarks>
+///     This interface extends the <see cref="IIdentifiable{TId}" /> interface with an <c>ObjectId</c> as the identifier
+///     type,
+///     enabling identification and management of MongoDB entities.
+/// </remarks>
+public interface IIdentifiableDocument : IIdentifiable<ObjectId>;

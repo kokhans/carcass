@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,46 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Carcass.Media.Cloudinary.Options;
 
+/// <summary>
+///     Represents the configuration options required for authentication and integration with a Cloudinary account.
+///     This class is used to store essential credentials such as CloudName, ApiKey, and ApiSecret for Cloudinary access.
+/// </summary>
 public sealed class CloudinaryOptions
 {
-    [Required] public required string CloudName { get; set; }
-    [Required] public required string ApiKey { get; set; }
-    [Required] public required string ApiSecret { get; set; }
+    /// <summary>
+    ///     Represents the name of the cloud environment associated with the Cloudinary account.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required and must be provided to correctly configure the Cloudinary service.
+    /// </remarks>
+    /// <exception cref="ValidationException">
+    ///     Thrown if the property value is not provided during configuration.
+    /// </exception>
+    [Required]
+    public required string CloudName { get; init; }
+
+    /// <summary>
+    ///     Represents the required API key used for authenticating with the Cloudinary service.
+    /// </summary>
+    /// <exception cref="ValidationException">
+    ///     Thrown when the property is not provided or contains invalid data.
+    /// </exception>
+    [Required]
+    public required string ApiKey { get; init; }
+
+    /// <summary>
+    ///     Gets the API secret used for authentication in Cloudinary services.
+    /// </summary>
+    /// <remarks>
+    ///     This property is required and must contain a valid API secret key provided
+    ///     by the Cloudinary platform. It is used for secure integration with Cloudinary services.
+    /// </remarks>
+    /// <exception cref="ValidationException">
+    ///     Throws when the value is not provided or invalid during validation.
+    /// </exception>
+    /// <value>
+    ///     A string representing the API secret key for Cloudinary authentication.
+    /// </value>
+    [Required]
+    public required string ApiSecret { get; init; }
 }

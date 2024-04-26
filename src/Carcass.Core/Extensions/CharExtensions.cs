@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,18 @@
 
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for character manipulation.
+/// </summary>
 public static class CharExtensions
 {
+    /// <summary>
+    ///     Converts a given character to its ASCII equivalent if it has a diacritic or regional variation,
+    ///     otherwise returns the character as a string.
+    /// </summary>
+    /// <param name="c">The character to convert to its ASCII equivalent.</param>
+    /// <returns>A string representation of the ASCII equivalent of the character.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the character is null (not applicable to value types).</exception>
     public static string ToAscii(this char c)
     {
         string s = c.ToString().ToLowerInvariant();
@@ -61,6 +71,7 @@ public static class CharExtensions
         if ("ğĝ".Contains(s))
             return "g";
 
+        // ReSharper disable once ConvertIfStatementToSwitchStatement
         if (c == 'ř')
             return "r";
 
@@ -79,6 +90,7 @@ public static class CharExtensions
         if (c == 'ĥ')
             return "h";
 
+        // ReSharper disable once ConvertIfStatementToReturnStatement
         if (c == 'ĵ')
             return "j";
 

@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,21 @@
 
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides helper methods for generating deterministic hash codes.
+/// </summary>
 public static class HashCodeHelper
 {
+    /// <summary>
+    ///     Computes a deterministic hash code for the specified string.
+    /// </summary>
+    /// <param name="value">The input string for which the hash code will be computed. Can be null or whitespace.</param>
+    /// <returns>
+    ///     An <see cref="int" /> representing the hash code if the input is not null or whitespace; otherwise, returns null.
+    /// </returns>
+    /// <exception cref="System.OverflowException">
+    ///     Thrown if arithmetic overflow occurs during hash computation.
+    /// </exception>
     public static int? GetDeterministicHashCode(string? value)
     {
         if (string.IsNullOrWhiteSpace(value))

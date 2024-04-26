@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Carcass.Core.Attributes;
 
+/// <summary>
+///     Represents an attribute that provides metadata for a dependency descriptor.
+///     This attribute can be applied to classes to define a descriptive name.
+/// </summary>
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class DependencyDescriptorAttribute : Attribute
 {
+    /// <summary>
+    ///     An attribute used to provide a descriptor for a class dependency.
+    ///     It is applied to a class to specify additional metadata about the dependency.
+    /// </summary>
     public DependencyDescriptorAttribute(string name)
     {
         ArgumentVerifier.NotNull(name, nameof(name));
@@ -32,5 +43,17 @@ public sealed class DependencyDescriptorAttribute : Attribute
         Name = name;
     }
 
+    /// <summary>
+    ///     Gets the name associated with the dependency descriptor.
+    /// </summary>
+    /// <remarks>
+    ///     This property provides the specified name for a class marked with the <see cref="DependencyDescriptorAttribute" />.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the name is null or an empty string when assigned during object initialization.
+    /// </exception>
+    /// <returns>
+    ///     The name of the dependency descriptor as a string.
+    /// </returns>
     public string Name { get; }
 }

@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,33 @@
 using System.ComponentModel;
 using System.Reflection;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides utility methods for working with enumerations.
+/// </summary>
 public static class EnumHelper
 {
+    /// <summary>
+    ///     Retrieves the enum value associated with a given description or name
+    ///     from an enumeration type.
+    /// </summary>
+    /// <typeparam name="TEnum">
+    ///     The type of the enumeration to search in. Must be an enumeration type.
+    /// </typeparam>
+    /// <param name="value">
+    ///     The description or name of the enum value to retrieve. Can be null or whitespace.
+    /// </param>
+    /// <returns>
+    ///     The corresponding enum value of the specified type if a match is found; otherwise, the default value of the enum
+    ///     type.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the specified type <typeparamref name="TEnum" /> is not an enumeration.
+    /// </exception>
     public static TEnum? GetValueFromDescription<TEnum>(string? value)
     {
         if (string.IsNullOrWhiteSpace(value))

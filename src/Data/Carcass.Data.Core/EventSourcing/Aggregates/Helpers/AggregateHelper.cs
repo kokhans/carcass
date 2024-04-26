@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,24 @@ using Carcass.Data.Core.EventSourcing.Aggregates.Attributes;
 
 namespace Carcass.Data.Core.EventSourcing.Aggregates.Helpers;
 
+/// <summary>
+///     A helper class for operations related to aggregates in the context of event sourcing.
+///     This class provides functionality for retrieving metadata attributes associated with aggregates.
+/// </summary>
 public static class AggregateHelper
 {
+    /// <summary>
+    ///     Retrieves the <see cref="AggregateVersionAttribute" /> associated with a specified aggregate type.
+    /// </summary>
+    /// <typeparam name="TAggregate">
+    ///     The type of the aggregate for which the version attribute is to be retrieved. Must inherit
+    ///     from <see cref="Aggregate" />.
+    /// </typeparam>
+    /// <returns>The <see cref="AggregateVersionAttribute" /> associated with the specified aggregate type.</returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the specified aggregate type does not have an
+    ///     <see cref="AggregateVersionAttribute" /> applied.
+    /// </exception>
     public static AggregateVersionAttribute GetAggregateVersionAttribute<TAggregate>() where TAggregate : Aggregate
     {
         AggregateVersionAttribute? aggregateVersionAttribute =

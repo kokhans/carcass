@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,21 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Carcass.Swashbuckle.Security.Definitions;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides an extension method for configuring Swagger with a Bearer authentication security definition.
+/// </summary>
 public static class BearerSecurityDefinitionDescriptor
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Adds a Bearer authentication definition to the Swagger configuration.
+    /// </summary>
+    /// <param name="swaggerOptions">
+    ///     The SwaggerGenOptions instance to which the Bearer authentication definition will be
+    ///     added.
+    /// </param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="swaggerOptions" /> is null.</exception>
     public static void AddBearerAuthenticationDefinition(this SwaggerGenOptions swaggerOptions)
     {
         ArgumentVerifier.NotNull(swaggerOptions, nameof(swaggerOptions));

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,15 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Carcass.Data.EntityFrameworkCore.Values.Comparers;
 
-public class DateOnlyComparer : ValueComparer<DateOnly>
-{
-    public DateOnlyComparer() : base(
-        (dateOnly1, dateOnly2) => dateOnly1.DayNumber == dateOnly2.DayNumber,
-        dateOnly => dateOnly.GetHashCode()
-    )
-    {
-    }
-}
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides a value comparer for <see cref="DateOnly" /> instances that compares them based on their day numbers.
+/// </summary>
+/// <remarks>
+///     This comparer is designed to ensure that <see cref="DateOnly" /> objects are compared consistently in
+///     Entity Framework Core, focusing on logical equality rather than reference equality.
+/// </remarks>
+/// <exception cref="ArgumentNullException">Thrown when a null instance is provided to the comparison methods.</exception>
+public class DateOnlyComparer() : ValueComparer<DateOnly>(
+    (dateOnly1, dateOnly2) => dateOnly1.DayNumber == dateOnly2.DayNumber,
+    dateOnly => dateOnly.GetHashCode());

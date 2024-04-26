@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,7 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface IIdentifiableEntity : IIdentifiable<Guid> { }
+/// <summary>
+///     Represents an entity that can be uniquely identified by a GUID.
+/// </summary>
+public interface IIdentifiableEntity : IIdentifiable<Guid>;

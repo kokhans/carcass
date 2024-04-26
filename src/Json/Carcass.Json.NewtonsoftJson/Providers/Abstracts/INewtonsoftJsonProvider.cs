@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,8 @@ using Carcass.Json.Core.Providers.Abstracts;
 
 namespace Carcass.Json.NewtonsoftJson.Providers.Abstracts;
 
-public interface INewtonsoftJsonProvider : IJsonProvider { }
+/// <summary>
+///     Defines the contract for a JSON provider that utilizes the Newtonsoft.Json library
+///     for serialization and deserialization of data.
+/// </summary>
+public interface INewtonsoftJsonProvider : IJsonProvider;

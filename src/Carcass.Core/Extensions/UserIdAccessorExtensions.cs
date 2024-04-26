@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,19 @@ using Carcass.Core.Accessors.UserId.Abstracts;
 
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for the <see cref="IUserIdAccessor" /> interface to simplify user ID retrieval
+///     operations.
+/// </summary>
 public static class UserIdAccessorExtensions
 {
+    /// <summary>
+    ///     Retrieves the user ID from the provided <see cref="IUserIdAccessor" /> instance.
+    /// </summary>
+    /// <param name="userIdAccessor">The instance of <see cref="IUserIdAccessor" /> used to retrieve the user ID.</param>
+    /// <returns>The user ID as a non-null, non-whitespace string.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="userIdAccessor" /> is null.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the user ID is null, empty, or consists only of whitespace.</exception>
     public static string GetUserId(this IUserIdAccessor userIdAccessor)
     {
         ArgumentVerifier.NotNull(userIdAccessor, nameof(userIdAccessor));

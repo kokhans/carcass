@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,17 +35,49 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods for registering MongoDB-related services into an IServiceCollection.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Adds MongoDB integration to the IServiceCollection by configuring and registering necessary MongoDB services,
+    ///     including MongoClient and IMongoDatabase.
+    /// </summary>
+    /// <param name="services">
+    ///     The IServiceCollection where the MongoDB-related services will be registered.
+    /// </param>
+    /// <param name="configuration">
+    ///     The IConfiguration instance used to retrieve MongoDB configuration settings.
+    /// </param>
+    /// <param name="mongoClientFactory">
+    ///     An optional factory method to create a custom MongoClient instance. If not provided, a default MongoClient
+    ///     is created based on the configuration.
+    /// </param>
+    /// <param name="mongoDatabaseFactory">
+    ///     An optional factory method to create a custom IMongoDatabase instance. If not provided, a default
+    ///     MongoDatabase is created based on the configuration.
+    /// </param>
+    /// <param name="lifetime">
+    ///     Specifies the ServiceLifetime for the registered services. Defaults to Singleton.
+    /// </param>
+    /// <returns>
+    ///     The modified IServiceCollection instance including the MongoDB services.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the provided services or configuration parameters are null.
+    /// </exception>
     public static IServiceCollection AddCarcassMongoDb(
         this IServiceCollection services,
         IConfiguration configuration,
-        Func<MongoDbOptions, MongoClient>? mongoClientFactory = default,
-        Func<MongoDbOptions, MongoClient, IMongoDatabase>? mongoDatabaseFactory = default,
+        Func<MongoDbOptions, MongoClient>? mongoClientFactory = null,
+        Func<MongoDbOptions, MongoClient, IMongoDatabase>? mongoDatabaseFactory = null,
         ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
@@ -54,10 +86,8 @@ public static class ServiceCollectionExtensions
 
         services.Configure<MongoDbOptions>(configuration.GetSection("Carcass:MongoDb"));
 
-        BsonSerializer.RegisterSerializer(typeof(decimal), new DecimalSerializer(BsonType.Decimal128));
-        BsonSerializer.RegisterSerializer(
-            typeof(decimal?),
-            new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128))
+        BsonSerializer.RegisterSerializer(new DecimalSerializer(BsonType.Decimal128));
+        BsonSerializer.RegisterSerializer(new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128))
         );
 
         // Register MongoClient.
@@ -119,6 +149,21 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Adds the MongoDB session service to the dependency injection container.
+    /// </summary>
+    /// <param name="services">
+    ///     The <see cref="IServiceCollection" /> to add the service to.
+    /// </param>
+    /// <param name="lifetime">
+    ///     The lifetime of the service. Defaults to <see cref="ServiceLifetime.Singleton" />.
+    /// </param>
+    /// <returns>
+    ///     The updated <see cref="IServiceCollection" /> instance.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="services" /> argument is null.
+    /// </exception>
     public static IServiceCollection AddCarcassMongoDbSession(
         this IServiceCollection services,
         ServiceLifetime lifetime = ServiceLifetime.Singleton
@@ -136,6 +181,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Registers the MongoDB-based checkpoint repository implementation with the specified service collection.
+    /// </summary>
+    /// <param name="services">The service collection where the checkpoint repository will be registered.</param>
+    /// <param name="lifetime">The lifetime of the registered service. Defaults to singleton.</param>
+    /// <returns>The modified service collection with the checkpoint repository service registered.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the service collection parameter is null.</exception>
     public static IServiceCollection AddCarcassMongoDbCheckpointRepository(
         this IServiceCollection services,
         ServiceLifetime lifetime = ServiceLifetime.Singleton
@@ -153,6 +205,16 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Adds the MongoDB snapshot repository implementation to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The dependency injection service collection.</param>
+    /// <param name="lifetime">
+    ///     The desired lifetime of the snapshot repository within the service container. Default is
+    ///     Singleton.
+    /// </param>
+    /// <returns>The modified service collection.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="services" /> parameter is null.</exception>
     public static IServiceCollection AddCarcassMongoDbSnapshotRepository(
         this IServiceCollection services,
         ServiceLifetime lifetime = ServiceLifetime.Singleton

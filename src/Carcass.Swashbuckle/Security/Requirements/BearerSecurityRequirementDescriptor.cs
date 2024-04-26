@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,23 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Carcass.Swashbuckle.Security.Requirements;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides an extension method to configure Bearer security requirements for Swagger documentation.
+///     This extension is used to add Bearer authentication schemes to the OpenAPI definition.
+/// </summary>
 public static class BearerSecurityRequirementDescriptor
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Adds a Bearer security requirement to the Swagger documentation options.
+    /// </summary>
+    /// <param name="swaggerOptions">
+    ///     The SwaggerGenOptions instance to which the Bearer security requirement will be added.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="swaggerOptions" /> is null.
+    /// </exception>
     public static void AddBearerSecurityRequirement(this SwaggerGenOptions swaggerOptions)
     {
         ArgumentVerifier.NotNull(swaggerOptions, nameof(swaggerOptions));

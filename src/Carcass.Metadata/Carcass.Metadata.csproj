@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Metadata toolchain.</Description>
-    <PackageTags>carcass, metadata</PackageTags>
+    <Description>Metadata management for structuring data.</Description>
+    <PackageTags>carcass, metadata, management, structuring</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
   </ItemGroup>
 
 </Project>

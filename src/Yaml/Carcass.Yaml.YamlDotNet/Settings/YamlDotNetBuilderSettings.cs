@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,30 @@
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace Carcass.Yaml.YamlDotNet.Settings;
 
+/// <summary>
+///     Provides configuration methods to initialize default settings for YamlDotNet's SerializerBuilder and
+///     DeserializerBuilder.
+/// </summary>
 public sealed class YamlDotNetBuilderSettings
 {
+    /// <summary>
+    ///     Creates a default instance of the <see cref="SerializerBuilder" /> configured with the UnderscoredNamingConvention.
+    /// </summary>
+    /// <returns>A <see cref="SerializerBuilder" /> instance configured with the UnderscoredNamingConvention.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the SerializerBuilder configuration process fails.</exception>
     public static SerializerBuilder SerializerDefaults() => new SerializerBuilder()
         .WithNamingConvention(UnderscoredNamingConvention.Instance);
 
+    /// <summary>
+    ///     Creates a default instance of the <see cref="DeserializerBuilder" /> configured with the
+    ///     UnderscoredNamingConvention.
+    /// </summary>
+    /// <returns>A <see cref="DeserializerBuilder" /> instance configured with the UnderscoredNamingConvention.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the DeserializerBuilder configuration process fails.</exception>
     public static DeserializerBuilder DeserializerDefaults() => new DeserializerBuilder()
         .WithNamingConvention(UnderscoredNamingConvention.Instance);
 }

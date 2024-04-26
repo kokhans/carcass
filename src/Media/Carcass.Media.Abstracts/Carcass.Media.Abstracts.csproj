@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <Description>Media management core abstractions, interfaces, and types used by Carcass.Media.* libraries.</Description>
-    <PackageTags>carcass, media</PackageTags>
-  </PropertyGroup>
-
-</Project>

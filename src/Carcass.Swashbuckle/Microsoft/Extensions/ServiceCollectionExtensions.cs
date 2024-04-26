@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,16 +28,39 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+///     Provides extension methods for registering Swashbuckle configurations and integrations in an application.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Configures and registers Swashbuckle services to the application's service collection.
+    /// </summary>
+    /// <param name="services">
+    ///     The IServiceCollection to which Swashbuckle services are added.
+    /// </param>
+    /// <param name="configuration">
+    ///     The IConfiguration used to retrieve Swashbuckle options from the "Carcass:Swashbuckle" section.
+    /// </param>
+    /// <param name="configure">
+    ///     An optional Action to customize the SwaggerGenOptions.
+    /// </param>
+    /// <returns>
+    ///     The IServiceCollection with Swashbuckle services added.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when either <paramref name="services" /> or <paramref name="configuration" /> is null.
+    /// </exception>
     public static IServiceCollection AddCarcassSwashbuckle(
         this IServiceCollection services,
         IConfiguration configuration,
-        Action<SwaggerGenOptions>? configure = default
+        Action<SwaggerGenOptions>? configure = null
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));

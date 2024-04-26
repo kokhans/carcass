@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,24 @@ using Carcass.Multitenancy.Core.Entities.Abstracts;
 
 namespace Carcass.Multitenancy.Core.Accessors.Abstracts;
 
+/// <summary>
+///     Provides an abstraction to access the current tenant and related tenant-specific information.
+/// </summary>
+/// <typeparam name="TTenant">
+///     The type representing the tenant, which must implement the <see cref="ITenant" /> interface.
+/// </typeparam>
 public interface ITenantAccessor<out TTenant> : ITenantIdAccessor
     where TTenant : class, ITenant
 {
+    // ReSharper disable once UnusedMemberInSuper.Global
+    /// <summary>
+    ///     Attempts to retrieve the current tenant associated with the context.
+    /// </summary>
+    /// <returns>
+    ///     The tenant of type <typeparamref name="TTenant" /> if available, or null if not found.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the tenant cannot be accessed or determined.
+    /// </exception>
     TTenant? TryGetTenant();
 }

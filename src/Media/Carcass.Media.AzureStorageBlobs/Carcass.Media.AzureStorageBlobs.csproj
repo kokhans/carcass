@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Media file storage, processing, and metadata management built with Azure Blob Storage.</Description>
+    <PackageTags>carcass, media, storage, processing, azure, blobs</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.23.0"/>
+    <PackageReference Include="MediaTypeMap.Core" Version="2.3.3"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.2"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.Media.Core\Carcass.Media.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
+  </ItemGroup>
+
+</Project>

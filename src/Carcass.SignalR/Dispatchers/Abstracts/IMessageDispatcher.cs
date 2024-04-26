@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,31 @@
 using Carcass.SignalR.Hubs.Abstracts;
 using Carcass.SignalR.Messages.Abstracts;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.SignalR.Dispatchers.Abstracts;
 
+/// <summary>
+///     Represents a contract for dispatching messages to a specific SignalR hub.
+/// </summary>
 public interface IMessageDispatcher
 {
+    /// <summary>
+    ///     Dispatches a message to a specified SignalR hub asynchronously.
+    /// </summary>
+    /// <typeparam name="THub">
+    ///     The type of the SignalR hub that the message will be dispatched to. Must inherit from
+    ///     <see cref="AuthorizeHub" />.
+    /// </typeparam>
+    /// <typeparam name="TMessage">The type of the message to dispatch. Must implement the <see cref="IMessage" /> interface.</typeparam>
+    /// <param name="message">The message to be dispatched. Cannot be null.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous operation of dispatching the message.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="message" /> parameter is null.</exception>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the
+    ///     <paramref name="cancellationToken" />.
+    /// </exception>
     Task DispatchAsync<THub, TMessage>(
         TMessage message,
         CancellationToken cancellationToken = default

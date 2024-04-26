@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,30 @@ using Carcass.Multitenancy.Core.Entities.Abstracts;
 
 namespace Carcass.Multitenancy.Core.Providers.Abstracts;
 
+/// <summary>
+///     Provides an abstraction for retrieving tenant information in a multitenant application.
+/// </summary>
+/// <typeparam name="TTenant">
+///     The type that represents a tenant and must implement the <see cref="ITenant" /> interface.
+/// </typeparam>
 public interface ITenantProvider<TTenant> where TTenant : class, ITenant
 {
+    // ReSharper disable once UnusedMemberInSuper.Global
+    /// <summary>
+    ///     Retrieves a tenant asynchronously based on the resolved tenant identifier.
+    /// </summary>
+    /// <typeparam name="TTenant">The type of the tenant that implements the <see cref="ITenant" /> interface.</typeparam>
+    /// <param name="cancellationToken">
+    ///     A <see cref="CancellationToken" /> that can be used to cancel the operation.
+    /// </param>
+    /// <returns>
+    ///     The tenant corresponding to the resolved identifier, or <c>null</c> if no tenant is found.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the provided <paramref name="cancellationToken" />.
+    /// </exception>
+    /// <exception cref="Exception">
+    ///     May throw exceptions based on the implementation of the tenant resolution or store.
+    /// </exception>
     Task<TTenant?> GetTenantAsync(CancellationToken cancellationToken = default);
 }

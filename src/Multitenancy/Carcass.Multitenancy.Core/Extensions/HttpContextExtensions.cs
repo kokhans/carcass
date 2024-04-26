@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,16 +26,33 @@ using Microsoft.AspNetCore.Http;
 
 namespace Carcass.Multitenancy.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for the <see cref="HttpContext" /> class, specifically for working with multitenancy
+///     scenarios.
+/// </summary>
 public static class HttpContextExtensions
 {
+    /// <summary>
+    ///     Retrieves the tenant of the specified type from the HTTP context, if available.
+    /// </summary>
+    /// <typeparam name="TTenant">
+    ///     The type of the tenant, which must implement the <see cref="ITenant" /> interface.
+    /// </typeparam>
+    /// <param name="httpContext">The current HTTP context.</param>
+    /// <returns>
+    ///     The tenant of type <typeparamref name="TTenant" /> if found; otherwise, null.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the provided <paramref name="httpContext" /> is null.
+    /// </exception>
     public static TTenant? GetTenant<TTenant>(this HttpContext httpContext)
         where TTenant : class, ITenant
     {
         ArgumentVerifier.NotNull(httpContext, nameof(httpContext));
 
-        if (!httpContext.Items.ContainsKey("Tenant"))
+        if (!httpContext.Items.TryGetValue("Tenant", out object? item))
             return null;
 
-        return httpContext.Items["Tenant"] as TTenant;
+        return item as TTenant;
     }
 }

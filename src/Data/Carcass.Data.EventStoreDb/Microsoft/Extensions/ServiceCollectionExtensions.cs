@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,16 +28,37 @@ using EventStore.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods to register services and related dependencies
+///     for working with EventStoreDb and aggregate repositories in an application.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Adds and configures an EventStoreDB client to the service collection,
+    ///     using the specified configuration and optional factory for instantiating the client.
+    /// </summary>
+    /// <param name="services">The service collection to which the EventStoreDB client will be added.</param>
+    /// <param name="configuration">The configuration containing the "Carcass:EventStoreDb" section.</param>
+    /// <param name="factory">
+    ///     An optional factory function to customize the creation of the EventStoreDB client.
+    ///     If null, a default instantiation using the connection string from the configuration will be used.
+    /// </param>
+    /// <param name="lifetime">The service lifetime for the EventStoreDB client. Defaults to Singleton.</param>
+    /// <returns>The updated service collection with the EventStoreDB client configured.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="services" /> or <paramref name="configuration" /> is null.
+    /// </exception>
     public static IServiceCollection AddCarcassEventStoreDb(
         this IServiceCollection services,
         IConfiguration configuration,
-        Func<EventStoreDbOptions, EventStoreClient>? factory = default,
+        Func<EventStoreDbOptions, EventStoreClient>? factory = null,
         ServiceLifetime lifetime = ServiceLifetime.Singleton
     )
     {
@@ -79,6 +100,17 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Registers the EventStoreDb aggregate repository implementation of <see cref="IAggregateRepository" /> into the
+    ///     specified service collection.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection" /> to which the repository will be added.</param>
+    /// <param name="lifetime">
+    ///     The lifetime of the service to be registered. Defaults to
+    ///     <see cref="ServiceLifetime.Singleton" />.
+    /// </param>
+    /// <returns>The same <see cref="IServiceCollection" /> instance so that multiple calls can be chained.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="services" /> parameter is null.</exception>
     public static IServiceCollection AddCarcassEventStoreDbAggregateRepository(
         this IServiceCollection services,
         ServiceLifetime lifetime = ServiceLifetime.Singleton

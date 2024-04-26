@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,43 @@ using Carcass.Data.Core.EventSourcing.DomainEvents.Abstracts;
 using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 using Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Facilitates the registration and management of domain event upgraders, ensuring that
+///     the appropriate upgrader implementations can be resolved and utilized within an
+///     event-sourced system.
+/// </summary>
 public sealed class DomainEventUpgraderRegistrar
 {
+    /// <summary>
+    ///     Stores and manages dependencies of domain event upgraders,
+    ///     keyed by the full name of the associated domain event type.
+    /// </summary>
+    /// <remarks>
+    ///     This instance is responsible for maintaining mappings between domain event types and their associated
+    ///     upgraders to facilitate the registration process in dependency injection.
+    /// </remarks>
     private readonly DependencyStore<Type> _dependencyStore = new();
 
+    /// <summary>
+    ///     Registers an upgrader for a specific domain event type to facilitate its transformation
+    ///     during event sourcing updates.
+    /// </summary>
+    /// <typeparam name="TDomainEvent">The type of the domain event being upgraded.</typeparam>
+    /// <typeparam name="TDomainEventUpgrader">
+    ///     The type of the upgrader that implements <see cref="IDomainEventUpgrader" /> for the specified
+    ///     domain event type.
+    /// </typeparam>
+    /// <returns>
+    ///     Returns the current instance of <see cref="DomainEventUpgraderRegistrar" /> for method chaining.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the fully qualified name of <typeparamref name="TDomainEvent" /> is null or whitespace.
+    /// </exception>
     public DomainEventUpgraderRegistrar AddDomainEventUpgrader<TDomainEvent, TDomainEventUpgrader>()
         where TDomainEvent : IDomainEvent
         where TDomainEventUpgrader : class, IDomainEventUpgrader
@@ -43,6 +74,11 @@ public sealed class DomainEventUpgraderRegistrar
         return this;
     }
 
+    /// <summary>
+    ///     Registers domain event upgraders into the provided service collection.
+    /// </summary>
+    /// <param name="services">The service collection to register the upgraders into.</param>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="services" /> parameter is null.</exception>
     public void Register(IServiceCollection services)
     {
         ArgumentVerifier.NotNull(services, nameof(services));

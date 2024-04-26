@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Carcass.SignalR.Hubs.Abstracts;
 
+/// <summary>
+///     Represents an abstract SignalR hub that enforces authorization policies for clients accessing it.
+///     This hub is used as a base class for deriving secure hubs that require user authorization.
+/// </summary>
+/// <remarks>
+///     Hubs inheriting from this base class automatically apply the [Authorize] attribute, ensuring that
+///     only authorized users can access the associated SignalR endpoints.
+/// </remarks>
 [Authorize]
-public abstract class AuthorizeHub : Hub
-{
-}
+public abstract class AuthorizeHub : Hub;

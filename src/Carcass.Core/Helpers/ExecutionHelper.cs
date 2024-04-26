@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides utility methods for task execution scenarios.
+/// </summary>
 public static class ExecutionHelper
 {
+    // ReSharper disable once AsyncVoidMethod
+    /// <summary>
+    ///     Executes the given task without awaiting it and handles any exceptions using the provided error action.
+    /// </summary>
+    /// <param name="task">The task to execute.</param>
+    /// <param name="errorAction">
+    ///     The action to invoke if an exception occurs during the execution of the task. This parameter
+    ///     is optional.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The token to monitor for cancellation requests. If cancellation is requested, an
+    ///     exception will be thrown. This parameter is optional.
+    /// </param>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the provided
+    ///     <paramref name="cancellationToken" />.
+    /// </exception>
     public static async void FireAndForget(
         this Task task,
-        Action<Exception>? errorAction = default,
+        Action<Exception>? errorAction = null,
         CancellationToken cancellationToken = default
     )
     {

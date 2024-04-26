@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,26 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for modifying an <see cref="IServiceCollection" />.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Removes a service descriptor of the specified type <typeparamref name="T" /> from the service collection.
+    /// </summary>
+    /// <typeparam name="T">The type of service to be removed.</typeparam>
+    /// <param name="services">The service collection from which the service descriptor will be removed.</param>
+    /// <returns>The updated <see cref="IServiceCollection" /> after the removal of the specified service descriptor.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="services" /> parameter is null.</exception>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if a service descriptor for the specified type <typeparamref name="T" /> is not found in the collection.
+    /// </exception>
     public static IServiceCollection RemoveServiceDescriptor<T>(this IServiceCollection services)
     {
         ArgumentVerifier.NotNull(services, nameof(services));
@@ -39,6 +55,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    ///     Attempts to remove the service descriptor of the specified type from the service collection if it exists.
+    /// </summary>
+    /// <typeparam name="T">The type of the service descriptor to be removed.</typeparam>
+    /// <param name="services">The service collection from which the service descriptor will be removed.</param>
+    /// <returns>The modified service collection, with the target service descriptor removed if it was present.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided <paramref name="services" /> is null.</exception>
     public static IServiceCollection TryRemoveServiceDescriptor<T>(this IServiceCollection services)
     {
         ArgumentVerifier.NotNull(services, nameof(services));

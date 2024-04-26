@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Abstracts;
 
-public interface IDomainEvent
-{
-}
+/// <summary>
+///     Represents the base interface for a domain event used within an event-sourced system.
+/// </summary>
+public interface IDomainEvent;

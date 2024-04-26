@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,12 @@
 
 using Carcass.Core;
 using Carcass.Core.Extensions;
-using Carcass.Media.Abstracts;
-using Carcass.Media.Abstracts.Models.Output;
 using Carcass.Media.Cloudinary.Providers.Abstracts;
+using Carcass.Media.Core.Models;
+using Carcass.Media.Core.Models.Output;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using MimeTypes;
 
 namespace Carcass.Media.Cloudinary.Providers;
 
@@ -159,7 +160,7 @@ public sealed class CloudinaryMediaProvider : ICloudinaryMediaProvider
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        IList<MoveMediaOutput> attachments = new List<MoveMediaOutput>();
+        List<MoveMediaOutput> attachments = [];
 
         if (fromPublicIds == null || !fromPublicIds.Any())
             return attachments;
@@ -172,7 +173,7 @@ public sealed class CloudinaryMediaProvider : ICloudinaryMediaProvider
             await RenameMediaAsync(fromPublicId, toFullPublicId, mediaType, cancellationToken);
 
             GetMediaOutput output = await GetMediaAsync(toFullPublicId, mediaType, cancellationToken);
-            string contentType = MimeTypes.MimeTypeMap.GetMimeType(output.Extension);
+            string contentType = MimeTypeMap.GetMimeType(output.Extension);
 
             MoveMediaOutput moveMediaOutput = new()
             {
@@ -229,12 +230,14 @@ public sealed class CloudinaryMediaProvider : ICloudinaryMediaProvider
 
     private static MediaType GetMediaType(ResourceType type) => GetMediaType(type.ToString());
 
-    private static ResourceType GetResourceType(MediaType type) =>
-        type switch
+    private static ResourceType GetResourceType(MediaType type)
+    {
+        return type switch
         {
             MediaType.Video => ResourceType.Video,
             MediaType.Image => ResourceType.Image,
             MediaType.File => ResourceType.Raw,
             _ => ResourceType.Auto
         };
+    }
 }

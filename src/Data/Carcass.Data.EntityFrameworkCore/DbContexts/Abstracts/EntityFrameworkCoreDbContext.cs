@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,131 +20,99 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
-using Carcass.Core;
 using Carcass.Core.Accessors.UserId.Abstracts;
-using Carcass.Core.Helpers;
 using Carcass.Core.Locators;
-using Carcass.Data.Core.Entities.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Audit;
-using Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 using Carcass.Data.EntityFrameworkCore.Extensions;
+using Carcass.Json.Core.Providers.Abstracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 // ReSharper disable VirtualMemberCallInConstructor
 
 namespace Carcass.Data.EntityFrameworkCore.DbContexts.Abstracts;
 
+/// <summary>
+///     Represents an abstract DbContext implementation with additional configurations
+///     and behavior for Entity Framework Core. This class is designed to streamline
+///     integration with common patterns such as auditing and entity configurations.
+/// </summary>
+/// <typeparam name="TDbContext">
+///     The specific type of DbContext that inherits from this base class.
+/// </typeparam>
 public abstract class EntityFrameworkCoreDbContext<TDbContext> : DbContext where TDbContext : DbContext
 {
-    private readonly List<AuditEntry> _auditEntries = new();
+    /// <summary>
+    ///     Represents the options used to configure the current database context.
+    /// </summary>
+    /// <remarks>
+    ///     This variable is essential for managing and applying database configuration settings.
+    ///     It is set during the construction of the database context and provides access to the
+    ///     configuration and extensions required while initializing or configuring the database context.
+    /// </remarks>
+    /// <typeparam name="TDbContext">The type of the DbContext being configured.</typeparam>
+    private readonly DbContextOptions<TDbContext> _dbContextOptions;
 
+    /// <summary>
+    ///     Represents an abstract base class for an Entity Framework Core database context
+    ///     with built-in support for audit logging and model configuration extensions.
+    /// </summary>
+    /// <typeparam name="TDbContext">The specific type of the DbContext that inherits this class.</typeparam>
     protected EntityFrameworkCoreDbContext(DbContextOptions<TDbContext> options) : base(options)
     {
+        _dbContextOptions = options;
+
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
-    protected abstract Assembly Assembly { get; }
-
-    public DbSet<AuditEntry> AuditEntries { get; set; }
-
-    public override int SaveChanges()
+    /// <summary>
+    ///     Configures the database context with additional options or behaviors.
+    /// </summary>
+    /// <param name="optionsBuilder">The builder used to configure the database context options.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when required services from the <c>ServiceProviderLocator</c> are not found
+    ///     or when <c>AuditOptionsExtension</c> is null and auditing is required.
+    /// </exception>
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        AsyncHelper.RunSync(() => OnBeforeSaveChangesAsync());
+        base.OnConfiguring(optionsBuilder);
 
-        return base.SaveChanges();
+        AuditOptionsExtension? auditEntryOptionsExtension =
+            optionsBuilder.Options.FindAuditOptionsExtension();
+
+        if (auditEntryOptionsExtension is not null)
+            optionsBuilder.AddInterceptors(new AuditInterceptor(
+                ServiceProviderLocator.Current.GetRequiredService<TimeProvider>(),
+                ServiceProviderLocator.Current.GetRequiredService<IUserIdAccessor>(),
+                auditEntryOptionsExtension
+            ));
     }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
-    {
-        AsyncHelper.RunSync(() => OnBeforeSaveChangesAsync());
-
-        return base.SaveChanges(acceptAllChangesOnSuccess);
-    }
-
-    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        await OnBeforeSaveChangesAsync(cancellationToken);
-
-        return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
-
+    /// <summary>
+    ///     Configures the model for the context by defining entity relationships, conventions, and other configurations.
+    /// </summary>
+    /// <param name="modelBuilder">
+    ///     An instance of <see cref="ModelBuilder" /> used to construct the model for the database
+    ///     context.
+    /// </param>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="modelBuilder" /> parameter is null.</exception>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ArgumentVerifier.NotNull(modelBuilder, nameof(modelBuilder));
-
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new AuditEntryConfiguration());
-        modelBuilder.ApplyEntityConfigurations(Assembly);
-        modelBuilder.ApplyIsDeletedQueryFilter();
-    }
+        AuditOptionsExtension? auditEntryOptionsExtension =
+            _dbContextOptions.FindAuditOptionsExtension();
 
-    private async Task OnBeforeSaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        DateTime dateTime = Clock.Current.UtcNow;
-
-        IUserIdAccessor userIdAccessor = ServiceProviderLocator.Current.GetRequiredService<IUserIdAccessor>();
-        string? userId = userIdAccessor.TryGetUserId();
-
-        foreach (EntityEntry<IIdentifiableEntity> entityEntry in ChangeTracker.Entries<IIdentifiableEntity>())
-        {
-            switch (entityEntry.State)
+        if (auditEntryOptionsExtension is not null && auditEntryOptionsExtension.UseAuditEntry)
+            modelBuilder.Entity<AuditEntry>(etb =>
             {
-                case EntityState.Added:
-                    if (entityEntry.Entity is IAuditableEntity)
-                        SetAuditBeforeAdd(entityEntry, userId, dateTime);
-                    break;
-                case EntityState.Modified:
-                    if (entityEntry.Entity is IAuditableEntity)
-                        SetAuditBeforeUpdate(entityEntry, userId, dateTime);
-                    break;
-                case EntityState.Deleted:
-                    if (entityEntry.Entity is ISoftDeletableEntity)
-                    {
-                        entityEntry.State = EntityState.Modified;
-                        entityEntry.CurrentValues[nameof(ISoftDeletable<Guid>.IsDeleted)] = true;
-                    }
+                AuditEntryConfiguration configuration = new(
+                    ServiceProviderLocator.Current.GetRequiredService<IJsonProvider>(),
+                    auditEntryOptionsExtension
+                );
+                configuration.Configure(etb);
+            });
 
-                    if (entityEntry.Entity is IAuditableEntity)
-                        SetAuditBeforeDelete(entityEntry, userId, dateTime);
-                    break;
-            }
-
-            AuditEntry? auditEntry = entityEntry.ToAuditEntry();
-            if (auditEntry is not null)
-                _auditEntries.Add(auditEntry);
-        }
-
-        await Set<AuditEntry>().AddRangeAsync(_auditEntries, cancellationToken);
-        _auditEntries.Clear();
-    }
-
-    private static void SetAuditBeforeAdd(EntityEntry entityEntry, string? createdBy, DateTime createdAt)
-    {
-        ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
-
-        entityEntry.CurrentValues[nameof(IAuditableEntity.CreatedBy)] = createdBy;
-        entityEntry.CurrentValues[nameof(IAuditableEntity.CreatedAt)] = createdAt;
-    }
-
-    private static void SetAuditBeforeUpdate(EntityEntry entityEntry, string? updatedBy, DateTime updatedAt)
-    {
-        ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
-
-        entityEntry.CurrentValues[nameof(IAuditableEntity.UpdatedAt)] = updatedAt;
-        entityEntry.CurrentValues[nameof(IAuditableEntity.UpdatedBy)] = updatedBy;
-    }
-
-    private static void SetAuditBeforeDelete(EntityEntry entityEntry, string? deletedBy, DateTime deletedAt)
-    {
-        ArgumentVerifier.NotNull(entityEntry, nameof(entityEntry));
-
-        SetAuditBeforeUpdate(entityEntry, deletedBy, deletedAt);
+        modelBuilder.ApplyEntityConfigurations(GetType().Assembly);
+        modelBuilder.ApplyIsDeletedQueryFilter();
     }
 }

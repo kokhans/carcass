@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +27,35 @@ using Carcass.Yaml.YamlDotNet.Providers.Abstracts;
 using Carcass.Yaml.YamlDotNet.Settings;
 using YamlDotNet.Serialization;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
 // ReSharper disable CheckNamespace
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+///     Provides extension methods for configuring YAML-related services in an IServiceCollection.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    ///     Adds the Carcass YAML DotNet provider to the specified service collection.
+    /// </summary>
+    /// <param name="services">The service collection to which the YAML provider will be added.</param>
+    /// <param name="serializerBuilder">
+    ///     An optional serializer builder instance for customized serialization settings. If null, default settings will be
+    ///     used.
+    /// </param>
+    /// <param name="deserializerBuilder">
+    ///     An optional deserializer builder instance for customized deserialization settings. If null, default settings will
+    ///     be used.
+    /// </param>
+    /// <returns>The modified service collection with the YAML provider registered.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="services" /> parameter is null.</exception>
     public static IServiceCollection AddCarcassYamlDotNetProvider(
         this IServiceCollection services,
-        SerializerBuilder? serializerBuilder = default,
-        DeserializerBuilder? deserializerBuilder = default
+        SerializerBuilder? serializerBuilder = null,
+        DeserializerBuilder? deserializerBuilder = null
     )
     {
         ArgumentVerifier.NotNull(services, nameof(services));

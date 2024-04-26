@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,14 +26,51 @@ using Grpc.Core;
 
 namespace Carcass.Data.EventStoreDb.Extensions;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods for working with persistent subscriptions on the
+///     EventStorePersistentSubscriptionsClient.
+/// </summary>
 public static class EventStorePersistentSubscriptionsClientExtensions
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Safely creates a persistent subscription with specified settings, optionally recreating it if it already exists.
+    /// </summary>
+    /// <param name="persistentSubscriptionsClient">
+    ///     The instance of <see cref="EventStorePersistentSubscriptionsClient" /> to perform the operation.
+    /// </param>
+    /// <param name="streamName">
+    ///     The name of the stream on which the persistent subscription is to be created. Cannot be null.
+    /// </param>
+    /// <param name="groupName">
+    ///     The name of the group for the persistent subscription. Cannot be null.
+    /// </param>
+    /// <param name="settings">
+    ///     The settings for the persistent subscription. Cannot be null.
+    /// </param>
+    /// <param name="recreate">
+    ///     A boolean value indicating whether to recreate the subscription if it already exists.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A token to monitor for cancellation requests.
+    /// </param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation of creating the persistent subscription.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="persistentSubscriptionsClient" />, <paramref name="streamName" />,
+    ///     <paramref name="groupName" />, or <paramref name="settings" /> is null.
+    /// </exception>
+    /// <exception cref="RpcException">
+    ///     Thrown when a specific gRPC error occurs during the operation.
+    /// </exception>
     public static async Task SafelyCreatePersistentSubscriptionAsync(
         this EventStorePersistentSubscriptionsClient persistentSubscriptionsClient,
         string streamName,
         string groupName,
         PersistentSubscriptionSettings settings,
-        bool recreate = default,
+        bool recreate = false,
         CancellationToken cancellationToken = default
     )
     {
@@ -43,8 +80,8 @@ public static class EventStorePersistentSubscriptionsClientExtensions
         ArgumentVerifier.NotNull(streamName, nameof(streamName));
         ArgumentVerifier.NotNull(groupName, nameof(groupName));
         ArgumentVerifier.NotNull(settings, nameof(settings));
-        
-        Task createTask = persistentSubscriptionsClient.CreateAsync(
+
+        Task createTask = persistentSubscriptionsClient.CreateToStreamAsync(
             streamName,
             groupName,
             settings,
@@ -57,32 +94,28 @@ public static class EventStorePersistentSubscriptionsClientExtensions
         }
         catch (Exception exception)
         {
-            if (exception.InnerException is RpcException {Status.StatusCode: StatusCode.AlreadyExists})
+            if (exception.InnerException is not RpcException {Status.StatusCode: StatusCode.AlreadyExists})
+                throw;
+
+            if (recreate)
             {
-                if (recreate)
-                {
-                    await persistentSubscriptionsClient.DeleteAsync(
-                        streamName,
-                        groupName,
-                        cancellationToken: cancellationToken
-                    );
-
-                    await createTask;
-
-                    return;
-                }
-
-                await persistentSubscriptionsClient.UpdateAsync(
+                await persistentSubscriptionsClient.DeleteToStreamAsync(
                     streamName,
                     groupName,
-                    settings,
                     cancellationToken: cancellationToken
                 );
+
+                await createTask;
 
                 return;
             }
 
-            throw;
+            await persistentSubscriptionsClient.UpdateToStreamAsync(
+                streamName,
+                groupName,
+                settings,
+                cancellationToken: cancellationToken
+            );
         }
     }
 }

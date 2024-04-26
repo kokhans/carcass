@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,11 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.EntityFrameworkCore.Entities.Abstracts;
 
-public interface IAuditableEntity : IAuditable<Guid>, IIdentifiableEntity { }
+/// <summary>
+///     Represents an entity that supports auditing operations and is uniquely identifiable with a GUID.
+/// </summary>
+/// <remarks>
+///     Entities implementing this interface support tracking auditing properties and are uniquely identified.
+///     This interface is typically used for entities requiring the capture of audit-related details.
+/// </remarks>
+public interface IAuditableEntity : IAuditable<Guid>, IIdentifiableEntity;

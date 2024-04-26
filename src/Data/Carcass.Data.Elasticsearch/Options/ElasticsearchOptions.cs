@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,52 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Carcass.Data.Elasticsearch.Options;
 
+/// <summary>
+///     Represents configuration options for integrating with Elasticsearch.
+/// </summary>
 public sealed class ElasticsearchOptions
 {
-    [Required] public required Uri Uri { get; set; }
+    /// <summary>
+    ///     Gets or initializes the URI used to connect to the Elasticsearch instance.
+    /// </summary>
+    /// <exception cref="ValidationException">
+    ///     Thrown when the value is not provided or is invalid according to the data annotations.
+    /// </exception>
+    [Required]
+    public required Uri Uri { get; init; }
 
-    public ElasticsearchAuditOptions? Audit { get; set; }
+    /// <summary>
+    ///     Represents the audit configuration options for Elasticsearch.
+    /// </summary>
+    /// <remarks>
+    ///     This property specifies the settings for indexing audit-related information in Elasticsearch.
+    ///     It allows defining audit-specific configurations such as the target index.
+    /// </remarks>
+    /// <value>
+    ///     An instance of <see cref="ElasticsearchAuditOptions" /> representing the audit configuration, or <c>null</c> if not
+    ///     configured.
+    /// </value>
+    /// <exception cref="ValidationException">
+    ///     Thrown if the target audit options or required fields within the audit configuration are not properly initialized.
+    /// </exception>
+    public ElasticsearchAuditOptions? Audit { get; init; }
 
+    /// <summary>
+    ///     Represents the configuration options for Elasticsearch auditing functionality.
+    /// </summary>
     public sealed class ElasticsearchAuditOptions
     {
-        [Required] public required string Index { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        /// <summary>
+        ///     Represents the name of the Elasticsearch index used for storing audit entries.
+        /// </summary>
+        /// <exception cref="ValidationException">
+        ///     Thrown when the property is not initialized or contains an invalid value.
+        /// </exception>
+        /// <returns>
+        ///     A string representing the name of the Elasticsearch index.
+        /// </returns>
+        [Required]
+        public required string Index { get; init; }
     }
 }
