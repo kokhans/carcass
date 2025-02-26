@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Carcass.Data.EntityFrameworkCore.Values.Converters;
 
-public sealed class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
-{
-    public TimeOnlyConverter() : base(
-        timeOnly => timeOnly.ToTimeSpan(),
-        timeSpan => TimeOnly.FromTimeSpan(timeSpan)
-    )
-    {
-    }
-}
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Converts a TimeOnly value to a TimeSpan for storage purposes and vice versa.
+/// </summary>
+/// <remarks>
+///     This converter is designed to facilitate the persistence of TimeOnly data types in databases
+///     that do not natively support the TimeOnly type by transforming it to a compatible TimeSpan type.
+/// </remarks>
+public sealed class TimeOnlyConverter() : ValueConverter<TimeOnly, TimeSpan>(timeOnly => timeOnly.ToTimeSpan(),
+    timeSpan => TimeOnly.FromTimeSpan(timeSpan));

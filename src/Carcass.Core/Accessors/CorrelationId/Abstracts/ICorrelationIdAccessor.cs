@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,20 @@
 
 namespace Carcass.Core.Accessors.CorrelationId.Abstracts;
 
+/// <summary>
+///     Defines a contract to provide access to a correlation ID, typically used for tracking requests across distributed
+///     systems.
+/// </summary>
 public interface ICorrelationIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the correlation ID from the current context.
+    /// </summary>
+    /// <returns>
+    ///     The correlation ID as a string, or null if no correlation ID is available.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the method is not implemented or an unexpected error occurs during retrieval.
+    /// </exception>
     string? TryGetCorrelationId();
 }

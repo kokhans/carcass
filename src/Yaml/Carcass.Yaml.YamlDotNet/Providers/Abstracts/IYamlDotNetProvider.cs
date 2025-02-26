@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,8 @@ using Carcass.Yaml.Core.Providers.Abstracts;
 
 namespace Carcass.Yaml.YamlDotNet.Providers.Abstracts;
 
-public interface IYamlDotNetProvider : IYamlProvider { }
+/// <summary>
+///     Represents an abstraction for YAML operations
+///     specific to the YamlDotNet library, extending the general IYamlProvider functionality.
+/// </summary>
+public interface IYamlDotNetProvider : IYamlProvider;

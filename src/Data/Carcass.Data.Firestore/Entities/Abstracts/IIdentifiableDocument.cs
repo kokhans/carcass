@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,4 +25,11 @@ using Google.Cloud.Firestore;
 
 namespace Carcass.Data.Firestore.Entities.Abstracts;
 
-public interface IIdentifiableDocument : IIdentifiable<DocumentReference> { }
+/// <summary>
+///     Represents a document entity that can be uniquely identified using a Firestore document reference.
+/// </summary>
+/// <remarks>
+///     This interface extends <see cref="IIdentifiable{TId}" /> with a specific type of
+///     <see cref="Google.Cloud.Firestore.DocumentReference" /> as the identifier.
+/// </remarks>
+public interface IIdentifiableDocument : IIdentifiable<DocumentReference>;

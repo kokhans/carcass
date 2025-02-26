@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Carcass.Data.EntityFrameworkCore.Values.Converters;
 
-public sealed class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
-{
-    public DateOnlyConverter() : base(
-        dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
-        dateTime => DateOnly.FromDateTime(dateTime)
-    )
-    {
-    }
-}
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Converts values between <see cref="DateOnly" /> and <see cref="DateTime" />.
+/// </summary>
+/// <remarks>
+///     This converter transforms a <see cref="DateOnly" /> into a <see cref="DateTime" /> by applying a minimal time value
+///     and retrieves a <see cref="DateOnly" /> from a <see cref="DateTime" /> by isolating the date component.
+/// </remarks>
+public sealed class DateOnlyConverter() : ValueConverter<DateOnly, DateTime>(
+    dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
+    dateTime => DateOnly.FromDateTime(dateTime));

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,4 +24,12 @@ using Carcass.Data.Core.Entities.Abstracts;
 
 namespace Carcass.Data.Core.EventSourcing.Aggregates.Abstracts;
 
-public interface ITenantifiableAggregate : ITenantifiable<Guid> { }
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Represents an aggregate that belongs to a specific tenant and can be uniquely identified.
+/// </summary>
+/// <remarks>
+///     This interface combines tenant-specific identification with aggregate functionality.
+///     It is typically used in multi-tenant systems where entities need to be grouped or scoped by tenant.
+/// </remarks>
+public interface ITenantifiableAggregate : ITenantifiable<Guid>;

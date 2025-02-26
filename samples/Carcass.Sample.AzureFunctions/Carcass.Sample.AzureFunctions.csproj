@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+    <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="AutoMapper" Version="14.0.0"/>
+    <PackageReference Include="FluentValidation" Version="11.11.0"/>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.0.0"/>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask" Version="1.2.2"/>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.0.1"/>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.1"/>
+    <PackageReference Include="Microsoft.DurableTask.Client" Version="1.6.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Carcass.Logging\Carcass.Logging.csproj"/>
+    <ProjectReference Include="..\..\src\Data\Carcass.Data.EntityFrameworkCore\Carcass.Data.EntityFrameworkCore.csproj"/>
+    <ProjectReference Include="..\..\src\Firebase\Carcass.Firebase.AzureFunctions\Carcass.Firebase.AzureFunctions.csproj"/>
+    <ProjectReference Include="..\..\src\Json\Carcass.Json.SystemTextJson\Carcass.Json.SystemTextJson.csproj"/>
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,18 @@ using Carcass.Core.Accessors.CorrelationId.Abstracts;
 
 namespace Carcass.Core.Accessors.CorrelationId;
 
+/// <summary>
+///     Provides a nullable implementation of <see cref="ICorrelationIdAccessor" />.
+///     This class always returns null for the correlation ID, indicating no correlation ID is available.
+/// </summary>
 public sealed class NullableCorrelationIdAccessor : ICorrelationIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the current nullable correlation ID, which may be used for request tracking in distributed
+    ///     systems.
+    /// </summary>
+    /// <returns>
+    ///     The current correlation ID as a nullable string, or null if no correlation ID is available.
+    /// </returns>
     public string? TryGetCorrelationId() => null;
 }

@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,19 @@ using System.Reflection;
 
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for working with enumerations.
+/// </summary>
 public static class EnumExtensions
 {
+    /// <summary>
+    ///     Retrieves the description attribute value associated with the specified enumeration value.
+    /// </summary>
+    /// <param name="value">The enumeration value for which to retrieve the description.</param>
+    /// <returns>
+    ///     The description associated with the specified enumeration value, or null if no description attribute is found.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="value" /> is null.</exception>
     public static string? GetDescription(this Enum value) => value
         .GetType()
         .GetMember(value.ToString())

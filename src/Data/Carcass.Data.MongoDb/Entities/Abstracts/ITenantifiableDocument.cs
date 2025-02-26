@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,4 +25,13 @@ using MongoDB.Bson;
 
 namespace Carcass.Data.MongoDb.Entities.Abstracts;
 
-public interface ITenantifiableDocument : ITenantifiable<ObjectId>, IIdentifiableDocument { }
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Represents a MongoDB document that is uniquely identifiable and belongs to a specific tenant.
+/// </summary>
+/// <remarks>
+///     This interface combines tenant-specific identification capabilities from <see cref="ITenantifiable{TId}" />
+///     with document-specific identification through <see cref="IIdentifiableDocument" />, utilizing <c>ObjectId</c>
+///     as the identifier type.
+/// </remarks>
+public interface ITenantifiableDocument : ITenantifiable<ObjectId>, IIdentifiableDocument;

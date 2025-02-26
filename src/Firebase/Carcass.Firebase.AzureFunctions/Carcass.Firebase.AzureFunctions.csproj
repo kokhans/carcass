@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Firebase authentication built with Azure Functions.</Description>
+    <PackageTags>carcass, firebase, authentication, azure, functions</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Azure\Carcass.Azure.Functions\Carcass.Azure.Functions.csproj"/>
+    <ProjectReference Include="..\Carcass.Firebase.Core\Carcass.Firebase.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
+  </ItemGroup>
+
+</Project>

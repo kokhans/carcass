@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,21 @@ using Carcass.Multitenancy.Core.Middlewares;
 
 namespace Microsoft.AspNetCore.Builder;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods for configuring the application pipeline.
+/// </summary>
 public static class ApplicationBuilderExtensions
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Configures a middleware in the application pipeline to enable multitenancy functionality using a specified tenant
+    ///     type.
+    /// </summary>
+    /// <typeparam name="TTenant">The type of tenant that implements the <see cref="ITenant" /> interface.</typeparam>
+    /// <param name="builder">The <see cref="IApplicationBuilder" /> to configure the middleware on. Cannot be null.</param>
+    /// <returns>The <see cref="IApplicationBuilder" /> instance with the multitenancy middleware configured.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="builder" /> parameter is null.</exception>
     public static IApplicationBuilder UseCarcassMultitenancy<TTenant>(this IApplicationBuilder builder)
         where TTenant : class, ITenant
     {

@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>YAML core abstractions, interfaces, and types used by Carcass.Yaml.* libraries.</Description>
-    <PackageTags>carcass, yaml</PackageTags>
+    <Description>YAML serialization, deserialization, and transformation core abstractions, interfaces, and types used by Carcass.Yaml.* libraries.</Description>
+    <PackageTags>carcass, core, abstractions, interfaces, types, yaml, serialization, deserialization, transformation</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
+  </ItemGroup>
 
 </Project>

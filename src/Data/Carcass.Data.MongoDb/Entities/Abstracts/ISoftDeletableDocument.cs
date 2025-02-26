@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,4 +25,7 @@ using MongoDB.Bson;
 
 namespace Carcass.Data.MongoDb.Entities.Abstracts;
 
-public interface ISoftDeletableDocument : ISoftDeletable<ObjectId>, IIdentifiableDocument { }
+/// <summary>
+///     Represents a document that supports soft deletion functionality and MongoDB-specific unique identification.
+/// </summary>
+public interface ISoftDeletableDocument : ISoftDeletable<ObjectId>, IIdentifiableDocument;

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,19 @@ using Carcass.Core.Accessors.TenantId.Abstracts;
 
 namespace Carcass.Core.Accessors.TenantId;
 
+/// <summary>
+///     Represents an implementation of <see cref="ITenantIdAccessor" /> that always returns a null tenant identifier.
+/// </summary>
+/// <remarks>
+///     This class is used in scenarios where no tenant context is available or required.
+/// </remarks>
 public sealed class NullableTenantIdAccessor : ITenantIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the tenant identifier.
+    /// </summary>
+    /// <returns>
+    ///     The tenant ID as a nullable string, or null if no tenant ID is available.
+    /// </returns>
     public string? TryGetTenantId() => null;
 }

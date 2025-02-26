@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,36 @@ using System.Text;
 
 namespace Carcass.Core;
 
+/// <summary>
+///     Provides functionality for generating short, alphanumeric codes of specified length.
+/// </summary>
 public static class ShortCode
 {
-    private static readonly Random Random = new();
+    /// <summary>
+    ///     Represents a constant string containing characters, which include uppercase English alphabets
+    ///     and numeric digits, used for generating short codes or similar utilities.
+    /// </summary>
     private const string Characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
+    /// <summary>
+    ///     Represents a pseudo-random number generator used to generate random numbers.
+    /// </summary>
+    /// <remarks>
+    ///     Typically used for generating random numbers or selecting random elements
+    ///     in various operations where a secure random number is not required.
+    /// </remarks>
+    /// <seealso cref="System.Random" />
+    private static readonly Random Random = new();
+
+    /// <summary>
+    ///     Generates a random short code consisting of uppercase letters and digits with a specified length.
+    /// </summary>
+    /// <param name="length">The length of the short code to generate. Must be greater than 1.</param>
+    /// <returns>A string representing the generated short code.</returns>
+    /// <exception cref="ArgumentException">Thrown when the specified length is less than or equal to 1.</exception>
     public static string NewShortCode(int length)
     {
-        if (length < 1)
-            throw new ArgumentOutOfRangeException(nameof(length), "Length must be greater than 0.");
+        ArgumentVerifier.Requires(length > 1, "Length must be greater than 0.");
 
         StringBuilder stringBuilder = new(length);
 

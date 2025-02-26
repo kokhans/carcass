@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,17 @@ using EventStore.Client;
 
 namespace Carcass.Data.EventStoreDb.Extensions;
 
+/// <summary>
+///     Provides extension methods for working with <see cref="EventRecord" /> instances.
+/// </summary>
 public static class EventRecordExtensions
 {
+    /// <summary>
+    ///     Retrieves the event number from an <see cref="EventRecord" /> instance and adjusts it by adding one.
+    /// </summary>
+    /// <param name="eventRecord">The <see cref="EventRecord" /> containing the event data.</param>
+    /// <returns>The adjusted event number as a long value.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided <paramref name="eventRecord" /> is null.</exception>
     public static long GetEventNumber(this EventRecord eventRecord)
     {
         ArgumentVerifier.NotNull(eventRecord, nameof(eventRecord));

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,21 @@
 
 namespace Carcass.Data.Core.Entities.Abstracts;
 
+/// <summary>
+///     Represents an entity that can be identified uniquely by an ID.
+/// </summary>
+/// <typeparam name="TId">The type of the unique identifier for the entity.</typeparam>
 public interface IIdentifiable<TId>
 {
+    // ReSharper disable once UnusedMemberInSuper.Global
+    /// <summary>
+    ///     Gets or sets the unique identifier for the entity.
+    /// </summary>
+    /// <value>
+    ///     The unique identifier of the entity.
+    /// </value>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the identifier cannot be accessed or modified due to invalid state.
+    /// </exception>
     TId Id { get; set; }
 }

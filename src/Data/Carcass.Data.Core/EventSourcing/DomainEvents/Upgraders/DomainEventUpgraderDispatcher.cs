@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,28 @@ using Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders;
 
+/// <summary>
+///     The DomainEventUpgraderDispatcher is responsible for upgrading domain events
+///     to their latest version using the appropriate upgraders provided by the
+///     <see cref="IDomainEventUpgraderFactory" />.
+/// </summary>
 public sealed class DomainEventUpgraderDispatcher : IDomainEventUpgraderDispatcher
 {
+    /// <summary>
+    ///     Represents a factory used to retrieve the appropriate domain event upgrader
+    ///     for a given domain event type.
+    /// </summary>
+    /// <remarks>
+    ///     The factory is responsible for obtaining implementations of <see cref="IDomainEventUpgrader" />
+    ///     that can upgrade domain events to newer versions, ensuring compatibility and extensibility
+    ///     in event-sourced systems.
+    /// </remarks>
     private readonly IDomainEventUpgraderFactory _domainEventUpgraderFactory;
 
+    /// <summary>
+    ///     This class is responsible for dispatching and upgrading domain events using the appropriate upgrader
+    ///     provided by the <see cref="IDomainEventUpgraderFactory" />.
+    /// </summary>
     public DomainEventUpgraderDispatcher(IDomainEventUpgraderFactory domainEventUpgraderFactory)
     {
         ArgumentVerifier.NotNull(domainEventUpgraderFactory, nameof(domainEventUpgraderFactory));
@@ -37,6 +55,18 @@ public sealed class DomainEventUpgraderDispatcher : IDomainEventUpgraderDispatch
         _domainEventUpgraderFactory = domainEventUpgraderFactory;
     }
 
+    /// <summary>
+    ///     Dispatches a domain event to its corresponding upgrader, if one exists, and returns the upgraded domain event.
+    /// </summary>
+    /// <param name="domainEvent">
+    ///     The domain event to be dispatched and possibly upgraded. Cannot be null.
+    /// </param>
+    /// <returns>
+    ///     The upgraded domain event. If no upgrader is found, the original domain event is returned.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the <paramref name="domainEvent" /> is null.
+    /// </exception>
     public IDomainEvent DispatchDomainEvent(IDomainEvent domainEvent)
     {
         ArgumentVerifier.NotNull(domainEvent, nameof(domainEvent));

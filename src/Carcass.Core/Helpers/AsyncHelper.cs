@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,75 @@ using System.Globalization;
 
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides utility methods for running asynchronous methods in a synchronous context.
+/// </summary>
 public static class AsyncHelper
 {
+    /// <summary>
+    ///     Provides a factory for creating and configuring <see cref="Task" /> instances with specific options.
+    /// </summary>
+    /// <remarks>
+    ///     This instance of <see cref="TaskFactory" /> is pre-configured with default options:
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <description><see cref="CancellationToken.None" /> for cancellation token.</description>
+    ///         </item>
+    ///         <item>
+    ///             <description><see cref="TaskCreationOptions.None" /> for task creation options.</description>
+    ///         </item>
+    ///         <item>
+    ///             <description><see cref="TaskContinuationOptions.None" /> for task continuation options.</description>
+    ///         </item>
+    ///         <item>
+    ///             <description><see cref="TaskScheduler.Default" /> as the task scheduler.</description>
+    ///         </item>
+    ///     </list>
+    /// </remarks>
+    /// <threadsafety>
+    ///     This factory is thread-safe and can be used concurrently across multiple threads.
+    /// </threadsafety>
     private static readonly TaskFactory TaskFactory = new(
         CancellationToken.None,
         TaskCreationOptions.None,
         TaskContinuationOptions.None,
         TaskScheduler.Default
-        );
+    );
 
+    /// <summary>
+    ///     Executes an asynchronous function and returns its result in a synchronous context.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result returned by the asynchronous function.</typeparam>
+    /// <param name="func">The asynchronous function to execute.</param>
+    /// <returns>The result of the executed asynchronous function.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided function is null.</exception>
     public static TResult RunSync<TResult>(Func<Task<TResult>> func)
     {
         ArgumentNullException.ThrowIfNull(func, nameof(func));
 
-        CultureInfo currentUiCulture = CultureInfo.CurrentUICulture;
-        CultureInfo currentCulture = CultureInfo.CurrentCulture;
-
         return TaskFactory.StartNew(() =>
         {
-            Thread.CurrentThread.CurrentCulture = currentCulture;
-            Thread.CurrentThread.CurrentUICulture = currentUiCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+
             return func();
         }).Unwrap().GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    ///     Executes an asynchronous method that does not return a value in a synchronous context.
+    /// </summary>
+    /// <param name="func">The asynchronous method to execute.</param>
+    /// <exception cref="ArgumentNullException">Thrown if the provided asynchronous method is null.</exception>
     public static void RunSync(Func<Task> func)
     {
         ArgumentNullException.ThrowIfNull(func, nameof(func));
 
-        CultureInfo currentUiCulture = CultureInfo.CurrentUICulture;
-        CultureInfo currentCulture = CultureInfo.CurrentCulture;
         TaskFactory.StartNew(() =>
         {
-            Thread.CurrentThread.CurrentCulture = currentCulture;
-            Thread.CurrentThread.CurrentUICulture = currentUiCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CurrentUICulture;
+
             return func();
         }).Unwrap().GetAwaiter().GetResult();
     }

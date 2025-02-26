@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>JSON core abstractions, interfaces, and types used by Carcass.Json.* libraries.</Description>
-    <PackageTags>carcass, json</PackageTags>
+    <Description>JSON serialization, deserialization, and transformation core abstractions, interfaces, and types used by Carcass.Json.* libraries.</Description>
+    <PackageTags>carcass, core, abstractions, interfaces, types, json, serialization, deserialization, transformation</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
+  </ItemGroup>
 
 </Project>

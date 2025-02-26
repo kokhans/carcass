@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <Description>Mapping core abstractions, interfaces, and types used by Carcass.Mapping.* libraries.</Description>
-    <PackageTags>carcass, mapping</PackageTags>
-  </PropertyGroup>
-
-</Project>

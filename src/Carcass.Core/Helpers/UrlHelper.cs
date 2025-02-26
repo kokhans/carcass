@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,26 @@
 
 using System.Web;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides helper methods for working with URLs, such as decoding URL-encoded strings.
+/// </summary>
 public static class UrlHelper
 {
+    /// <summary>
+    ///     Decodes a URL-encoded string, replacing URL-encoded values with their corresponding characters.
+    /// </summary>
+    /// <param name="value">The URL-encoded string to decode. Can be null or empty.</param>
+    /// <returns>
+    ///     A decoded string if the input is not null or empty; otherwise, null.
+    /// </returns>
+    /// <exception cref="System.ArgumentException">
+    ///     Thrown if an error occurs during the decoding process.
+    /// </exception>
     public static string? Decode(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : HttpUtility.UrlDecode(value).Replace(' ', '+');
 }

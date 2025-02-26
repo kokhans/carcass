@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,15 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Carcass.Data.EntityFrameworkCore.Values.Comparers;
 
-public sealed class TimeOnlyComparer : ValueComparer<TimeOnly>
-{
-    public TimeOnlyComparer() : base(
-        (timeOnly1, timeOnly2) => timeOnly1.Ticks == timeOnly2.Ticks,
-        timeOnly => timeOnly.GetHashCode()
-    )
-    {
-    }
-}
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides a comparer for the <see cref="TimeOnly" /> type, enabling proper comparison and hashing
+///     within Entity Framework Core for properties of this type.
+/// </summary>
+/// <remarks>
+///     This comparer is designed to compare <see cref="TimeOnly" /> objects based on their tick values
+///     and ensures a consistent hash code is generated.
+/// </remarks>
+public sealed class TimeOnlyComparer() : ValueComparer<TimeOnly>(
+    (timeOnly1, timeOnly2) => timeOnly1.Ticks == timeOnly2.Ticks,
+    timeOnly => timeOnly.GetHashCode());

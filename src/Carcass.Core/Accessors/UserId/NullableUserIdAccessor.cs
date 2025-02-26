@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,16 @@ using Carcass.Core.Accessors.UserId.Abstracts;
 
 namespace Carcass.Core.Accessors.UserId;
 
+/// <summary>
+///     Provides an implementation of <see cref="IUserIdAccessor" /> that always returns null as the user ID.
+/// </summary>
 public sealed class NullableUserIdAccessor : IUserIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the user ID.
+    /// </summary>
+    /// <returns>
+    ///     A nullable string representing the user ID if available; otherwise, null.
+    /// </returns>
     public string? TryGetUserId() => null;
 }

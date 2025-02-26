@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,23 @@
 
 namespace Carcass.Data.Core.EventSourcing.Aggregates.Attributes;
 
+/// <summary>
+///     Specifies the version of an aggregate in an event-sourced system.
+///     This attribute is typically applied to aggregate root classes to denote
+///     the schema version of the aggregate.
+/// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class AggregateVersionAttribute : Attribute
+// ReSharper disable once ClassNeverInstantiated.Global
+public sealed class AggregateVersionAttribute(long version) : Attribute
 {
-    public AggregateVersionAttribute(long version)
-    {
-        Version = version;
-    }
-
-    public long Version { get; }
+    /// <summary>
+    ///     Gets the version associated with an aggregate.
+    /// </summary>
+    /// <value>
+    ///     A <see cref="long" /> representing the version of the aggregate.
+    /// </value>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the version cannot be initialized or is unavailable.
+    /// </exception>
+    public long Version { get; } = version;
 }

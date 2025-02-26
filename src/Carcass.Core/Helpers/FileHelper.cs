@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,20 @@
 
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides utility methods for file-related operations.
+/// </summary>
 public static class FileHelper
 {
+    /// <summary>
+    ///     Retrieves the file extension from the provided file name.
+    /// </summary>
+    /// <param name="fileName">The full name of the file including the extension.</param>
+    /// <returns>
+    ///     The file extension as a string if found, an empty string if no valid extension exists, or null if the input
+    ///     file name is null or empty.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input fileName is null or an invalid string.</exception>
     public static string? GetFileExtension(this string? fileName)
     {
         if (string.IsNullOrEmpty(fileName))

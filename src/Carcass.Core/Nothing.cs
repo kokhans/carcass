@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,29 @@
 
 namespace Carcass.Core;
 
+/// <summary>
+///     Represents a placeholder type indicating the absence of a value or result.
+/// </summary>
 public record struct Nothing
 {
     // ReSharper disable once UnassignedGetOnlyAutoProperty
+    /// <summary>
+    ///     Represents a static instance of a <see cref="Nothing" /> value.
+    ///     Provides a shared, immutable instance to indicate a "nothing" or "void-like" result.
+    /// </summary>
+    /// <remarks>
+    ///     This property is useful in scenarios where a "no-operation" or absence of meaningful data is required.
+    /// </remarks>
+    /// <returns>
+    ///     Returns a shared instance of the <see cref="Nothing" /> struct.
+    /// </returns>
     public static Nothing None { get; }
+
+    /// <summary>
+    ///     Converts the instance of the <see cref="Nothing" /> struct to its string representation.
+    /// </summary>
+    /// <returns>
+    ///     A string "Nothing" that represents the current instance of the <see cref="Nothing" /> struct.
+    /// </returns>
+    public override string ToString() => "Nothing";
 }

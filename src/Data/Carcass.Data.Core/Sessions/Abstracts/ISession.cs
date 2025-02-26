@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,4 +22,8 @@
 
 namespace Carcass.Data.Core.Sessions.Abstracts;
 
-public interface ISession { }
+/// <summary>
+///     Represents a generic session abstraction for managing data-related operations
+///     in a consistent and structured way.
+/// </summary>
+public interface ISession;

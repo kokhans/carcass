@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,16 @@ using Carcass.Data.Core.EventSourcing.DomainEvents.Abstracts;
 
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 
+/// <summary>
+///     Defines a contract for dispatching and upgrading domain events.
+/// </summary>
 public interface IDomainEventUpgraderDispatcher
 {
+    /// <summary>
+    ///     Dispatches a domain event, upgrading it if necessary, and returns the upgraded event.
+    /// </summary>
+    /// <param name="domainEvent">The domain event to be dispatched and potentially upgraded.</param>
+    /// <returns>The dispatched and upgraded domain event.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="domainEvent" /> is null.</exception>
     IDomainEvent DispatchDomainEvent(IDomainEvent domainEvent);
 }

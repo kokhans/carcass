@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,9 @@
 
 namespace Carcass.SignalR.Messages.Abstracts;
 
-public interface IMessage
-{
-}
+/// <summary>
+///     Represents a contract for a message used within the system.
+///     This interface is intended to be implemented by any class that
+///     represents a message to be dispatched via a messaging system.
+/// </summary>
+public interface IMessage;

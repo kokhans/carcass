@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>JSON provider implementation based on System.Text.Json.</Description>
-    <PackageTags>carcass, json, systemtextjson</PackageTags>
+    <Description>JSON serialization, deserialization, and transformation built with System.Text.Json.</Description>
+    <PackageTags>carcass, json, serialization, deserialization, system.text.json</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
-    <ProjectReference Include="..\Carcass.Json.Core\Carcass.Json.Core.csproj" />
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.Json.Core\Carcass.Json.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
   </ItemGroup>
 
 </Project>

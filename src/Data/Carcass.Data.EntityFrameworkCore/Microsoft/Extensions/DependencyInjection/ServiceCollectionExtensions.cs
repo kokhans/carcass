@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,16 +29,37 @@ using Carcass.Data.EntityFrameworkCore.Sessions.Abstracts;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable once UnusedType.Global
+/// <summary>
+///     Provides extension methods for configuring services related to Entity Framework Core sessions
+///     in an ASP.NET Core Dependency Injection container.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Adds the Entity Framework Core session services to the specified IServiceCollection
+    ///     for the specified DbContext type.
+    /// </summary>
+    /// <typeparam name="TDbContext">
+    ///     The type of the DbContext to be used with the Entity Framework Core session.
+    /// </typeparam>
+    /// <param name="services">
+    ///     The IServiceCollection to which the Entity Framework Core session services are added.
+    /// </param>
+    /// <returns>
+    ///     The updated IServiceCollection with the Entity Framework Core session services registered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if the <paramref name="services" /> parameter is null.
+    /// </exception>
     public static IServiceCollection AddCarcassEntityFrameworkCoreSession<TDbContext>(
         this IServiceCollection services
     ) where TDbContext : EntityFrameworkCoreDbContext<TDbContext>
     {
         ArgumentVerifier.NotNull(services, nameof(services));
 
-        services.AddScoped<IEntityFrameworkCoreSession, EntityFrameworkCoreSession<TDbContext>>();
-
-        return services;
+        return services
+            .AddScoped<IEntityFrameworkCoreSession, EntityFrameworkCoreSession<TDbContext>>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,26 @@ using Microsoft.AspNetCore.Http;
 
 namespace Carcass.Multitenancy.Core.Middlewares;
 
+/// <summary>
+///     Middleware that handles multitenancy by resolving the current tenant
+///     and injecting it into the HTTP context.
+/// </summary>
+/// <typeparam name="TTenant">
+///     The type representing the tenant, which must implement <see cref="ITenant" />.
+/// </typeparam>
 public sealed class TenantMiddleware<TTenant> where TTenant : class, ITenant
 {
+    /// <summary>
+    ///     Represents the next middleware in the HTTP request pipeline.
+    ///     This delegate is invoked to proceed with the subsequent middleware or the terminal processing of the request.
+    /// </summary>
     private readonly RequestDelegate _next;
 
+    /// <summary>
+    ///     Middleware responsible for tenant resolution in a multi-tenant application.
+    ///     Processes incoming HTTP requests and ensures tenant-related logic is applied.
+    /// </summary>
+    /// <typeparam name="TTenant">The type representing a tenant, constrained to implement the ITenant interface.</typeparam>
     public TenantMiddleware(RequestDelegate next)
     {
         ArgumentVerifier.NotNull(next, nameof(next));
@@ -38,6 +54,16 @@ public sealed class TenantMiddleware<TTenant> where TTenant : class, ITenant
         _next = next;
     }
 
+    /// <summary>
+    ///     Middleware to manage tenants in the application by resolving and setting the tenant information
+    ///     into the current HTTP context.
+    /// </summary>
+    /// <typeparam name="TTenant">The type of the tenant entity which implements <see cref="ITenant" />.</typeparam>
+    /// <param name="httpContext">The current HTTP context associated with the middleware pipeline.</param>
+    /// <returns>A <see cref="Task" /> representing the completion of the middleware's processing logic.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="httpContext" /> is null.
+    /// </exception>
     public async Task Invoke(HttpContext httpContext)
     {
         ArgumentVerifier.NotNull(httpContext, nameof(httpContext));

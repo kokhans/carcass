@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,39 @@ using Carcass.Multitenancy.Core.Stores.Abstracts;
 
 namespace Carcass.Multitenancy.Core.Providers;
 
+/// <summary>
+///     Provides functionality for resolving and retrieving tenant information.
+/// </summary>
+/// <typeparam name="TTenant">The type of the tenant entity, which must implement the <see cref="ITenant" /> interface.</typeparam>
 public sealed class TenantProvider<TTenant> : ITenantProvider<TTenant>
     where TTenant : class, ITenant
 {
+    /// <summary>
+    ///     A strategy used to determine the current tenant's identifier in a multitenant application.
+    /// </summary>
     private readonly ITenantResolutionStrategy _tenantResolutionStrategy;
+
+    /// <summary>
+    ///     Represents the data store responsible for managing tenant information.
+    /// </summary>
+    /// <typeparam name="TTenant">
+    ///     The type that represents a tenant entity, constrained to implement the <see cref="ITenant" /> interface.
+    /// </typeparam>
+    /// <remarks>
+    ///     The tenant store provides functionality to load tenant information from a persistent storage,
+    ///     ensuring tenant-specific data can be retrieved when needed in a multitenant application.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the tenant store is not properly initialized.
+    /// </exception>
     private readonly ITenantStore<TTenant> _tenantStore;
 
+    /// <summary>
+    ///     Provides functionality to resolve and manage tenants.
+    /// </summary>
+    /// <typeparam name="TTenant">
+    ///     The type of the tenant, which must implement the <see cref="ITenant" /> interface.
+    /// </typeparam>
     public TenantProvider(ITenantResolutionStrategy tenantResolutionStrategy, ITenantStore<TTenant> tenantStore)
     {
         ArgumentVerifier.NotNull(tenantResolutionStrategy, nameof(tenantResolutionStrategy));
@@ -43,6 +70,19 @@ public sealed class TenantProvider<TTenant> : ITenantProvider<TTenant>
         _tenantStore = tenantStore;
     }
 
+    /// <summary>
+    ///     Asynchronously retrieves the current tenant instance based on the tenant resolution strategy and store.
+    /// </summary>
+    /// <typeparam name="TTenant">The tenant type that implements the <see cref="ITenant" /> interface.</typeparam>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>
+    ///     The tenant instance of type <typeparamref name="TTenant" /> if successfully resolved and loaded; otherwise,
+    ///     <c>null</c>.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    /// <exception cref="Exception">
+    ///     May throw exceptions related to tenant resolution or storage access failures.
+    /// </exception>
     public async Task<TTenant?> GetTenantAsync(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

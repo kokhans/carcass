@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,28 @@ using Carcass.Data.MongoDb.Sessions.Abstracts;
 
 namespace Carcass.Data.MongoDb.Checkpoints.Repositories;
 
+/// <summary>
+///     Repository for managing checkpoints in a MongoDB database.
+///     Implements <see cref="ICheckpointRepository" /> to support the saving and loading of event stream checkpoints.
+/// </summary>
 public sealed class MongoDbCheckpointRepository : ICheckpointRepository
 {
+    /// <summary>
+    ///     Represents the session used to interact with the MongoDB database for checkpoint storage and retrieval.
+    /// </summary>
+    /// <remarks>
+    ///     This variable provides required operations for querying and manipulating data in MongoDB,
+    ///     and is essential for ensuring proper checkpoint persistence.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the session is not initialized properly.
+    /// </exception>
     private readonly IMongoDbSession _mongoDbSession;
 
+    /// <summary>
+    ///     A MongoDB-based implementation of the <see cref="ICheckpointRepository" /> interface for managing event stream
+    ///     checkpoints.
+    /// </summary>
     public MongoDbCheckpointRepository(IMongoDbSession mongoDbSession)
     {
         ArgumentVerifier.NotNull(mongoDbSession, nameof(mongoDbSession));
@@ -38,6 +56,21 @@ public sealed class MongoDbCheckpointRepository : ICheckpointRepository
         _mongoDbSession = mongoDbSession;
     }
 
+    /// <summary>
+    ///     Loads a checkpoint from the MongoDB repository based on the specified stream and group names.
+    /// </summary>
+    /// <param name="streamName">The name of the stream associated with the checkpoint.</param>
+    /// <param name="groupName">The name of the group associated with the checkpoint.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <returns>
+    ///     An <see cref="ICheckpoint" /> instance containing the checkpoint information if found; otherwise, null.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="streamName" /> or <paramref name="groupName" /> is null.
+    /// </exception>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown when the operation is canceled through the <paramref name="cancellationToken" />.
+    /// </exception>
     public async Task<ICheckpoint?> LoadCheckpointAsync(
         string streamName,
         string groupName,
@@ -58,6 +91,19 @@ public sealed class MongoDbCheckpointRepository : ICheckpointRepository
         return checkpoints.SingleOrDefault();
     }
 
+    /// <summary>
+    ///     Saves or updates the checkpoint for a specific stream and group in the MongoDB repository.
+    /// </summary>
+    /// <param name="streamName">The name of the stream associated with the checkpoint.</param>
+    /// <param name="groupName">The name of the consumer group associated with the checkpoint.</param>
+    /// <param name="position">The position in the stream to be saved as the checkpoint.</param>
+    /// <param name="cancellationToken">A token to observe for cancellation requests.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if <paramref name="streamName" /> or <paramref name="groupName" /> is null,
+    ///     empty, or consists only of white space.
+    /// </exception>
     public async Task SaveCheckpointAsync(
         string streamName,
         string groupName,

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,22 @@
 
 namespace Carcass.Data.Core.EventSourcing.DomainEvents.Upgraders.Abstracts;
 
+/// <summary>
+///     Defines the method for retrieving a domain event upgrader for a specific domain event type.
+/// </summary>
 public interface IDomainEventUpgraderFactory
 {
+    /// <summary>
+    ///     Retrieves an implementation of <see cref="IDomainEventUpgrader" /> for upgrading
+    ///     a specific type of domain event.
+    /// </summary>
+    /// <param name="domainEventType">The type of the domain event that needs to be upgraded.</param>
+    /// <returns>
+    ///     An instance of <see cref="IDomainEventUpgrader" /> capable of upgrading the specified
+    ///     domain event type, or <c>null</c> if no suitable upgrader is available.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="domainEventType" /> is <c>null</c>.
+    /// </exception>
     IDomainEventUpgrader? GetDomainEventUpgrader(Type domainEventType);
 }

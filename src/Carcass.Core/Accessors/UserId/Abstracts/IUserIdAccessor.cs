@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,19 @@
 
 namespace Carcass.Core.Accessors.UserId.Abstracts;
 
+/// <summary>
+///     Provides an abstraction for accessing a user ID.
+/// </summary>
 public interface IUserIdAccessor
 {
+    /// <summary>
+    ///     Attempts to retrieve the user ID associated with the current context or source.
+    /// </summary>
+    /// <returns>
+    ///     A string representing the user ID if available; otherwise, null.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown if the operation fails due to an unexpected error.
+    /// </exception>
     string? TryGetUserId();
 }

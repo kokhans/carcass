@@ -1,0 +1,48 @@
+﻿@hostname=localhost
+@port=7951
+@email=""
+@password=""
+@key=
+@idToken=
+
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{key}}
+Content-Type: application/json
+
+{
+    "email": {{email}},
+    "password": {{password}},
+    "returnSecureToken": true
+}
+
+###
+
+POST http://{{hostname}}:{{port}}/api/users
+Content-Type: application/json
+
+{
+    "email": {{email}},
+    "password": {{password}},
+    "firstName": "",
+    "lastName": "",
+    "phoneNumber": ""
+}
+
+###
+
+GET http://{{hostname}}:{{port}}/api/users
+Authorization: Bearer {{idToken}}
+Content-Type: application/json
+
+###
+
+### Create Note
+
+POST http://{{hostname}}:{{port}}/api/notes
+Authorization: Bearer {{idToken}}
+Content-Type: application/json
+
+{
+    "text": ""
+}
+
+###

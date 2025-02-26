@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,32 @@ using System.Data;
 
 namespace Carcass.Data.Core.Sessions.Abstracts;
 
+/// <summary>
+///     Represents a transactional session within a relational database, providing transaction management
+///     capabilities such as beginning, committing, and rolling back transactions.
+/// </summary>
+/// <typeparam name="TTransactionId">The type of the transaction identifier.</typeparam>
 public interface IRelationDatabaseTransactionalSession<out TTransactionId> : ITransactionalSession<TTransactionId>
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Begins a new database transaction asynchronously using the specified isolation level.
+    /// </summary>
+    /// <param name="isolationLevel">
+    ///     The isolation level for the transaction. Defaults to
+    ///     <see cref="System.Data.IsolationLevel.ReadCommitted" />.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token to observe while waiting for the task to complete. Defaults to
+    ///     <see cref="System.Threading.CancellationToken.None" />.
+    /// </param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the transaction cannot be started because the database context is null.
+    /// </exception>
+    /// <exception cref="System.OperationCanceledException">
+    ///     Thrown if the operation is canceled via the cancellation token.
+    /// </exception>
     Task BeginTransactionAsync(
         IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
         CancellationToken cancellationToken = default

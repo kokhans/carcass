@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,24 @@
 
 namespace Carcass.Data.Core.Entities.Abstracts;
 
+/// <summary>
+///     Defines properties and behavior for entities that support soft deletion functionality.
+/// </summary>
+/// <typeparam name="TId">The type of the unique identifier for the entity.</typeparam>
 public interface ISoftDeletable<TId> : IIdentifiable<TId>
 {
+    /// <summary>
+    ///     Gets or sets a value indicating whether the entity is marked as deleted.
+    /// </summary>
+    /// <remarks>
+    ///     This property implements a soft delete mechanism, allowing entities to be
+    ///     marked as deleted without physically removing them from the underlying data storage.
+    /// </remarks>
+    /// <value>
+    ///     A boolean where <c>true</c> indicates the entity is deleted and <c>false</c> indicates it is active.
+    /// </value>
+    /// <exception cref="System.InvalidOperationException">
+    ///     Thrown if the property is improperly configured or used inappropriately.
+    /// </exception>
     bool IsDeleted { get; set; }
 }

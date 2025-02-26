@@ -1,84 +1,156 @@
 # Carcass [![GitHub](https://img.shields.io/github/license/kokhans/carcass?style=flat-square)](LICENSE)
 
-Carcass is a free, open-source, community-focused infrastructure framework based on .NET 7 for building modern applications.
+**Carcass** is a **free, open-source, community-driven infrastructure framework** built on **.NET 9** for creating **modern, scalable applications**.
 
-## Features
+<img src="./docs/images/carcass-logo.png" alt="Carcass Logo" />
 
-Carcass is a feature-rich infrastructure framework. It provides a set of modules that enable the development of cloud, web, console, desktop, and mobile applications.
+## ✨ Features
 
-- Modular
-- Cross-Cutting Concerns
-- Domain-Driven Design
-- CQRS
-- Event Sourcing
-- Multitenancy
-- Distributed Cache
-- Microservices
-- Audit Logging
-- Secuirty
-- Media
-- Data Formats
+Carcass offers a wide range of features designed to **accelerate application development** and **ensure maintainability**.
 
-## Packages
+### 🧩 Modular Architecture
 
-- [Carcass.Core](https://www.nuget.org/packages/Carcass.Core) - Core abstractions, interfaces, and types used by Carcass.* libraries.
+Carcass follows a **modular design**, allowing applications to be composed **flexibly** with **independent, reusable components**.
 
-- [Carcass.Firebase](https://www.nuget.org/packages/Carcass.Firebase) - Firebase toolchain.
+### ☁️ Cloud-Native Support
 
-- [Carcass.Metadata](https://www.nuget.org/packages/Carcass.Core) - Metadata toolchain.
+Built for **modern cloud environments**, Carcass enables **efficient serverless execution**, **distributed computing**, and **seamless scalability**.
 
-- [Carcass.MassTransit](https://www.nuget.org/packages/Carcass.MassTransit) - MassTransit toolchain.
+### 📐 Domain-Driven Design (DDD)
 
-- [Carcass.SignalR](https://www.nuget.org/packages/Carcass.SignalR) - SignalR toolchain.
+Carcass is designed around **DDD principles**, providing a **structured** approach to software design, focusing on **business logic** and **clear domain boundaries**.
 
-- [Carcass.Swashbuckle](https://www.nuget.org/packages/Carcass.Swashbuckle) - Swashbuckle toolchain.
+### ️🔀 Command Query Responsibility Segregation (CQRS)
 
-- [Carcass.Data.Core](https://www.nuget.org/packages/Carcass.Data.Core) - Domain-Driven Design, CQRS, and Event Sourcing core abstractions, interfaces, and types used by Carcass.Data.* libraries.
+Separates **command and query responsibilities**, improving **scalability**, **maintainability**, and **performance** in **data-driven applications**.
 
-- [Carcass.Data.Elasticsearch](https://www.nuget.org/packages/Carcass.Data.Elasticsearch) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on Elasticsearch.
+### 🔁 Event Sourcing
 
-- [Carcass.Data.EntityFrameworkCore](https://www.nuget.org/packages/Carcass.Data.EntityFrameworkCore) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on EntityFramework Core.
+Stores all **state changes** as a **sequence of events**, ensuring **immutability, auditability**, and support for **event-driven architectures**.
 
-- [Carcass.Data.EventStoreDb](https://www.nuget.org/packages/Carcass.Data.EventStoreDb) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on EventStoreDB.
+### 🏨 Multitenancy
 
-- [Carcass.Data.Firestore](https://www.nuget.org/packages/Carcass.Data.Firestore) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on Firestore.
+Comprehensive **multitenancy support** allows seamless development of **SaaS applications**, enabling **tenant isolation** and **shared resources**.
 
-- [Carcass.Data.MongoDb](https://www.nuget.org/packages/Carcass.Data.MongoDb) - Domain-Driven Design, CQRS, and Event Sourcing implementation based on MongoDB.
+### 📝 Audit Logging
 
-- [Carcass.DistributedCache.Core](https://www.nuget.org/packages/Carcass.DistributedCache.Core) - Distributed cache core abstractions, interfaces, and types used by Carcass.DistributedCache.* libraries.
+Every **system change** is logged to provide **traceability**, **accountability**, and **insights** into **application behavior** over time.
 
-- [Carcass.DistributedCache.Redis](https://www.nuget.org/packages/Carcass.DistributedCache.Redis) - Redis distributed cache provider implementation based on Microsoft.Extensions.Caching.Redis.
+### ⚡ Real-Time Communication
 
-- [Carcass.Json.Core](https://www.nuget.org/packages/Carcass.Json.Core) - JSON core abstractions, interfaces, and types used by Carcass.Json.* libraries.
+Carcass includes **real-time capabilities** built with **SignalR**, enabling **instant updates** and **interactive experiences**.
 
-- [Carcass.Json.NewtonsoftJson](https://www.nuget.org/packages/Carcass.Json.NewtonsoftJson) - JSON provider implementation based on Newtonsoft.Json.
+### 🔒️ Security
 
-- [Carcass.Json.SystemTextJson](https://www.nuget.org/packages/Carcass.Json.SystemTextJson) - JSON provider implementation based on System.Text.Json.
+Carcass includes built-in **authentication, authorization**, and **data protection**, with support for **Firebase Authentication**, ensuring **robust security measures**.
 
-- [Carcass.Logging.Core](https://www.nuget.org/packages/Carcass.Logging.Core) - Logging core abstractions, interfaces, and types used by Carcass.Logging.* libraries.
+## 🚀 Getting Started
 
-- [Carcass.Mapping.Core](https://www.nuget.org/packages/Carcass.Mapping.Core) - Mapping core abstractions, interfaces, and types used by Carcass.Mapping.* libraries.
+### ✅ Prerequisites
 
-- [Carcass.Mapping.AutoMapper](https://www.nuget.org/packages/Carcass.Mapping.AutoMapper) - Mapper provider implementation based on AutoMapper.
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/), [Rider](https://www.jetbrains.com/rider/),
+  or [Visual Studio Code](https://code.visualstudio.com/)
 
-- [Carcass.Multitenancy.Core](https://www.nuget.org/packages/Carcass.Multitenancy.Core) - Multitenancy core abstractions, interfaces, and types used by Carcass.Multitenancy.* libraries.
+### 📥 Installation
 
-- [Carcass.Media.Abstracts](https://www.nuget.org/packages/Carcass.Media.Abstracts) - Media management core abstractions, interfaces, and types used by Carcass.Media.* libraries.
+To install `Carcass.*` and its dependencies via the .NET Core CLI, execute the following command:
 
-- [Carcass.Media.Azure.Storage.Blobs](https://www.nuget.org/packages/Carcass.Media.Azure.Storage.Blobs) - Media management provider implementation based on Azure Storage Blobs.
+```powershell
+dotnet add package Carcass.*
+```
 
-- [Carcass.Media.Cloudinary](https://www.nuget.org/packages/Carcass.Media.Cloudinary) - Media management provider implementation based on Cloudinary.
+To install `Carcass.*` and its dependencies via NuGet, execute the following command:
 
-- [Carcass.Mvc.Core](https://www.nuget.org/packages/Carcass.Mvc.Core) - MVC core abstractions, interfaces, and types used by Carcass.Mvc.* libraries.
+```powershell
+Install-Package Carcass.*
+```
 
-- [Carcass.Yaml.Core](https://www.nuget.org/packages/Carcass.Yaml.Core) - YAML core abstractions, interfaces, and types used by Carcass.Yaml.* libraries.
+### 🗃️ Local NuGet
 
-- [Carcass.Yaml.DotNetYaml](https://www.nuget.org/packages/Carcass.Yaml.DotNetYaml) - YAML provider implementation based on YamlDotNet.
+To pack and publish NuGet packages locally, use the provided `NuGetPackAndPublish.ps1` script. This script automates the process of **building, packing**, and **adding NuGet packages** to your local NuGet repository.
 
-## Documentation
+1. Open a **PowerShell terminal** at the root of the project.
+2. Run the following command:
 
-See the [documentation](https://serhii-kokhan.gitbook.io/carcass/) for more details.
+   ```powershell
+   ./scripts/NuGetPackAndPublish.ps1 -V '<Version>'
+   ```
 
-## License
+   Replace `<Version>` with the **package version** (e.g., `'1.0.0'`, `'1.0.0-beta1'`). **Note** the single quotes around the version.
+
+3. The packaged files will be saved in the `nupkgs` directory and added to the local **NuGet repository** (`C:/NuGet/packages` by default).
+
+### ⭐ Carcass Samples
+
+#### Carcass in Azure Functions
+
+An example of using the **Carcass framework** with **Azure Functions** can be found in the [`Carcass.Sample.AzureFunctions`](./samples/Carcass.Sample.AzureFunctions/README.md) project. This sample demonstrates how Carcass can be implemented with **Azure's serverless computing model**, including features like dependency injection, Entity Framework Core, Firebase Authentication, and the usage of Azure's `FunctionContext` accessor for working with the function's execution context.
+
+## 📦 Packages
+
+- [Carcass.Core](https://www.nuget.org/packages/Carcass.Core) – Core **abstractions, interfaces, and types** used by **Carcass.\*** libraries.
+
+### Azure
+
+- [Carcass.Azure.Functions](https://www.nuget.org/packages/Carcass.Azure.Functions) – Features for **execution control, state management, and workflow coordination** in **Azure Functions**.
+
+### Data
+
+- [Carcass.Data.Core](https://www.nuget.org/packages/Carcass.Data.Core) – **Domain-Driven Design, CQRS, and Event Sourcing** core **abstractions, interfaces, and types** used by **Carcass.Data.\*** libraries.
+- [Carcass.Data.Elasticsearch](https://www.nuget.org/packages/Carcass.Data.Elasticsearch) – **Domain-Driven Design, CQRS, and Event Sourcing** built with **Elasticsearch**.
+- [Carcass.Data.EntityFrameworkCore](https://www.nuget.org/packages/Carcass.Data.EntityFrameworkCore) – **Domain-Driven Design, CQRS, and Event Sourcing** built with **Entity Framework Core**.
+- [Carcass.Data.EventStoreDb](https://www.nuget.org/packages/Carcass.Data.EventStoreDb) – **Domain-Driven Design, CQRS, and Event Sourcing** built with **EventStoreDB**.
+- [Carcass.Data.Firestore](https://www.nuget.org/packages/Carcass.Data.Firestore) – **Domain-Driven Design, CQRS, and Event Sourcing** built with **Firebase Firestore**.
+- [Carcass.Data.MongoDb](https://www.nuget.org/packages/Carcass.Data.MongoDb) – **Domain-Driven Design, CQRS, and Event Sourcing** built with **MongoDB**.
+
+### Firebase
+
+- [Carcass.Firebase.Core](https://www.nuget.org/packages/Carcass.Firebase.Core) – **Firebase authentication** core **abstractions, interfaces, and types** used by **Carcass.Firebase.\*** libraries.
+- [Carcass.Firebase.AspNetCore](https://www.nuget.org/packages/Carcass.Firebase.AspNetCore) – **Firebase authentication** built with **ASP.NET Core**.
+- [Carcass.Firebase.AzureFunctions](https://www.nuget.org/packages/Carcass.Firebase.AzureFunctions) – **Firebase authentication** built with **Azure Functions**.
+
+### JSON
+
+- [Carcass.Json.Core](https://www.nuget.org/packages/Carcass.Json.Core) – **JSON serialization, deserialization, and transformation** core **abstractions, interfaces, and types** used by **Carcass.Json.\*** libraries.
+- [Carcass.Json.NewtonsoftJson](https://www.nuget.org/packages/Carcass.Json.NewtonsoftJson) – **JSON serialization, deserialization, and transformation** built with **Newtonsoft.Json**.
+- [Carcass.Json.SystemTextJson](https://www.nuget.org/packages/Carcass.Json.SystemTextJson) – **JSON serialization, deserialization, and transformation** built with **System.Text.Json**.
+
+### HTTP
+
+- [Carcass.Http](https://www.nuget.org/packages/Carcass.Http) – **HTTP abstractions** for **ASP.NET Core** applications.
+
+### Logging
+
+- [Carcass.Logging](https://www.nuget.org/packages/Carcass.Logging) – **High-performance logging adapter** built for **.NET Core logging infrastructure**.
+
+### Media
+
+- [Carcass.Media.Core](https://www.nuget.org/packages/Carcass.Media.Core) – **Media file storage, processing, and metadata management** core **abstractions, interfaces, and types** used by **Carcass.Media.\*** libraries.
+- [Carcass.Media.AzureBlobs](https://www.nuget.org/packages/Carcass.Media.AzureBlobs) – **Media file storage, processing, and metadata management** built with **Azure Blob Storage**.
+- [Carcass.Media.Cloudinary](https://www.nuget.org/packages/Carcass.Media.Cloudinary) – **Media file storage, processing, and metadata management** built with **Cloudinary**.
+
+### Metadata
+
+- [Carcass.Metadata](https://www.nuget.org/packages/Carcass.Metadata) – **Metadata management** for structuring data.
+
+### Multitenancy
+
+- [Carcass.Multitenancy.Core](https://www.nuget.org/packages/Carcass.Multitenancy.Core) – **Tenant isolation, lifecycle management, and resource sharing** core **abstractions, interfaces, and types** used by **Carcass.Multitenancy.\*** libraries.
+
+### Real-Time Communication
+
+- [Carcass.SignalR](https://www.nuget.org/packages/Carcass.SignalR) – **Real-time communication** built with **SignalR**.
+
+### Swagger
+
+- [Carcass.Swashbuckle](https://www.nuget.org/packages/Carcass.Swashbuckle) – **Swagger API documentation** built with **Swashbuckle**.
+
+### YAML
+
+- [Carcass.Yaml.Core](https://www.nuget.org/packages/Carcass.Yaml.Core) – **YAML serialization, deserialization, and transformation** core **abstractions, interfaces, and types** used by **Carcass.Yaml.\*** libraries.
+- [Carcass.Yaml.DotNetYaml](https://www.nuget.org/packages/Carcass.Yaml.DotNetYaml) – **YAML serialization, deserialization, and transformation** built with **YamlDotNet**.
+
+## 📜 License
 
 This project is licensed under the [MIT license](LICENSE).

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,23 @@
 
 using Carcass.Core.Accessors.TenantId.Abstracts;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Extensions;
 
+/// <summary>
+///     Provides extension methods for working with the <see cref="ITenantIdAccessor" /> interface to retrieve a tenant ID.
+/// </summary>
 public static class TenantIdAccessorExtensions
 {
+    /// <summary>
+    ///     Retrieves the tenant ID from the provided <see cref="ITenantIdAccessor" />.
+    /// </summary>
+    /// <param name="tenantIdAccessor">The accessor used to retrieve the tenant ID.</param>
+    /// <returns>The tenant ID as a string.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="tenantIdAccessor" /> is null.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the tenant ID is null, empty, or consists only of whitespace.</exception>
     public static string GetTenantId(this ITenantIdAccessor tenantIdAccessor)
     {
         ArgumentVerifier.NotNull(tenantIdAccessor, nameof(tenantIdAccessor));

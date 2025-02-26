@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,19 @@
 
 namespace Carcass.Data.Core.EventSourcing.Snapshotting.ResolutionStrategies.Abstracts;
 
+/// <summary>
+///     Defines a strategy for resolving snapshot names used in event sourcing.
+/// </summary>
 public interface ISnapshotNameResolutionStrategy
 {
+    /// <summary>
+    ///     Resolves the name of the snapshot collection based on the given aggregate key.
+    /// </summary>
+    /// <param name="aggregateKey">
+    ///     The unique key of the aggregate for which the snapshot name should be resolved. Must not be
+    ///     null or empty.
+    /// </param>
+    /// <returns>A string representing the resolved snapshot collection name.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="aggregateKey" /> is null.</exception>
     string GetSnapshotName(string aggregateKey);
 }

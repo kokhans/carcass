@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,20 @@
 
 namespace Carcass.Core;
 
+/// <summary>
+///     Provides methods to execute asynchronous operations and returns a <see cref="Result{T}" /> object
+///     encapsulating the result or the exception if the operation fails.
+/// </summary>
 public static class ResultExecutor
 {
+    /// <summary>
+    ///     Executes a given asynchronous function and wraps the result in a <see cref="Result{T}" /> object.
+    ///     Captures any exceptions thrown during execution and stores them within the result.
+    /// </summary>
+    /// <typeparam name="T">The type of the result produced by the asynchronous function.</typeparam>
+    /// <param name="func">The asynchronous function to be executed.</param>
+    /// <returns>A <see cref="Result{T}" /> containing either the successful result or information about the failure.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided function is null.</exception>
     public static async Task<Result<T>> ExecuteAsync<T>(Func<Task<T>> func)
     {
         ArgumentVerifier.NotNull(func, nameof(func));

@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,17 +26,43 @@ using Carcass.Core;
 
 namespace Carcass.Json.SystemTextJson.Converters;
 
-public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
+/// <summary>
+///     A custom JSON converter for the <see cref="DateOnly" /> type, allowing
+///     serialization and deserialization of <see cref="DateOnly" /> instances
+///     to and from JSON using a specified or default date format.
+/// </summary>
+public sealed class DateOnlyJsonConverter(string? serializationFormat) : JsonConverter<DateOnly>
 {
-    private readonly string _serializationFormat;
+    /// <summary>
+    ///     Specifies the date serialization format used during JSON serialization or deserialization.
+    /// </summary>
+    private readonly string _serializationFormat = serializationFormat ?? "yyyy-MM-dd";
 
-    public DateOnlyJsonConverter() : this(default)
+    /// <summary>
+    ///     Converts <see cref="DateOnly" /> values to and from JSON using System.Text.Json.
+    ///     Supports optional customization of serialization format.
+    /// </summary>
+    /// <remarks>
+    ///     This class ensures proper handling of <see cref="DateOnly" /> during JSON serialization
+    ///     and deserialization. By default, the format "yyyy-MM-dd" is used unless specified otherwise.
+    /// </remarks>
+    public DateOnlyJsonConverter() : this(null)
     {
     }
 
-    public DateOnlyJsonConverter(string? serializationFormat)
-        => _serializationFormat = serializationFormat ?? "yyyy-MM-dd";
-
+    /// <summary>
+    ///     Reads and converts JSON into a <see cref="DateOnly" /> object using the provided JSON data.
+    /// </summary>
+    /// <param name="reader">The <see cref="Utf8JsonReader" /> used to read the JSON data.</param>
+    /// <param name="typeToConvert">The type being converted, expected to be <see cref="DateOnly" />.</param>
+    /// <param name="options">The <see cref="JsonSerializerOptions" /> that specify serialization options.</param>
+    /// <returns>A <see cref="DateOnly" /> object parsed from the JSON data.</returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="typeToConvert" /> or <paramref name="options" /> is null.
+    /// </exception>
+    /// <exception cref="FormatException">
+    ///     Thrown if the JSON data cannot be converted into a valid <see cref="DateOnly" /> object.
+    /// </exception>
     public override DateOnly Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
@@ -51,6 +77,15 @@ public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
         return DateOnly.Parse(value!);
     }
 
+    /// <summary>
+    ///     Writes the specified <see cref="DateOnly" /> value to JSON using the given <see cref="Utf8JsonWriter" />.
+    /// </summary>
+    /// <param name="writer">The <see cref="Utf8JsonWriter" /> to write the value to. This cannot be null.</param>
+    /// <param name="value">The <see cref="DateOnly" /> value to be written to JSON.</param>
+    /// <param name="options">The <see cref="JsonSerializerOptions" /> used for serialization. This cannot be null.</param>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown if <paramref name="options" /> is null.
+    /// </exception>
     public override void Write(
         Utf8JsonWriter writer,
         DateOnly value,

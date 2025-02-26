@@ -1,21 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Domain-Driven Design, CQRS, and Event Sourcing implementation based on EventStoreDB.</Description>
-    <PackageTags>carcass, data, ddd, cqrs, eventsourcing, eventstoredb</PackageTags>
+    <Description>Domain-Driven Design, CQRS, and Event Sourcing built with EventStoreDB.</Description>
+    <PackageTags>carcass, data, ddd, cqrs, event-sourcing, eventstoredb</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj" />
-    <ProjectReference Include="..\..\Json\Carcass.Json.Core\Carcass.Json.Core.csproj" />
-    <ProjectReference Include="..\..\Logging\Carcass.Logging.Core\Carcass.Logging.Core.csproj" />
-    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj" />
+    <PackageReference Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="23.3.8"/>
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.8"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.2"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="23.1.0" />
-    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <ProjectReference Include="..\..\Carcass.Core\Carcass.Core.csproj"/>
+    <ProjectReference Include="..\..\Carcass.Logging\Carcass.Logging.csproj"/>
+    <ProjectReference Include="..\..\Json\Carcass.Json.Core\Carcass.Json.Core.csproj"/>
+    <ProjectReference Include="..\Carcass.Data.Core\Carcass.Data.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
   </ItemGroup>
 
 </Project>

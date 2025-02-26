@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,4 +22,11 @@
 
 namespace Carcass.Core.Dependencies;
 
+/// <summary>
+///     Represents a delegate for resolving dependencies of a specified type by name.
+/// </summary>
+/// <typeparam name="TDependency">The type of the dependency to resolve.</typeparam>
+/// <param name="name">The name or key associated with the dependency.</param>
+/// <returns>The resolved dependency of type <typeparamref name="TDependency" />.</returns>
+/// <exception cref="ArgumentNullException">Thrown if the dependency could not be resolved or the name is null.</exception>
 public delegate TDependency DependencyResolver<out TDependency>(string name) where TDependency : class;

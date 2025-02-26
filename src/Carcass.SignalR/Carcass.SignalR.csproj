@@ -1,16 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>SignalR toolchain.</Description>
-    <PackageTags>carcass, signalr</PackageTags>
+    <Description>Real-time communication built with SignalR.</Description>
+    <PackageTags>carcass, realtime, signalr, communication, web</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj" />
+    <ProjectReference Include="..\Carcass.Core\Carcass.Core.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0"/>
   </ItemGroup>
 
 </Project>

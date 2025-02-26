@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,39 @@
 
 using System.Collections.ObjectModel;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Carcass.Metadata.Accessors.AdHoc.Abstracts;
 
+/// <summary>
+///     Represents an interface for managing and accessing ad-hoc metadata.
+///     Provides functionality for adding metadata dynamically and retrieving it asynchronously.
+/// </summary>
 public interface IAdHocMetadataAccessor
 {
+    /// <summary>
+    ///     Adds or updates ad-hoc metadata with the specified key and value.
+    /// </summary>
+    /// <param name="key">The key associated with the metadata. Must not be null or empty.</param>
+    /// <param name="value">The value of the metadata. Can be null.</param>
+    /// <returns>The current instance of <see cref="IAdHocMetadataAccessor" /> to allow method chaining.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the <paramref name="key" /> is null or empty.</exception>
     IAdHocMetadataAccessor WithAdHocMetadata(string key, object? value);
+
+    /// <summary>
+    ///     Retrieves a combined set of metadata, including both persisted metadata and optionally ad-hoc metadata.
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     A <see cref="CancellationToken" /> to monitor for cancellation requests while retrieving metadata.
+    /// </param>
+    /// <returns>
+    ///     A read-only dictionary containing the combined metadata values.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when the ad-hoc metadata contains duplicate keys, and the resolution strategy is set to throw an exception.
+    /// </exception>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the operation is canceled via the provided <paramref name="cancellationToken" />.
+    /// </exception>
     Task<ReadOnlyDictionary<string, object?>> GetMetadataAsync(CancellationToken cancellationToken = default);
 }

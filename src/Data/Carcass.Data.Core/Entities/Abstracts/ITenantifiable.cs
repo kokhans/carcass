@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,24 @@
 
 namespace Carcass.Data.Core.Entities.Abstracts;
 
+/// <summary>
+///     Represents an entity that has a unique identifier and is associated with a specific tenant.
+/// </summary>
+/// <typeparam name="TId">The type of the unique identifier for the entity.</typeparam>
 public interface ITenantifiable<TId> : IIdentifiable<TId>
 {
+    // ReSharper disable once UnusedMember.Global
+    /// <summary>
+    ///     Represents the tenant identifier associated with an entity.
+    /// </summary>
+    /// <remarks>
+    ///     This property is used to associate a specific entity with a tenant in a multi-tenant architecture.
+    /// </remarks>
+    /// <value>
+    ///     A string containing the tenant's unique identifier. It can be null.
+    /// </value>
+    /// <exception cref="InvalidOperationException">
+    ///     Thrown when operations dependent on the tenant ID are invoked and the value is not properly configured.
+    /// </exception>
     public string? TenantId { get; set; }
 }

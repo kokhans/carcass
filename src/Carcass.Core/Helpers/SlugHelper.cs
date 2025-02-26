@@ -1,6 +1,6 @@
-// MIT License
+﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,31 @@
 
 using Carcass.Core.Extensions;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+
 namespace Carcass.Core.Helpers;
 
+/// <summary>
+///     Provides utility methods to generate URL-friendly slugs from collections of strings and GUIDs.
+/// </summary>
 public sealed class SlugHelper
 {
+    /// <summary>
+    ///     Generates a slug string by combining a specified GUID with a list of strings and converting the result to a slug
+    ///     format.
+    /// </summary>
+    /// <param name="guid">The GUID to include in the slug generation process.</param>
+    /// <param name="source">A list of strings to compose the slug. Can be null or empty.</param>
+    /// <returns>A slug string created from the input GUID and strings, or null if the source list is null or empty.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided GUID is null.</exception>
     public static string? GetSlug(Guid guid, IList<string>? source)
     {
         if (source is null || !source.Any())
             return null;
 
         return source
-            .Concat(new[] {ShortGuid.Encode(guid)})
+            .Concat([ShortGuid.Encode(guid)])
             .ToList()
             .ToCommaSeparated()
             .ToSlug();

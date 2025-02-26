@@ -1,6 +1,6 @@
 ﻿// MIT License
 //
-// Copyright (c) 2022-2023 Serhii Kokhan
+// Copyright (c) 2022-2025 Serhii Kokhan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,23 @@
 
 namespace Carcass.Multitenancy.Core.ResolutionStrategies.Abstracts;
 
+/// <summary>
+///     Defines a strategy for resolving the tenant identifier of the current request context.
+/// </summary>
 public interface ITenantResolutionStrategy
 {
+    /// <summary>
+    ///     Resolves the tenant identifier asynchronously based on the defined resolution strategy.
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     A token to monitor for cancellation requests.
+    /// </param>
+    /// <returns>
+    ///     A task representing the asynchronous operation. The task result contains the resolved tenant identifier
+    ///     as a string, or null if no tenant identifier could be resolved.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown if the <paramref name="cancellationToken" /> is canceled.
+    /// </exception>
     Task<string?> GetTenantIdAsync(CancellationToken cancellationToken = default);
 }

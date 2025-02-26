@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Carcass.Sample.AzureFunctions": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7951",
+      "launchBrowser": false
+    }
+  }
+}
